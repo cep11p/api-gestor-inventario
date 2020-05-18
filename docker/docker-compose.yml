@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  gestor_inventario:
+    image: local/yiisoftware/yii2-php:7.3-apache
+    volumes:
+      - ../:/app
+    ports:
+      - '8000:80'
+    environment:
+      DB_HOST: 'gestor_inventario_db'
+      DB_NAME: 'gestor_inventario'
+    labels:
+     - "traefik.backend=registral"
+     - "traefik.frontend.rule=Host:api.gestor-inventario.local"
+     - "traefik.port=80"
+
+  gestor_inventario_db:
+    image: mariadb:10.4
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_ROOT_HOST: '%'
+     MYSQL_DATABASE: gestorinventario
+    ports:
+     - 3306:3306
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+    volumes:
+     - ../../dbdata:/app
+
+##### PROXY
+
+  proxy:
+    image: traefik:1.7.6
+    restart: always
+    command: --web --docker --docker.domain=local
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config/proxy/traefik.toml:/etc/traefik/traefik.toml
+    labels:
+     - "traefik.backend=proxy"
+     - "traefik.frontend.rule=Host:proxy.local"
+     - "traefik.port=8080"
