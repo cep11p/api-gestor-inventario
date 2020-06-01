@@ -16,6 +16,20 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '03Tky_w7bgT-J6X9eD5d6rx2YiXIrvrM',
         ],
+                
+        'i18n' => [
+            'translations' => [
+                '*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages', // if advanced application, set @frontend/messages
+                    'sourceLanguage' => 'es_ES',
+                    'fileMap' => [
+                        //'main' => 'main.php',
+                    ],
+                ],
+            ],
+            
+        ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
