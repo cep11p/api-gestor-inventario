@@ -1,4 +1,4 @@
-version: '3'
+version: '2'
 
 services:
   gestor_inventario:
@@ -9,7 +9,7 @@ services:
       - '8000:80'
     environment:
       DB_HOST: 'gestor_inventario_db'
-      DB_NAME: 'gestor_inventario'
+      DB_NAME: 'gestorinventario'
     labels:
      - "traefik.backend=registral"
      - "traefik.frontend.rule=Host:api.gestor-inventario.local"
@@ -17,16 +17,14 @@ services:
 
   gestor_inventario_db:
     image: mariadb:10.4
+    restart: always
+    volumes:
+     - ./../../dbdata:/var/lib/mysql
     environment:
      MYSQL_ROOT_PASSWORD: root
-     MYSQL_ROOT_HOST: '%'
-     MYSQL_DATABASE: gestorinventario
     ports:
      - 3306:3306
-    environment:
-     MYSQL_ROOT_PASSWORD: root
-    volumes:
-     - ../../dbdata:/app
+    
 
 ##### PROXY
 
