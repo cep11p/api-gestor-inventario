@@ -64,7 +64,40 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
-            'rules' => [],
+            'rules' => [
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'categoria'
+                ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'comprobante'
+                ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'deposito'
+                ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'egreso'
+                ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'inventario'
+                ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'marca'
+                ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'producto'
+                ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'proveedor'
+                ],
+            ]
         ],
     ],
     'params' => $params,

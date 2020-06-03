@@ -50,11 +50,13 @@ class InventarioController extends ActiveController{
     public function actions()
     {
         $actions = parent::actions();
-//        unset($actions['create']);
+        unset($actions['create']);
 //        unset($actions['update']);
 //        unset($actions['delete']);
         return $actions;
     }
     
-        
+    public function actionCreate(){
+        die('hola create');
+    }
 }
