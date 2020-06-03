@@ -97,6 +97,10 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'proveedor'
                 ],
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'unidad-medida'
+                ],
             ]
         ],
     ],
