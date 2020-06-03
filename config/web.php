@@ -64,12 +64,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'enableStrictParsing' => false,
-            'rules' => [
-                [   
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'categoria'
-                ]
-            ],
+            'rules' => [],
         ],
     ],
     'params' => $params,
