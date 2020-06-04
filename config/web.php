@@ -37,8 +37,8 @@ $config = [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'identityClass' => 'app\models\ApiUser',
+            'enableSession' => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -101,9 +101,28 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'unidad-medida'
                 ],
+                /****** USUARIOS *******/
+                [   
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'usuario',   
+                    'extraPatterns' => [
+                        'POST login' => 'login',
+                        'OPTIONS login' => 'options'
+                        //'GET mostrar/{id}' => 'mostrar',
+                    ],          
+                ],
             ]
         ],
     ],
+    
+    'modules' => [
+        'user' => [
+            'class' => 'dektrium\user\Module',
+            'enableConfirmation'=>false,
+            'admins'=>['admin']
+        ]
+    ],
+    
     'params' => $params,
 ];
 
