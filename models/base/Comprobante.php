@@ -13,7 +13,7 @@ use Yii;
  * @property string $nro_remito
  * @property string $fecha_incial
  * @property string $fecha_emision
- * @property string $total
+ * @property double $total
  * @property integer $proveedorid
  * @property string $descripcion
  *
@@ -43,9 +43,10 @@ abstract class Comprobante extends \yii\db\ActiveRecord
         return [
             [['nro_remito', 'fecha_incial', 'fecha_emision'], 'required'],
             [['fecha_incial', 'fecha_emision'], 'safe'],
+            [['total'], 'number'],
             [['proveedorid'], 'integer'],
             [['descripcion'], 'string'],
-            [['nro_remito', 'total'], 'string', 'max' => 45],
+            [['nro_remito'], 'string', 'max' => 45],
             [['nro_remito'], 'unique'],
             [['proveedorid'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Proveedor::className(), 'targetAttribute' => ['proveedorid' => 'id']]
         ];
