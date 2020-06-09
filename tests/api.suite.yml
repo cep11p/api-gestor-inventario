@@ -1,4 +1,14 @@
-actor: ApiTester
+class_name: ApiTester
 modules:
     enabled:
         - \Helper\Api
+        - Yii2:
+            part: [ORM,fixtures]
+        - REST:
+            url: http://gestor_inventario/index-test.php
+            depends: 
+               - PhpBrowser
+               - Yii2
+            part: Json
+    config:
+        - Yii2
