@@ -16,8 +16,8 @@ use Yii;
  * @property integer $defectuoso
  * @property integer $egresoid
  * @property integer $depositoid
- * @property integer $inexistente
  * @property integer $id
+ * @property integer $falta
  *
  * @property \app\models\Comprobante $comprobante
  * @property \app\models\Producto $producto
@@ -45,7 +45,7 @@ abstract class Inventario extends \yii\db\ActiveRecord
     {
         return [
             [['comprobanteid', 'productoid'], 'required'],
-            [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'inexistente'], 'integer'],
+            [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'falta'], 'integer'],
             [['fecha_vencimiento'], 'safe'],
             [['precio_unitario'], 'number'],
             [['comprobanteid'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Comprobante::className(), 'targetAttribute' => ['comprobanteid' => 'id']],
@@ -68,8 +68,8 @@ abstract class Inventario extends \yii\db\ActiveRecord
             'defectuoso' => 'Defectuoso',
             'egresoid' => 'Egresoid',
             'depositoid' => 'Depositoid',
-            'inexistente' => 'Inexistente',
             'id' => 'ID',
+            'falta' => 'Falta',
         ];
     }
 
