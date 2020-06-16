@@ -50,24 +50,26 @@ class Inventario extends BaseInventario
     
     private function agregarProductoAlStock($comprobanteid, $param) {
         
-        if(count($param['lista_producto'])>0){
-            foreach ($param['lista_producto'] as $producto) {
-                if(!is_int($producto['cantidad'])){
-                    throw new Exception('La cantidad debe ser un numero entero');
-                }
-                
-                /** Guardamos un stock segun la cantidad de cada producto **/
-                if(isset($producto['cantidad']) && $producto['cantidad']>0){
-                    for($i = 1; $i <= $producto['cantidad']; $i++ ){
-                        $stock = new Inventario();
-                        $stock->setAttributes($producto);
-                        $stock->comprobanteid = $comprobanteid;
-                        $stock->productoid = $producto['id'];
-                        if(!$stock->save()){
-                            throw new Exception(json_encode($stock->getErrors()));
-                        }
-                    }                    
-                }
+        if(!isset($param['lista_producto']) || count($param['lista_producto'])<=0){
+            throw new Exception('Falta lista de productos');
+        }
+        
+        foreach ($param['lista_producto'] as $producto) {
+            if(!is_numeric($producto['cantidad']) || intval($producto['cantidad'])<=0){
+                throw new Exception('La cantidad debe ser un numero y mayor a 0');
+            }
+
+            /** Guardamos un stock segun la cantidad de cada producto **/
+            if(isset($producto['cantidad']) && $producto['cantidad']>0){
+                for($i = 1; $i <= $producto['cantidad']; $i++ ){
+                    $stock = new Inventario();
+                    $stock->setAttributes($producto);
+                    $stock->comprobanteid = $comprobanteid;
+                    $stock->productoid = $producto['id'];
+                    if(!$stock->save()){
+                        throw new Exception(json_encode($stock->getErrors()));
+                    }
+                }                    
             }
         }
     }

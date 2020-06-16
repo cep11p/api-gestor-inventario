@@ -60,16 +60,15 @@ class InventarioController extends ActiveController{
         $param = Yii::$app->request->post();
         
         $model = new Inventario();
-        
+        $transaction = Yii::$app->db->beginTransaction();
         try {
-            $transaction = Yii::$app->db->beginTransaction();
             
             $comprobanteid = $model->newStock($param);
 
             $transaction->commit();
             
-            $resultado['success']=true;
-            $resultado['data']['comprobanteid']=$comprobanteid;
+            $resultado['message']='Se guarda un nuevo stock';
+            $resultado['comprobanteid']=$comprobanteid;
             
             return  $resultado;
            
