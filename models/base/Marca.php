@@ -35,7 +35,8 @@ abstract class Marca extends \yii\db\ActiveRecord
     {
         return [
             [['nombre'], 'required'],
-            [['nombre'], 'string', 'max' => 100]
+            [['nombre'], 'string', 'max' => 100],
+            [['nombre'], 'unique']
         ];
     }
 
