@@ -57,6 +57,26 @@ class InventarioController extends ActiveController{
     }
     
     public function actionCreate(){
-        die('hola create');
+        $param = Yii::$app->request->post();
+        
+        $model = new Inventario();
+        
+        try {
+            $transaction = Yii::$app->db->beginTransaction();
+            
+            $comprobanteid = $model->newStock($param);
+
+            $transaction->commit();
+            
+            $resultado['success']=true;
+            $resultado['data']['comprobanteid']=$comprobanteid;
+            
+            return  $resultado;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
     }
 }
