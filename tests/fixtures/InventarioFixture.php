@@ -3,12 +3,12 @@
 namespace app\tests\fixtures;
 use yii\test\ActiveFixture;
 
-class UnidadMedidaFixture extends ActiveFixture{
+class InventarioFixture extends ActiveFixture{
     
-    public $modelClass = '\app\models\UnidadMedida';
+    public $modelClass = '\app\models\Inventario';
     
     public function init() {
-        $this ->dataFile = \Yii::getAlias('@app').'/tests/_data/unidad_medida.php';
+        $this ->dataFile = \Yii::getAlias('@app').'/tests/_data/inventario.php';
         parent::init();
     }
     
