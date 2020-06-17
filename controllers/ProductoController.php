@@ -53,7 +53,17 @@ class ProductoController extends ActiveController{
 //        unset($actions['create']);
 //        unset($actions['update']);
 //        unset($actions['delete']);
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
+    }
+    
+    public function prepareDataProvider() 
+    {
+        $searchModel = new \app\models\ProductoSearch();
+        $params = \Yii::$app->request->queryParams;
+        $resultado = $searchModel->search($params);
+
+        return $resultado;
     }
     
         

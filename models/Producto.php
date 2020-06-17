@@ -31,4 +31,20 @@ class Producto extends BaseProducto
             ]
         );
     }
+    
+    public function fields()
+    {
+        return ArrayHelper::merge(parent::fields(), [
+            'marca'=> function($model){
+                return $model->marca->nombre;
+            },
+            'unidad_medida'=> function($model){
+                return $model->unidadMedida->simbolo;
+            },
+            'producto'=> function($model){
+                return $model->nombre.', '.$model->unidad_valor.$model->unidadMedida->simbolo.' ('.$model->marca->nombre.')';
+            }
+        ]);
+        
+    }
 }
