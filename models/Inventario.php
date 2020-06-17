@@ -112,4 +112,14 @@ class Inventario extends BaseInventario
         
         return $resultado;
     }
+    
+    public function fields()
+    {
+        return ArrayHelper::merge(parent::fields(), [
+            'producto'=> function($model){
+                return $model->producto;
+            }
+        ]);
+        
+    }
 }
