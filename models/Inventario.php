@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  */
 class Inventario extends BaseInventario
 {
-
+    public $cantidad;
     public function behaviors()
     {
         return ArrayHelper::merge(

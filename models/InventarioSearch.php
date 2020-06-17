@@ -19,7 +19,7 @@ class InventarioSearch extends Inventario
     {
         return [
             [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta'], 'integer'],
-            [['fecha_vencimiento'], 'safe'],
+            [['fecha_vencimiento','cantidad'], 'safe'],
             [['precio_unitario'], 'number'],
         ];
     }
@@ -60,7 +60,8 @@ class InventarioSearch extends Inventario
         // $query->where('0=1');
         return $dataProvider;
     }
-
+    
+        $query->select(['*','cantidad'=>'count(productoid)']);
         $query->andFilterWhere([
             'comprobanteid' => $this->comprobanteid,
             'productoid' => $this->productoid,
@@ -72,10 +73,14 @@ class InventarioSearch extends Inventario
             'id' => $this->id,
             'falta' => $this->falta,
         ]);
-
+        $query->where(['egresoid' => null]);
+        $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
+        
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {
-            $coleccion[] = $value->toArray();
+            $producto = $value->toArray();
+            $producto['cantidad'] = $value->cantidad;
+            $coleccion[] = $producto;
         }
         
         $paginas = ceil($dataProvider->totalCount/$pagesize);           
