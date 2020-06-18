@@ -32,6 +32,95 @@ class InventarioSearch extends Inventario
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+    
+    /**
+     * Obtenemos la cantidad de productos vencidos que en el inventario
+     * @return int
+     */
+    private function cantidadVencidos() {
+        $query = new \yii\db\Query();
+        
+        $query->select([
+            'cantidad_vencidos'=>'count(productoid)'
+        ]);
+        $query->from(['inventario']);
+        $query->where(['<=','fecha_vencimiento', date('Y-m-d')]);
+        $query->andWhere(['egresoid' => null]);
+        $query->andWhere(['falta' => 0]);
+        $query->andWhere(['defectuoso' => 0]);
+        
+        $command = $query->createCommand();        
+        $rows = $command->queryAll();
+
+        $resultado = ($rows[0]['cantidad_vencidos']=='')?0:$rows[0]['cantidad_vencidos'];
+                
+        return intval($resultado);     
+    }
+    
+    /**
+     * Obtenemos la cantidad de productos faltantes en el inventario
+     * @return int
+     */
+    private function cantidadFaltantes() {
+        $query = new \yii\db\Query();
+        
+        $query->select([
+            'cantidad_faltantes'=>'count(productoid)'
+        ]);
+        $query->from(['inventario']);
+        $query->where(['falta' => 1]);
+        $query->andWhere(['egresoid' => null]);
+        
+        $command = $query->createCommand();        
+        $rows = $command->queryAll();
+        $resultado = ($rows[0]['cantidad_faltantes']=='')?0:$rows[0]['cantidad_faltantes'];
+                
+        return intval($resultado);     
+    }
+    
+    /**
+     * Obtenemos la cantidad de productos defectuosos en el inventario
+     * @return int
+     */
+    private function cantidadDefectuosos() {
+        $query = new \yii\db\Query();
+        
+        $query->select([
+            'cantidad_defectuosos'=>'count(productoid)'
+        ]);
+        $query->from(['inventario']);
+        $query->where(['defectuoso' => 1]);
+        $query->andWhere(['egresoid' => null]);
+        
+        $command = $query->createCommand();        
+        $rows = $command->queryAll();
+        $resultado = ($rows[0]['cantidad_defectuosos']=='')?0:$rows[0]['cantidad_defectuosos'];
+                
+        return intval($resultado);     
+    }
+    
+    /**
+     * Obtenemos la cantidad de productos en stock
+     * @return int
+     */
+    private function cantidadStock() {
+        $query = new \yii\db\Query();
+        
+        $query->select([
+            'cantidad_stock'=>'count(productoid)'
+        ]);
+        $query->from(['inventario']);
+        $query->where(['defectuoso' => 0]);
+        $query->andWhere(['>','fecha_vencimiento', date('Y-m-d')]);
+        $query->andWhere(['falta' => 0]);
+        $query->andWhere(['egresoid' => null]);
+        
+        $command = $query->createCommand();        
+        $rows = $command->queryAll();
+        $resultado = ($rows[0]['cantidad_stock']=='')?0:$rows[0]['cantidad_stock'];
+                
+        return intval($resultado);     
+    }
 
     /**
     * Creates data provider instance with search query applied
@@ -87,6 +176,10 @@ class InventarioSearch extends Inventario
         $data['pagesize']=$pagesize;            
         $data['pages']=$paginas;            
         $data['total_filtrado']=$dataProvider->totalCount;
+        $data['cantidad_vencidos'] = $this->cantidadVencidos();
+        $data['cantidad_faltantes'] = $this->cantidadFaltantes();
+        $data['cantidad_defectuosos'] = $this->cantidadDefectuosos();
+        $data['cantidad_stock'] = $this->cantidadStock();
         $data['resultado']=$coleccion;
         
         return $data;
