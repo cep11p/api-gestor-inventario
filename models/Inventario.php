@@ -118,6 +118,13 @@ class Inventario extends BaseInventario
         return ArrayHelper::merge(parent::fields(), [
             'producto'=> function($model){
                 return $model->producto;
+            },
+            'vencido'=> function($model){
+                $resultado = 0;
+                if($model->fecha_vencimiento <= date('Y-m-d') && $model->fecha_vencimiento != null){
+                    $resultado = 1;
+                };
+                return $resultado;
             }
         ]);
         
