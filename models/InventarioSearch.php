@@ -151,6 +151,8 @@ class InventarioSearch extends Inventario
     }
     
         $query->select(['*','cantidad'=>'count(productoid)']);
+        
+        $query->where(['egresoid' => null]);
         $query->andFilterWhere([
             'comprobanteid' => $this->comprobanteid,
             'productoid' => $this->productoid,
@@ -162,7 +164,6 @@ class InventarioSearch extends Inventario
             'id' => $this->id,
             'falta' => $this->falta,
         ]);
-        $query->where(['egresoid' => null]);
         $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
         
         $coleccion = array();
