@@ -32,6 +32,14 @@ class Comprobante extends BaseComprobante
         );
     }
     
+    public function getProductos() {
+        $inventarioSearch = new InventarioSearch();
+        
+        $resultado = $inventarioSearch->obtenerProductosPorComprobanteid($this->id);
+        
+        return $resultado;
+    }
+    
     public function setAttributesCustom($values, $safeOnly = true) {
         parent::setAttributes($values, $safeOnly);
         $this->fecha_incial = date('Y-m-d');

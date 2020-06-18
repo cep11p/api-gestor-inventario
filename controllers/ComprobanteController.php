@@ -50,10 +50,24 @@ class ComprobanteController extends ActiveController{
     public function actions()
     {
         $actions = parent::actions();
-//        unset($actions['create']);
+        unset($actions['view']);
 //        unset($actions['update']);
 //        unset($actions['delete']);
         return $actions;
+    }
+    
+    public function actionView($id) {
+        $model = Comprobante::findOne(['id'=>$id]);
+        $resultado = array();
+        
+        if($model==null){
+            throw new Exception(json_encode('El comprobante no existe'));
+        }
+        
+        $resultado = $model->toArray();
+        $resultado = \yii\helpers\ArrayHelper::merge($resultado, $model->productos);
+        
+        return $resultado;
     }
     
         

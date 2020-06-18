@@ -184,4 +184,41 @@ class InventarioSearch extends Inventario
         
         return $data;
     }
+    
+    
+    public function obtenerProductosPorComprobanteid($comprobanteid)
+    {
+        $query = Inventario::find();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+    
+        $query->select(['*','cantidad'=>'count(productoid)']);
+        $query->where(['comprobanteid' => $comprobanteid]);
+        $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
+        
+        $coleccion = array();
+        foreach ($dataProvider->getModels() as $value) {
+            $cantidad = $value->cantidad;
+            $value = $value->toArray();
+            $value['cantidad'] = $cantidad;
+            $producto = $value['producto'];
+            $item = \yii\helpers\ArrayHelper::merge($value, $producto);
+            unset($item['comprobanteid']);
+            unset($item['id']);
+            $coleccion[] = $item;
+        }
+        
+        $data['cantidad_productos']=$dataProvider->totalCount;
+        $data['lista_producto']=$coleccion;
+        
+        return $data;
+    }
 }
