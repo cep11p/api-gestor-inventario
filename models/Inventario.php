@@ -13,6 +13,7 @@ use yii\helpers\ArrayHelper;
 class Inventario extends BaseInventario
 {
     public $cantidad;
+    public $nro_remito;
     public function behaviors()
     {
         return ArrayHelper::merge(

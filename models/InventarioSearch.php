@@ -19,7 +19,7 @@ class InventarioSearch extends Inventario
     {
         return [
             [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta'], 'integer'],
-            [['fecha_vencimiento','cantidad'], 'safe'],
+            [['fecha_vencimiento','cantidad','nro_remito'], 'safe'],
             [['precio_unitario'], 'number'],
         ];
     }
@@ -145,12 +145,14 @@ class InventarioSearch extends Inventario
         $this->load($params,'');
 
         if (!$this->validate()) {
-        // uncomment the following line if you do not want to any records when validation fails
-        // $query->where('0=1');
-        return $dataProvider;
-    }
+            // uncomment the following line if you do not want to any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
     
-        $query->select(['*','cantidad'=>'count(productoid)']);
+        $query->select([
+            'inventario.*',
+            'cantidad'=>'count(productoid)']);
         
         $query->where(['egresoid' => null]);
         $query->andFilterWhere([
@@ -164,6 +166,13 @@ class InventarioSearch extends Inventario
             'id' => $this->id,
             'falta' => $this->falta,
         ]);
+        
+        /**Filtro por nro_remito**/
+        if(isset($this->nro_remito)){
+            $query->leftJoin("comprobante as c", "comprobanteid=c.id");
+            
+            $query->andFilterWhere(['c.nro_remito' => $this->nro_remito]);
+        }
         $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
         
         $coleccion = array();
