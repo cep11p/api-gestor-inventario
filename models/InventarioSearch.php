@@ -168,9 +168,20 @@ class InventarioSearch extends Inventario
         
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {
-            $producto = $value->toArray();
-            $producto['cantidad'] = $value->cantidad;
-            $coleccion[] = $producto;
+            $item = $value->toArray();
+            $item['cantidad'] = $value->cantidad;
+            
+            $producto = $value->producto->toArray();
+            $comprobante = $value->comprobante->toArray();
+            
+            unset($producto['id']);
+            unset($comprobante['id']);
+            unset($item['id']);
+
+            
+            $item = \yii\helpers\ArrayHelper::merge($item, $comprobante);
+            $item = \yii\helpers\ArrayHelper::merge($item, $producto);
+            $coleccion[] = $item;
         }
         
         $paginas = ceil($dataProvider->totalCount/$pagesize);           
