@@ -11,7 +11,7 @@ use Yii;
  *
  * @property integer $id
  * @property string $nro_remito
- * @property string $fecha_incial
+ * @property string $fecha_inicial
  * @property string $fecha_emision
  * @property double $total
  * @property integer $proveedorid
@@ -19,7 +19,6 @@ use Yii;
  *
  * @property \app\models\Proveedor $proveedor
  * @property \app\models\Inventario[] $inventarios
- * @property \app\models\Producto[] $productos
  * @property string $aliasModel
  */
 abstract class Comprobante extends \yii\db\ActiveRecord
@@ -41,8 +40,8 @@ abstract class Comprobante extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nro_remito', 'fecha_incial', 'fecha_emision'], 'required'],
-            [['fecha_incial', 'fecha_emision'], 'safe'],
+            [['nro_remito', 'fecha_inicial', 'fecha_emision'], 'required'],
+            [['fecha_inicial', 'fecha_emision'], 'safe'],
             [['total'], 'number'],
             [['proveedorid'], 'integer'],
             [['descripcion'], 'string'],
@@ -60,7 +59,7 @@ abstract class Comprobante extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'nro_remito' => 'Nro Remito',
-            'fecha_incial' => 'Fecha Incial',
+            'fecha_inicial' => 'Fecha Inicial',
             'fecha_emision' => 'Fecha Emision',
             'total' => 'Total',
             'proveedorid' => 'Proveedorid',
@@ -74,7 +73,7 @@ abstract class Comprobante extends \yii\db\ActiveRecord
     public function attributeHints()
     {
         return array_merge(parent::attributeHints(), [
-            'fecha_incial' => 'Fecha de registro en el servidor
+            'fecha_inicial' => 'Fecha de registro en el servidor
 ',
             'fecha_emision' => 'fecha que se emite el comprobate
 ',
@@ -95,14 +94,6 @@ abstract class Comprobante extends \yii\db\ActiveRecord
     public function getInventarios()
     {
         return $this->hasMany(\app\models\Inventario::className(), ['comprobanteid' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProductos()
-    {
-        return $this->hasMany(\app\models\Producto::className(), ['id' => 'productoid'])->viaTable('inventario', ['comprobanteid' => 'id']);
     }
 
 
