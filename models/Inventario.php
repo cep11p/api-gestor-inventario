@@ -117,8 +117,14 @@ class Inventario extends BaseInventario
     public function fields()
     {
         return ArrayHelper::merge(parent::fields(), [
-            'producto'=> function($model){
-                return $model->producto;
+            'fecha_vencimiento'=> function($model){
+                return ($model->fecha_vencimiento==null)?'':$model->fecha_vencimiento;
+            },
+            'egresoid'=> function($model){
+                return ($model->egresoid==null)?'':$model->egresoid;
+            },
+            'depositoid'=> function($model){
+                return ($model->depositoid==null)?'':$model->depositoid;
             },
             'vencido'=> function($model){
                 $resultado = 0;

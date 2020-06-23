@@ -3,12 +3,12 @@
 namespace app\tests\fixtures;
 use yii\test\ActiveFixture;
 
-class ComprobanteFixture extends ActiveFixture{
+class ProveedorFixture extends ActiveFixture{
     
-    public $modelClass = '\app\models\Comprobante';
+    public $modelClass = '\app\models\Proveedor';
     
     public function init() {
-        $this ->dataFile = \Yii::getAlias('@app').'/tests/_data/comprobante.php';
+        $this ->dataFile = \Yii::getAlias('@app').'/tests/_data/proveedor.php';
         parent::init();
     }
     

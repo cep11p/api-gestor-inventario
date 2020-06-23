@@ -42,6 +42,6 @@ class Comprobante extends BaseComprobante
     
     public function setAttributesCustom($values, $safeOnly = true) {
         parent::setAttributes($values, $safeOnly);
-        $this->fecha_incial = date('Y-m-d');
+        $this->fecha_inicial = date('Y-m-d');
     }
 }
