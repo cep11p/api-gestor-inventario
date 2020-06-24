@@ -13,7 +13,6 @@ use yii\helpers\ArrayHelper;
 class Inventario extends BaseInventario
 {
     public $cantidad;
-    public $nro_remito;
     public function behaviors()
     {
         return ArrayHelper::merge(
@@ -117,6 +116,9 @@ class Inventario extends BaseInventario
     public function fields()
     {
         return ArrayHelper::merge(parent::fields(), [
+            'stock'=> function($model){
+                return $model->esStock();
+            },
             'fecha_vencimiento'=> function($model){
                 return ($model->fecha_vencimiento==null)?'':$model->fecha_vencimiento;
             },

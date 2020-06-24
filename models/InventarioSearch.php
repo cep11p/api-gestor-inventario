@@ -19,7 +19,7 @@ class InventarioSearch extends Inventario
     {
         return [
             [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta'], 'integer'],
-            [['fecha_vencimiento','cantidad','nro_remito'], 'safe'],
+            [['fecha_vencimiento','cantidad'], 'safe'],
             [['precio_unitario'], 'number'],
         ];
     }
@@ -171,12 +171,6 @@ class InventarioSearch extends Inventario
             'falta' => $this->falta,
         ]);
         
-        /**Filtro por nro_remito**/
-        if(isset($this->nro_remito)){
-            $query->leftJoin("comprobante as c", "comprobanteid=c.id");
-            
-            $query->andFilterWhere(['c.nro_remito' => $this->nro_remito]);
-        }
         $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
         
         $coleccion = array();
