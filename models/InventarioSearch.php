@@ -19,7 +19,7 @@ class InventarioSearch extends Inventario
     {
         return [
             [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta'], 'integer'],
-            [['fecha_vencimiento','cantidad'], 'safe'],
+            [['fecha_vencimiento','cantidad','vencido'], 'safe'],
             [['precio_unitario'], 'number'],
         ];
     }
@@ -47,11 +47,10 @@ class InventarioSearch extends Inventario
         $query->where(['<=','fecha_vencimiento', date('Y-m-d')]);
         $query->andWhere(['egresoid' => null]);
         $query->andWhere(['falta' => 0]);
-        $query->andWhere(['defectuoso' => 0]);
         
         $command = $query->createCommand();        
         $rows = $command->queryAll();
-
+        
         $resultado = ($rows[0]['cantidad_vencidos']=='')?0:$rows[0]['cantidad_vencidos'];
                 
         return intval($resultado);     
@@ -160,16 +159,32 @@ class InventarioSearch extends Inventario
         
         $query->where(['egresoid' => null]);
         $query->andFilterWhere([
-            'comprobanteid' => $this->comprobanteid,
+            'id' => $this->id,
             'productoid' => $this->productoid,
             'fecha_vencimiento' => $this->fecha_vencimiento,
-            'precio_unitario' => $this->precio_unitario,
-            'defectuoso' => $this->defectuoso,
-            'egresoid' => $this->egresoid,
             'depositoid' => $this->depositoid,
+            'falta' => 0,
             'id' => $this->id,
-            'falta' => $this->falta,
         ]);
+        
+        if($this->defectuoso == 1 && $this->vencido == 'true'){
+            $query->andWhere(['or',
+                ['defectuoso' => $this->defectuoso],
+                ['<=','fecha_vencimiento', date('Y-m-d')]
+            ]);
+        }else if($this->defectuoso == 1){
+            $query->andWhere(['defectuoso' => $this->defectuoso]);
+        }else if($this->vencido == 'true'){
+            $query->andWhere(['<=','fecha_vencimiento', date('Y-m-d')]);
+        }else{ //Todos los productos en stock
+            $query->andWhere(['defectuoso' => 0]);
+            $query->andWhere(['or',
+                ['>','fecha_vencimiento', date('Y-m-d')],
+                ['fecha_vencimiento' => null]
+            ]);
+            $query->andWhere(['falta' => 0]);
+            $query->andWhere(['egresoid' => null]);
+        }
         
         $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
         

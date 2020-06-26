@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  */
 class Inventario extends BaseInventario
 {
+    public $vencido;
     public $cantidad;
     public function behaviors()
     {
@@ -31,6 +32,18 @@ class Inventario extends BaseInventario
                 ['fecha_vencimiento','date','format' => 'php:Y-m-d'],
             ]
         );
+    }
+    
+    public function setAttributes($values, $safeOnly = true) {
+        parent::setAttributes($values, $safeOnly);
+        
+        if(isset($values['defectuoso'])){
+            $this->defectuoso = \app\components\Help::booleanToInt($values['defectuoso']);
+        }
+        if(isset($values['falta'])){
+            $this->falta = \app\components\Help::booleanToInt($values['falta']);
+        }
+
     }
     
     public function newStock($param) {
@@ -100,13 +113,21 @@ class Inventario extends BaseInventario
         return $resultado;
     }
     
+    private function esVencido() {
+        $resultado = false;
+        if($this->fecha_vencimiento <= date('Y-m-d') && $this->fecha_vencimiento != null){
+            $resultado = true;
+        };
+        return $resultado;
+    }
+    
     /**
      * Chequeamos si los productos son adecuados para ser visto como stock
      * @return boolean
      */
     private function esStock() {
         $resultado = false;
-        if($this->falta == 0 && $this->defectuoso == 0){
+        if($this->falta == 0 && $this->defectuoso == 0 && ($this->fecha_vencimiento > date('Y-m-d') || $this->fecha_vencimiento == null)){
             $resultado = true;
         }
         
@@ -129,11 +150,13 @@ class Inventario extends BaseInventario
                 return ($model->depositoid==null)?'':$model->depositoid;
             },
             'vencido'=> function($model){
-                $resultado = 0;
-                if($model->fecha_vencimiento <= date('Y-m-d') && $model->fecha_vencimiento != null){
-                    $resultado = 1;
-                };
-                return $resultado;
+                return $model->esVencido();
+            },
+            'falta'=> function($model){
+                return \app\components\Help::intToBoolean($this->falta);
+            },
+            'defectuoso'=> function($model){
+                return \app\components\Help::intToBoolean($this->defectuoso);
             }
         ]);
         
