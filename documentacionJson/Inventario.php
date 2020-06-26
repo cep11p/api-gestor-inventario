@@ -7,76 +7,77 @@
  * fecha_vencimiento=2020-03-03
  * fecha_emision=2020-03-03
  * nro_remito=0001-00001
- * defectuoso=1 //verdadero
- * falta=0 //falso
+ * defectuoso=true //verdadero
+ * vencido=true //verdadero
 * @method GET
 * @arrayReturn
     {
-    "pagesize": 20,
-    "pages": 1,
-    "total_filtrado": 15,
-    "cantidad_vencidos": 1,
-    "cantidad_faltantes": 21,
-    "cantidad_defectuosos": 20,
-    "cantidad_stock": 5298,
-    "resultado": [
-        {
-        "comprobanteid": 1,
-        "productoid": 1,
-        "fecha_vencimiento": null,
-        "precio_unitario": 120,
-        "defectuoso": 0,
-        "egresoid": null,
-        "depositoid": null,
-        "falta": 1,
-        "producto": "Aceite de girasol, 1,5lt (Arcor)",
-        "vencido": 0,
-        "cantidad": "1",
-        "nro_remito": "0001-00001",
-        "fecha_incial": "2020-06-17",
-        "fecha_emision": "2020-03-15",
-        "total": 292.99,
-        "proveedorid": null,
-        "descripcion": "esto es una descripcion del stock entrante",
-        "nombre": "Aceite de girasol",
-        "codigo": "A300",
-        "unidad_valor": "1,5",
-        "unidad_medidaid": 3,
-        "marcaid": 1,
-        "categoriaid": 1,
-        "marca": "Arcor",
-        "unidad_medida": "lt"
-        },
-        ...
-        {
-            "comprobanteid": 1,
-            "productoid": 1,
-            "fecha_vencimiento": "2020-03-10",
-            "precio_unitario": 120,
-            "defectuoso": 0,
-            "egresoid": null,
-            "depositoid": null,
-            "falta": 0,
-            "producto": "Aceite de girasol, 1,5lt (Arcor)",
-            "vencido": 1,
-            "cantidad": "110",
-            "nro_remito": "0001-00001",
-            "fecha_incial": "2020-06-17",
-            "fecha_emision": "2020-03-15",
-            "total": 292.99,
-            "proveedorid": null,
-            "descripcion": "esto es una descripcion del stock entrante",
-            "nombre": "Aceite de girasol",
-            "codigo": "A300",
-            "unidad_valor": "1,5",
-            "unidad_medidaid": 3,
-            "marcaid": 1,
-            "categoriaid": 1,
-            "marca": "Arcor",
-            "unidad_medida": "lt"
-        }
-    ]
-   }          
+        "pagesize": 20,
+        "pages": 1,
+        "total_filtrado": 2,
+        "cantidad_vencidos": 3,
+        "cantidad_faltantes": 3,
+        "cantidad_defectuosos": 3,
+        "cantidad_stock": 5,
+        "resultado": [
+            {
+                "comprobanteid": 5,
+                "productoid": 8,
+                "fecha_vencimiento": "",
+                "precio_unitario": 30,
+                "defectuoso": false,
+                "egresoid": "",
+                "depositoid": "",
+                "falta": false,
+                "stock": true,
+                "vencido": false,
+                "cantidad": "3",
+                "nro_remito": "0001-00005",
+                "fecha_inicial": "2020-03-04",
+                "fecha_emision": "2020-03-04",
+                "total": 7500,
+                "proveedorid": 3,
+                "descripcion": "Esto es una descripcion hecha por fixture 5",
+                "nombre": "Jabón blanco en pan",
+                "codigo": "A307",
+                "unidad_valor": "200",
+                "unidad_medidaid": 2,
+                "marcaid": 101,
+                "categoriaid": 2,
+                "marca": "Canuelas",
+                "unidad_medida": "gr",
+                "producto": "Jabón blanco en pan, 200gr (Canuelas)"
+            },
+            {
+                "comprobanteid": 5,
+                "productoid": 8,
+                "fecha_vencimiento": "2119-04-03",
+                "precio_unitario": 30,
+                "defectuoso": false,
+                "egresoid": "",
+                "depositoid": "",
+                "falta": false,
+                "stock": true,
+                "vencido": false,
+                "cantidad": "2",
+                "nro_remito": "0001-00005",
+                "fecha_inicial": "2020-03-04",
+                "fecha_emision": "2020-03-04",
+                "total": 7500,
+                "proveedorid": 3,
+                "descripcion": "Esto es una descripcion hecha por fixture 5",
+                "nombre": "Jabón blanco en pan",
+                "codigo": "A307",
+                "unidad_valor": "200",
+                "unidad_medidaid": 2,
+                "marcaid": 101,
+                "categoriaid": 2,
+                "marca": "Canuelas",
+                "unidad_medida": "gr",
+                "producto": "Jabón blanco en pan, 200gr (Canuelas)"
+            }
+        ]
+    }
 */
 
 /*****Para crear****
