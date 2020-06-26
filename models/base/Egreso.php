@@ -15,6 +15,7 @@ use Yii;
  * @property string $destino_nombre
  * @property integer $destino_localidadid
  * @property string $descripcion
+ * @property string $nro_acta
  *
  * @property \app\models\Inventario[] $inventarios
  * @property string $aliasModel
@@ -43,6 +44,7 @@ abstract class Egreso extends \yii\db\ActiveRecord
             [['fecha'], 'safe'],
             [['descripcion'], 'string'],
             [['origen', 'destino_nombre'], 'string', 'max' => 100],
+            [['nro_acta'], 'string', 'max' => 20],
             [['id'], 'unique']
         ];
     }
@@ -59,6 +61,7 @@ abstract class Egreso extends \yii\db\ActiveRecord
             'destino_nombre' => 'Destino Nombre',
             'destino_localidadid' => 'Destino Localidadid',
             'descripcion' => 'Descripcion',
+            'nro_acta' => 'Nro Acta',
         ];
     }
 
