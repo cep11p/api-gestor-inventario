@@ -73,8 +73,6 @@ class EgresoSearch extends Egreso
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {
             $item = $value->toArray();
-//            print_r($value->inventarios->toArray());die();
-//            $item['lista_producto'] = 
             $coleccion[] = $item;
         }
 
