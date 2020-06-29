@@ -163,8 +163,7 @@ class InventarioSearch extends Inventario
             'productoid' => $this->productoid,
             'fecha_vencimiento' => $this->fecha_vencimiento,
             'depositoid' => $this->depositoid,
-            'falta' => 0,
-            'id' => $this->id,
+            'falta' => 0
         ]);
         
         if($this->defectuoso == 1 && $this->vencido == 'true'){
@@ -260,5 +259,60 @@ class InventarioSearch extends Inventario
         $data['lista_producto']=$coleccion;
         
         return $data;
+    }
+    
+    /**
+     * Se arma un listado de item(productos) agrupados por fecha_vencimiento, productoid, falta y defectuoso
+     * @param array $params
+     * @return array
+     */
+    public function getListaProducto($params)
+    {
+        $query = Inventario::find();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
+        $this->load($params,'');
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to any records when validation fails
+             $query->where('0=1');
+            return $dataProvider;
+        }
+    
+        $query->select([
+            'inventario.*',
+            'cantidad'=>'count(productoid)']);
+        
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'comprobanteid' => $this->comprobanteid,
+            'depositoid' => $this->depositoid,
+            'egresoid' => $this->egresoid
+        ]);
+        
+        $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
+        
+        $coleccion = array();
+        foreach ($dataProvider->getModels() as $value) {
+            $item = $value->toArray();
+            $item['cantidad'] = $value->cantidad;
+            
+            $producto = (isset($value->producto)?$value->producto->toArray():['producto'=>[]]);
+            $comprobante = (isset($value->comprobante)?$value->comprobante->toArray():['comprobante'=>[]]);
+            
+            unset($producto['id']);
+            unset($comprobante['id']);
+            unset($item['id']);
+
+            
+            $item = \yii\helpers\ArrayHelper::merge($item, $comprobante);
+            $item = \yii\helpers\ArrayHelper::merge($item, $producto);
+            $coleccion[] = $item;
+        }
+                
+        return $coleccion;
     }
 }

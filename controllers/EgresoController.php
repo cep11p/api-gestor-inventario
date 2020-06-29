@@ -52,6 +52,7 @@ class EgresoController extends ActiveController{
         $actions = parent::actions();
 //        unset($actions['create']);
 //        unset($actions['update']);
+        unset($actions['view']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
     }
@@ -64,4 +65,18 @@ class EgresoController extends ActiveController{
 
         return $resultado;
     }  
+    
+    public function actionView($id) {
+        $model = Egreso::findOne(['id'=>$id]);
+        $resultado = array();
+        
+        if($model==null){
+            throw new Exception(json_encode('El egreso no existe'));
+        }
+        
+        $resultado = $model->toArray();
+        $resultado['lista_producto'] = $model->getListaProducto();
+        
+        return $resultado;
+    }
 }
