@@ -18,4 +18,13 @@ return [
     'inventario15'=>['id'=>15,'comprobanteid'=>'3','productoid'=>'3','precio_unitario'=>300,'defectuoso'=>0,'falta'=>1,'egresoid'=>NULL,'depositoid'=>NULL],
     'inventario16'=>['id'=>16,'comprobanteid'=>'3','productoid'=>'3','precio_unitario'=>300,'defectuoso'=>0,'falta'=>1,'egresoid'=>NULL,'depositoid'=>NULL],
     'inventario17'=>['id'=>17,'comprobanteid'=>'3','productoid'=>'3','precio_unitario'=>300,'defectuoso'=>0,'falta'=>1,'egresoid'=>NULL,'depositoid'=>NULL],
+    'inventario18'=>['id'=>18,'comprobanteid'=>'1','productoid'=>'9','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>2,'depositoid'=>NULL],
+    'inventario19'=>['id'=>19,'comprobanteid'=>'1','productoid'=>'9','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>2,'depositoid'=>NULL],
+    'inventario20'=>['id'=>20,'comprobanteid'=>'1','productoid'=>'9','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>2,'depositoid'=>NULL],
+    'inventario21'=>['id'=>21,'comprobanteid'=>'1','productoid'=>'2','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>2,'depositoid'=>NULL],
+    'inventario22'=>['id'=>22,'comprobanteid'=>'1','productoid'=>'2','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>2,'depositoid'=>NULL],
+    'inventario23'=>['id'=>23,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>3,'depositoid'=>NULL],
+    'inventario24'=>['id'=>24,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>3,'depositoid'=>NULL],
+    'inventario25'=>['id'=>25,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>3,'depositoid'=>NULL],
+    'inventario26'=>['id'=>26,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>3,'depositoid'=>NULL],
 ];
