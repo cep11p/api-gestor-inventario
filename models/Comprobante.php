@@ -32,10 +32,10 @@ class Comprobante extends BaseComprobante
         );
     }
     
-    public function getProductos() {
+    public function getListaProducto() {
         $inventarioSearch = new InventarioSearch();
         
-        $resultado = $inventarioSearch->obtenerProductosPorComprobanteid($this->id);
+        $resultado = $inventarioSearch->getListaProducto(['comprobanteid'=>$this->id]);
         
         return $resultado;
     }

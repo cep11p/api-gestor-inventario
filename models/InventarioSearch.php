@@ -218,49 +218,6 @@ class InventarioSearch extends Inventario
         return $data;
     }
     
-    
-    public function obtenerProductosPorComprobanteid($comprobanteid)
-    {
-        $query = Inventario::find();
-        
-        $dataProvider = new ActiveDataProvider([
-            'query' => $query
-        ]);
-
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
-    
-        $query->select(['*','cantidad'=>'count(productoid)']);
-        $query->where(['comprobanteid' => $comprobanteid]);
-        $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
-        
-        $coleccion = array();
-        foreach ($dataProvider->getModels() as $value) {
-            $item = $value->toArray();
-            $item['cantidad'] = $value->cantidad;
-            
-            $producto = (isset($value->producto)?$value->producto->toArray():[]);
-            $comprobante = (isset($value->comprobante)?$value->comprobante->toArray():[]);
-            
-            unset($producto['id']);
-            unset($comprobante['id']);
-            unset($item['id']);
-
-            
-            $item = \yii\helpers\ArrayHelper::merge($item, $comprobante);
-            $item = \yii\helpers\ArrayHelper::merge($item, $producto);
-            $coleccion[] = $item;
-        }
-        
-        $data['cantidad_productos']=$dataProvider->totalCount;
-        $data['lista_producto']=$coleccion;
-        
-        return $data;
-    }
-    
     /**
      * Se arma un listado de item(productos) agrupados por fecha_vencimiento, productoid, falta y defectuoso
      * @param array $params

@@ -65,7 +65,7 @@ class ComprobanteController extends ActiveController{
         }
         
         $resultado = $model->toArray();
-        $resultado = \yii\helpers\ArrayHelper::merge($resultado, $model->productos);
+        $resultado['lista_producto'] = $model->getListaProducto();
         
         return $resultado;
     }
