@@ -19,7 +19,7 @@ class InventarioSearch extends Inventario
     {
         return [
             [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta'], 'integer'],
-            [['fecha_vencimiento','cantidad','vencido'], 'safe'],
+            [['fecha_vencimiento','cantidad'], 'safe'],
             [['precio_unitario'], 'number'],
         ];
     }
@@ -250,26 +250,66 @@ class InventarioSearch extends Inventario
             'egresoid' => $this->egresoid
         ]);
         
-        $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
+        $query->groupBy(['fecha_vencimiento','productoid','falta']);
         
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {
             $item = $value->toArray();
             $item['cantidad'] = $value->cantidad;
+            $item['precio_total'] = $value->cantidad * $value->precio_unitario;
             
             $producto = (isset($value->producto)?$value->producto->toArray():['producto'=>[]]);
-            $comprobante = (isset($value->comprobante)?$value->comprobante->toArray():['comprobante'=>[]]);
             
             unset($producto['id']);
-            unset($comprobante['id']);
             unset($item['id']);
-
             
-            $item = \yii\helpers\ArrayHelper::merge($item, $comprobante);
             $item = \yii\helpers\ArrayHelper::merge($item, $producto);
             $coleccion[] = $item;
         }
                 
         return $coleccion;
+    }
+    
+    /**
+     * 
+     * @param type $params
+     * @return ActiveDataProvider
+     */
+    public function getCantitadProducto($params)
+    {
+        $query = Inventario::find();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
+        $this->load($params,'');
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to any records when validation fails
+             $query->where('0=1');
+            return $dataProvider;
+        }
+    
+        $query->select([
+            'producto_cant_total'=>'count(productoid)',
+        ]);
+        
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'comprobanteid' => $this->comprobanteid,
+            'depositoid' => $this->depositoid,
+            'egresoid' => $this->egresoid
+        ]);
+        
+        $rows = $query->createCommand()->queryAll();
+//
+//        print_r($query->createCommand()->getSql());die();
+        $resultado = array();
+        foreach ($rows as $value) {
+            $resultado = $value['producto_cant_total'];
+        }
+                
+        return $resultado;
     }
 }

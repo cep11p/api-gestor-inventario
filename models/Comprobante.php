@@ -40,8 +40,26 @@ class Comprobante extends BaseComprobante
         return $resultado;
     }
     
+    public function getCantidadTotalProducto() {
+        $inventarioSearch = new InventarioSearch();
+        
+        $resultado = $inventarioSearch->getCantitadProducto(['comprobanteid'=>$this->id]);
+        
+        return $resultado;
+    }
+    
     public function setAttributesCustom($values, $safeOnly = true) {
         parent::setAttributes($values, $safeOnly);
         $this->fecha_inicial = date('Y-m-d');
+    }
+    
+    public function fields()
+    {
+        return ArrayHelper::merge(parent::fields(), [
+            'cantidad_total'=> function($model){
+                return $model->cantidadTotalProducto;
+            }
+        ]);
+        
     }
 }
