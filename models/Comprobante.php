@@ -56,7 +56,7 @@ class Comprobante extends BaseComprobante
     public function fields()
     {
         return ArrayHelper::merge(parent::fields(), [
-            'cantidad_total'=> function($model){
+            'producto_cant_total'=> function($model){
                 return $model->cantidadTotalProducto;
             }
         ]);
