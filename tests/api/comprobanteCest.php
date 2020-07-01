@@ -172,4 +172,137 @@ class comprobanteCest
         ]);
         $I->seeResponseCodeIs(200);
     }
+    
+    public function verListaDeComprobante(ApiTester $I)
+    {
+        $I->wantTo('Visualizar un comprobante');
+        $I->sendGET('/comprobantes');
+        $I->seeResponseContainsJson([
+            "pagesize"=> 20,
+            "pages"=> 1,
+            "total_filtrado"=> 9,
+            "resultado"=> [
+                [
+                    "id"=> 1,
+                    "nro_remito"=> "0001-00001",
+                    "fecha_inicial"=> "2019-03-03",
+                    "fecha_emision"=> "2019-03-03",
+                    "total"=> 7500,
+                    "proveedorid"=> 1,
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 1",
+                    "producto_cant_total"=> "12",
+                    "proveedor"=> [
+                        "id"=> 1,
+                        "nombre"=> "proveedor1",
+                        "cuit"=> "10326547418"
+                    ]
+                ],
+                [
+                    "id"=> 2,
+                    "nro_remito"=> "0001-00002",
+                    "fecha_inicial"=> "2019-04-03",
+                    "fecha_emision"=> "2019-04-03",
+                    "total"=> 2099.99,
+                    "proveedorid"=> 1,
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 2",
+                    "producto_cant_total"=> "2",
+                    "proveedor"=> [
+                        "id"=> 1,
+                        "nombre"=> "proveedor1",
+                        "cuit"=> "10326547418"
+                    ]
+                ],
+                [
+                    "id"=> 3,
+                    "nro_remito"=> "0001-00003",
+                    "fecha_inicial"=> "2019-05-03",
+                    "fecha_emision"=> "2019-05-03",
+                    "total"=> 1500.5,
+                    "proveedorid"=> 2,
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 3",
+                    "producto_cant_total"=> "5",
+                    "proveedor"=> [
+                        "id"=> 2,
+                        "nombre"=> "proveedor2",
+                        "cuit"=> "10326547419"
+                    ]
+                ],
+                [
+                    "id"=> 4,
+                    "nro_remito"=> "0001-00004",
+                    "fecha_inicial"=> "2019-06-06",
+                    "fecha_emision"=> "2019-06-06",
+                    "total"=> 2000,
+                    "proveedorid"=> 2,
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 4",
+                    "producto_cant_total"=> "2",
+                    "proveedor"=> [
+                        "id"=> 2,
+                        "nombre"=> "proveedor2",
+                        "cuit"=> "10326547419"
+                    ]
+                ],
+                [
+                    "id"=> 5,
+                    "nro_remito"=> "0001-00005",
+                    "fecha_inicial"=> "2020-03-04",
+                    "fecha_emision"=> "2020-03-04",
+                    "total"=> 7500,
+                    "proveedorid"=> 3,
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 5",
+                    "producto_cant_total"=> "5",
+                    "proveedor"=> [
+                        "id"=> 3,
+                        "nombre"=> "proveedor3",
+                        "cuit"=> "10326547420"
+                    ]
+                ],
+                [
+                    "id"=> 6,
+                    "nro_remito"=> "0001-00006",
+                    "fecha_inicial"=> "2020-03-30",
+                    "fecha_emision"=> "2020-03-30",
+                    "total"=> 2099.99,
+                    "proveedorid"=> "",
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 6",
+                    "producto_cant_total"=> "0",
+                    "proveedor"=> ""
+                ],
+                [
+                    "id"=> 7,
+                    "nro_remito"=> "0001-00007",
+                    "fecha_inicial"=> "2020-06-06",
+                    "fecha_emision"=> "2020-06-06",
+                    "total"=> 1500.5,
+                    "proveedorid"=> "",
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 7",
+                    "producto_cant_total"=> "0",
+                    "proveedor"=> ""
+                ],
+                [
+                    "id"=> 8,
+                    "nro_remito"=> "0001-00008",
+                    "fecha_inicial"=> "2019-03-03",
+                    "fecha_emision"=> "2019-03-03",
+                    "total"=> 2000,
+                    "proveedorid"=> "",
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 8",
+                    "producto_cant_total"=> "0",
+                    "proveedor"=> ""
+                ],
+                [
+                    "id"=> 9,
+                    "nro_remito"=> "0001-00009",
+                    "fecha_inicial"=> "2019-04-03",
+                    "fecha_emision"=> "2019-04-03",
+                    "total"=> 7500,
+                    "proveedorid"=> "",
+                    "descripcion"=> "Esto es una descripcion hecha por fixture 9",
+                    "producto_cant_total"=> "0",
+                    "proveedor"=> ""
+                ]
+            ]
+        ]);
+        $I->seeResponseCodeIs(200);
+    }
 }
