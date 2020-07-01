@@ -58,7 +58,11 @@ class Comprobante extends BaseComprobante
         return ArrayHelper::merge(parent::fields(), [
             'producto_cant_total'=> function($model){
                 return $model->cantidadTotalProducto;
-            }
+            },
+            'proveedorid'=> function($model){
+                return ($model->proveedorid==null)?'':$model->proveedorid;
+            },
+            'proveedor'
         ]);
         
     }
