@@ -19,7 +19,7 @@ class InventarioSearch extends Inventario
     {
         return [
             [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta'], 'integer'],
-            [['fecha_vencimiento','cantidad'], 'safe'],
+            [['fecha_vencimiento','cantidad','vencido'], 'safe'],
             [['precio_unitario'], 'number'],
         ];
     }
@@ -193,14 +193,11 @@ class InventarioSearch extends Inventario
             $item['cantidad'] = $value->cantidad;
             
             $producto = (isset($value->producto)?$value->producto->toArray():['producto'=>[]]);
-            $comprobante = (isset($value->comprobante)?$value->comprobante->toArray():['comprobante'=>[]]);
             
             unset($producto['id']);
-            unset($comprobante['id']);
             unset($item['id']);
 
             
-            $item = \yii\helpers\ArrayHelper::merge($item, $comprobante);
             $item = \yii\helpers\ArrayHelper::merge($item, $producto);
             $coleccion[] = $item;
         }

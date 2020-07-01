@@ -11,73 +11,61 @@
  * vencido=true //verdadero
 * @method GET
 * @arrayReturn
-    {
-        "pagesize": 20,
-        "pages": 1,
-        "total_filtrado": 2,
-        "cantidad_vencidos": 3,
-        "cantidad_faltantes": 3,
-        "cantidad_defectuosos": 3,
-        "cantidad_stock": 5,
-        "resultado": [
-            {
-                "comprobanteid": 5,
-                "productoid": 8,
-                "fecha_vencimiento": "",
-                "precio_unitario": 30,
-                "defectuoso": false,
-                "egresoid": "",
-                "depositoid": "",
-                "falta": false,
-                "stock": true,
-                "vencido": false,
-                "cantidad": "3",
-                "nro_remito": "0001-00005",
-                "fecha_inicial": "2020-03-04",
-                "fecha_emision": "2020-03-04",
-                "total": 7500,
-                "proveedorid": 3,
-                "descripcion": "Esto es una descripcion hecha por fixture 5",
-                "nombre": "Jabón blanco en pan",
-                "codigo": "A307",
-                "unidad_valor": "200",
-                "unidad_medidaid": 2,
-                "marcaid": 101,
-                "categoriaid": 2,
-                "marca": "Canuelas",
-                "unidad_medida": "gr",
-                "producto": "Jabón blanco en pan, 200gr (Canuelas)"
-            },
-            {
-                "comprobanteid": 5,
-                "productoid": 8,
-                "fecha_vencimiento": "2119-04-03",
-                "precio_unitario": 30,
-                "defectuoso": false,
-                "egresoid": "",
-                "depositoid": "",
-                "falta": false,
-                "stock": true,
-                "vencido": false,
-                "cantidad": "2",
-                "nro_remito": "0001-00005",
-                "fecha_inicial": "2020-03-04",
-                "fecha_emision": "2020-03-04",
-                "total": 7500,
-                "proveedorid": 3,
-                "descripcion": "Esto es una descripcion hecha por fixture 5",
-                "nombre": "Jabón blanco en pan",
-                "codigo": "A307",
-                "unidad_valor": "200",
-                "unidad_medidaid": 2,
-                "marcaid": 101,
-                "categoriaid": 2,
-                "marca": "Canuelas",
-                "unidad_medida": "gr",
-                "producto": "Jabón blanco en pan, 200gr (Canuelas)"
-            }
-        ]
-    }
+{
+    "pagesize": 20,
+    "pages": 1,
+    "total_filtrado": 2,
+    "cantidad_vencidos": 4,
+    "cantidad_faltantes": 3,
+    "cantidad_defectuosos": 3,
+    "cantidad_stock": 5,
+    "resultado": [
+        {
+            "comprobanteid": 5,
+            "productoid": 8,
+            "fecha_vencimiento": "",
+            "precio_unitario": 30,
+            "defectuoso": false,
+            "egresoid": "",
+            "depositoid": "",
+            "falta": false,
+            "stock": true,
+            "vencido": false,
+            "cantidad": "3",
+            "nombre": "Jabón blanco en pan",
+            "codigo": "A307",
+            "unidad_valor": "200",
+            "unidad_medidaid": 2,
+            "marcaid": 101,
+            "categoriaid": 2,
+            "marca": "Canuelas",
+            "unidad_medida": "gr",
+            "producto": "Jabón blanco en pan, 200gr (Canuelas)"
+        },
+        {
+            "comprobanteid": 5,
+            "productoid": 8,
+            "fecha_vencimiento": "2119-04-03",
+            "precio_unitario": 30,
+            "defectuoso": false,
+            "egresoid": "",
+            "depositoid": "",
+            "falta": false,
+            "stock": true,
+            "vencido": false,
+            "cantidad": "2",
+            "nombre": "Jabón blanco en pan",
+            "codigo": "A307",
+            "unidad_valor": "200",
+            "unidad_medidaid": 2,
+            "marcaid": 101,
+            "categoriaid": 2,
+            "marca": "Canuelas",
+            "unidad_medida": "gr",
+            "producto": "Jabón blanco en pan, 200gr (Canuelas)"
+        }
+    ]
+}
 */
 
 /*****Para crear****
