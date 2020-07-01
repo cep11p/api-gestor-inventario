@@ -5,6 +5,57 @@
 * @url http://api.gestor-inventario.local/comprobantes
 * @method GET
 * @arrayReturn
+{
+    "pagesize": 20,
+    "pages": 1,
+    "total_filtrado": 9,
+    "resultado": [
+        {
+            "id": 1,
+            "nro_remito": "0001-00001",
+            "fecha_inicial": "2019-03-03",
+            "fecha_emision": "2019-03-03",
+            "total": 7500,
+            "proveedorid": 1,
+            "descripcion": "Esto es una descripcion hecha por fixture 1",
+            "producto_cant_total": "12",
+            "proveedor": {
+                "id": 1,
+                "nombre": "proveedor1",
+                "cuit": "10326547418"
+            }
+        },
+        {
+            "id": 2,
+            "nro_remito": "0001-00002",
+            "fecha_inicial": "2019-04-03",
+            "fecha_emision": "2019-04-03",
+            "total": 2099.99,
+            "proveedorid": 1,
+            "descripcion": "Esto es una descripcion hecha por fixture 2",
+            "producto_cant_total": "2",
+            "proveedor": {
+                "id": 1,
+                "nombre": "proveedor1",
+                "cuit": "10326547418"
+            }
+        },
+        {...},
+        {...},
+        {...},
+        {
+            "id": 9,
+            "nro_remito": "0001-00009",
+            "fecha_inicial": "2019-04-03",
+            "fecha_emision": "2019-04-03",
+            "total": 7500,
+            "proveedorid": "",
+            "descripcion": "Esto es una descripcion hecha por fixture 9",
+            "producto_cant_total": "0",
+            "proveedor": ''
+        }
+    ]
+}
 */
 
 /*****Para crear****

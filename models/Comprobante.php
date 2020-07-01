@@ -62,7 +62,9 @@ class Comprobante extends BaseComprobante
             'proveedorid'=> function($model){
                 return ($model->proveedorid==null)?'':$model->proveedorid;
             },
-            'proveedor'
+            'proveedor'=> function($model){
+                return ($model->proveedor==null)?'':$model->proveedor;
+            }
         ]);
         
     }
