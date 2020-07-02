@@ -220,7 +220,7 @@ class InventarioSearch extends Inventario
      * @param array $params
      * @return array
      */
-    public function getListaProducto($params)
+    public function getListaProductoPorComprobanteid($params)
     {
         $query = Inventario::find();
         
@@ -241,10 +241,7 @@ class InventarioSearch extends Inventario
             'cantidad'=>'count(productoid)']);
         
         $query->andFilterWhere([
-            'id' => $this->id,
             'comprobanteid' => $this->comprobanteid,
-            'depositoid' => $this->depositoid,
-            'egresoid' => $this->egresoid
         ]);
         
         $query->groupBy(['fecha_vencimiento','productoid','falta']);
