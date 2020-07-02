@@ -24,7 +24,7 @@ class Egreso extends BaseEgreso
     
     public function getListaProducto() {
         $inventarioSearch = new InventarioSearch();
-        $lista_producto = $inventarioSearch->getListaProducto(['egresoid'=>$this->id]);
+        $lista_producto = $inventarioSearch->getListaProductoPorEgresoId(['egresoid'=>$this->id]);
         return $lista_producto;
     }
 
