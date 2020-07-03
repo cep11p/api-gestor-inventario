@@ -43,6 +43,10 @@ class Inventario extends BaseInventario
         if(isset($values['falta'])){
             $this->falta = \app\components\Help::booleanToInt($values['falta']);
         }
+        
+        if($this->falta == true){
+            $this->fecha_vencimiento = null;
+        }
 
     }
     

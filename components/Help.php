@@ -92,10 +92,10 @@ class Help extends \yii\base\Component{
         
         $resultado = 0;
         
-        if($bool=='true'){
+        if($bool=='true' || $bool==true){
             $resultado = 1;
         }
-        
+
         return $resultado;
     }
 }

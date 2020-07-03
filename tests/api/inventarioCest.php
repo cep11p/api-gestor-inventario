@@ -28,7 +28,7 @@ class inventarioCest
     // tests
     public function crearNuevoStockConCamposVacios(ApiTester $I)
     {
-        $I->wantTo('Se registra un nuevo Stock');
+        $I->wantTo('Se registra un nuevo Stock con campos vacios');
         
         $I->sendPOST('/inventarios',[]);
         
@@ -101,6 +101,9 @@ class inventarioCest
             "descripcion"=>"esto es una descripcion del stock entrante",
             "lista_producto"=>[
                 ["id"=>1,"fecha_vencimiento"=>"2020-10-10","precio_unitario"=>120,"cantidad"=>100],
+                ["id"=>2,"fecha_vencimiento"=>"2020-10-10","precio_unitario"=>120,"cantidad"=>100],
+                ["id"=>3,"fecha_vencimiento"=>"2020-10-10","precio_unitario"=>100,"cantidad"=>10,"falta"=>1],
+                ["id"=>1,"fecha_vencimiento"=>"2020-10-10","precio_unitario"=>120,"falta"=>true,"cantidad"=>10],
             ]
         ];
         
@@ -111,6 +114,115 @@ class inventarioCest
             'comprobanteid' => 10
         ]);        
         $I->seeResponseCodeIs(200);
+        $comprobanteid = app\models\Comprobante::findOne(['nro_remito'=>'0001-00010'])->id;
+        $I->sendGET('/comprobantes/'.$comprobanteid);
+        $I->seeResponseContainsJson([
+            "id"=> 10,
+            "nro_remito"=> "0001-00010",
+            "fecha_inicial"=> "2020-07-03",
+            "fecha_emision"=> "2020-03-15",
+            "total"=> 2920.99,
+            "proveedorid"=> "",
+            "descripcion"=> "esto es una descripcion del stock entrante",
+            "producto_cant_total"=> "220",
+            "proveedor"=> "",
+            "lista_producto"=> [
+                [
+                    "comprobanteid"=> 10,
+                    "productoid"=> 1,
+                    "fecha_vencimiento"=> "",
+                    "precio_unitario"=> 120,
+                    "defectuoso"=> false,
+                    "egresoid"=> "",
+                    "depositoid"=> "",
+                    "falta"=> true,
+                    "stock"=> false,
+                    "vencido"=> false,
+                    "cantidad"=> "10",
+                    "precio_total"=> 1200,
+                    "nombre"=> "Aceite de girasol",
+                    "codigo"=> "A300",
+                    "unidad_valor"=> "1,5",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 1,
+                    "categoriaid"=> 1,
+                    "marca"=> "Arcor",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                ],
+                [
+                    "comprobanteid"=> 10,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "",
+                    "precio_unitario"=> 100,
+                    "defectuoso"=> false,
+                    "egresoid"=> "",
+                    "depositoid"=> "",
+                    "falta"=> true,
+                    "stock"=> false,
+                    "vencido"=> false,
+                    "cantidad"=> "10",
+                    "precio_total"=> 1000,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                ],
+                [
+                    "comprobanteid"=> 10,
+                    "productoid"=> 1,
+                    "fecha_vencimiento"=> "2020-10-10",
+                    "precio_unitario"=> 120,
+                    "defectuoso"=> false,
+                    "egresoid"=> "",
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> true,
+                    "vencido"=> false,
+                    "cantidad"=> "100",
+                    "precio_total"=> 12000,
+                    "nombre"=> "Aceite de girasol",
+                    "codigo"=> "A300",
+                    "unidad_valor"=> "1,5",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 1,
+                    "categoriaid"=> 1,
+                    "marca"=> "Arcor",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                ],
+                [
+                    "comprobanteid"=> 10,
+                    "productoid"=> 2,
+                    "fecha_vencimiento"=> "2020-10-10",
+                    "precio_unitario"=> 120,
+                    "defectuoso"=> false,
+                    "egresoid"=> "",
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> true,
+                    "vencido"=> false,
+                    "cantidad"=> "100",
+                    "precio_total"=> 12000,
+                    "nombre"=> "Aceite de girasol",
+                    "codigo"=> "A301",
+                    "unidad_valor"=> "900",
+                    "unidad_medidaid"=> 4,
+                    "marcaid"=> 1,
+                    "categoriaid"=> 1,
+                    "marca"=> "Arcor",
+                    "unidad_medida"=> "ml",
+                    "producto"=> "Aceite de girasol, 900ml (Arcor)"
+                ]
+            ]
+        ]);  
+        die();
+
     }
     
     public function verStock(ApiTester $I) {
