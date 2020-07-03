@@ -8,6 +8,16 @@ class comprobanteCest
      */    
     protected $api;
     
+    #beforeAll
+    public function _fixtures()
+    {
+        return [
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+            'proveedor' => app\tests\fixtures\ProveedorFixture::className(),
+        ];
+    }
+    
     public function _before(ApiTester $I,Api $api)
     {
         $I->wantTo('Login');
@@ -18,11 +28,6 @@ class comprobanteCest
     // tests
     public function verUnComprobante(ApiTester $I)
     {
-        $I->haveFixtures([
-            'inventario' => app\tests\fixtures\InventarioFixture::className(),
-            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
-            'proveedor' => app\tests\fixtures\ProveedorFixture::className(),
-        ]);
         
         $I->wantTo('Visualizar un comprobante');
         $I->sendGET('/comprobantes/1');
@@ -181,11 +186,6 @@ class comprobanteCest
     
     public function verListaDeComprobante(ApiTester $I)
     {
-        $I->haveFixtures([            
-            'inventario' => app\tests\fixtures\InventarioFixture::className(),
-            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
-            'proveedor' => app\tests\fixtures\ProveedorFixture::className(),
-        ]);
         
         $I->wantTo('Ver Lista de comprobantes');
         $I->sendGET('/comprobantes');
