@@ -70,6 +70,18 @@
 * @param arrayJson
 **/
 
+/**** Para modificar*****
+* @url http://api.gestor-inventario.local/comprobantes/producto-falta/{$id} 
+* @method PUT
+* @param arrayJson
+    {
+	"cantidad":26,
+	"productoid":3,
+	"fecha_vencimiento":"2019-03-20",
+	"falta":true
+    }
+**/
+
 /****** Para visualizar*****
 * @url http://api.gestor-inventario.local/comprobantes/{$id} 
 * @method GET

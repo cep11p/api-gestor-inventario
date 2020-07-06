@@ -51,7 +51,7 @@ class ComprobanteController extends ActiveController{
     {
         $actions = parent::actions();
         unset($actions['view']);
-//        unset($actions['update']);
+        unset($actions['update']);
 //        unset($actions['delete']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
@@ -76,6 +76,34 @@ class ComprobanteController extends ActiveController{
         
         $resultado = $model->toArray();
         $resultado['lista_producto'] = $model->getListaProducto();
+        
+        return $resultado;
+    }
+    
+    public function actionProductoFalta($id) {
+        $param = \Yii::$app->request->post();
+        $model = Comprobante::findOne(['id'=>$id]);
+
+        if($model==null){
+            throw new Exception(json_encode('El comprobante no existe'));
+        }        
+        
+        $transaction = Yii::$app->db->beginTransaction();
+        try {            
+            $model->updateToProductoFalta($param);
+
+            $transaction->commit();
+            
+            $resultado['message']='Se modifica el comprobante';
+            $resultado['comprobanteid']=$model->id;
+            
+            return  $resultado;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
         
         return $resultado;
     }

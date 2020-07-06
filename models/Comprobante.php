@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use \app\models\base\Comprobante as BaseComprobante;
 use yii\helpers\ArrayHelper;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "comprobante".
@@ -51,6 +52,32 @@ class Comprobante extends BaseComprobante
     public function setAttributesCustom($values, $safeOnly = true) {
         parent::setAttributes($values, $safeOnly);
         $this->fecha_inicial = date('Y-m-d');
+    }
+        
+    public function updateToProductoFalta($param) {
+        
+        $condicion = [
+            'comprobanteid'=> $this->id,
+            'productoid'=>$param['productoid'],
+            'fecha_vencimiento'=>$param['fecha_vencimiento'],
+            'falta'=>0
+            ];
+        $producto_encontroado_lista = Inventario::find()->where($condicion)->asArray()->all();
+        
+        if(!isset($param['cantidad']) || !is_numeric($param['cantidad']) || intval($param['cantidad'])<=0){
+            throw new Exception('La cantidad es obligatoria y debe ser un numero y mayor a 0');
+        }
+        
+        //Verificamos la cantidad de productos disponibles a modificar
+        if(isset($param['cantidad']) && count($producto_encontroado_lista)<$param['cantidad']){
+            throw new Exception('La cantidad a modificar es mayor a la cantidad del producto que existe en el inventario ('. count($producto_encontroado_lista).')');
+        }        
+
+        for($i = 0; $i < $param['cantidad']; $i++ ){
+            $condition[] = $producto_encontroado_lista[$i]['id'];
+        }                    
+        
+        $resultado = Inventario::updateAll(['falta'=>1,'fecha_vencimiento'=>null], ['id'=>$condition]);        
     }
     
     public function fields()
