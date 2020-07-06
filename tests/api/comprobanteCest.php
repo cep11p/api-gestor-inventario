@@ -25,7 +25,7 @@ class comprobanteCest
         $I->amBearerAuthenticated($token);
     }
 
-    // tests
+    
     public function verUnComprobante(ApiTester $I)
     {
         
@@ -98,8 +98,8 @@ class comprobanteCest
                     "falta"=> false,
                     "stock"=> false,
                     "vencido"=> true,
-                    "cantidad"=> "4",
-                    "precio_total"=> 1200,
+                    "cantidad"=> "3",
+                    "precio_total"=> 900,
                     "nombre"=> "Arroz blanco",
                     "codigo"=> "A302",
                     "unidad_valor"=> "1",
@@ -132,6 +132,29 @@ class comprobanteCest
                     "marca"=> "Oddis nuts",
                     "unidad_medida"=> "lt",
                     "producto"=> "Lavandina, 1lt (Oddis nuts)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "2019-03-21",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "egresoid"=> 3,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "1",
+                    "precio_total"=> 300,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
                 ],
                 [
                     "comprobanteid"=> 1,
@@ -316,5 +339,225 @@ class comprobanteCest
             ]
         ]);
         $I->seeResponseCodeIs(200);
+    }
+    
+    // tests
+    public function modificarProductosAFaltantes(ApiTester $I)
+    {
+        
+        $I->wantTo('modificar productos a productos faltantes');
+        $param = [
+            "cantidad"=>2,
+            "productoid"=>3,
+            "fecha_vencimiento"=>"2019-03-20"
+        ];
+        $I->sendPUT('/comprobantes/producto-falta/1',$param);
+        $I->seeResponseContainsJson([
+            "message"=> "Se modifica el comprobante",
+            "comprobanteid"=> 1
+        ]);
+        
+        $I->sendGET('/comprobantes/1');
+        $I->seeResponseContainsJson([
+            "id"=> 1,
+            "nro_remito"=> "0001-00001",
+            "fecha_inicial"=> "2019-03-03",
+            "fecha_emision"=> "2019-03-03",
+            "total"=> 7500,
+            "proveedorid"=> 1,
+            "descripcion"=> "Esto es una descripcion hecha por fixture 1",
+            "producto_cant_total"=> "12",
+            "proveedor"=> [
+                "id"=> 1,
+                "nombre"=> "proveedor1",
+                "cuit"=> "10326547418"
+            ],
+            "lista_producto"=> [
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "egresoid"=> 3,
+                    "depositoid"=> "",
+                    "falta"=> true,
+                    "stock"=> false,
+                    "vencido"=> false,
+                    "cantidad"=> "2",
+                    "precio_total"=> 600,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 1,
+                    "fecha_vencimiento"=> "2019-03-03",
+                    "precio_unitario"=> 100,
+                    "defectuoso"=> true,
+                    "egresoid"=> "",
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "1",
+                    "precio_total"=> 100,
+                    "nombre"=> "Aceite de girasol",
+                    "codigo"=> "A300",
+                    "unidad_valor"=> "1,5",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 1,
+                    "categoriaid"=> 1,
+                    "marca"=> "Arcor",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 2,
+                    "fecha_vencimiento"=> "2019-03-20",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "egresoid"=> 2,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "2",
+                    "precio_total"=> 600,
+                    "nombre"=> "Aceite de girasol",
+                    "codigo"=> "A301",
+                    "unidad_valor"=> "900",
+                    "unidad_medidaid"=> 4,
+                    "marcaid"=> 1,
+                    "categoriaid"=> 1,
+                    "marca"=> "Arcor",
+                    "unidad_medida"=> "ml",
+                    "producto"=> "Aceite de girasol, 900ml (Arcor)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "2019-03-20",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "egresoid"=> 3,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "1",
+                    "precio_total"=> 300,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 9,
+                    "fecha_vencimiento"=> "2019-03-20",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "egresoid"=> 2,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "3",
+                    "precio_total"=> 900,
+                    "nombre"=> "Lavandina",
+                    "codigo"=> "A308",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 102,
+                    "categoriaid"=> 2,
+                    "marca"=> "Oddis nuts",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Lavandina, 1lt (Oddis nuts)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "2019-03-21",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "egresoid"=> 3,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "1",
+                    "precio_total"=> 300,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 9,
+                    "fecha_vencimiento"=> "2119-04-03",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "egresoid"=> 1,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> true,
+                    "vencido"=> false,
+                    "cantidad"=> "1",
+                    "precio_total"=> 300,
+                    "nombre"=> "Lavandina",
+                    "codigo"=> "A308",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 102,
+                    "categoriaid"=> 2,
+                    "marca"=> "Oddis nuts",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Lavandina, 1lt (Oddis nuts)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 5,
+                    "fecha_vencimiento"=> "2120-03-04",
+                    "precio_unitario"=> 200,
+                    "defectuoso"=> true,
+                    "egresoid"=> "",
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> false,
+                    "cantidad"=> "1",
+                    "precio_total"=> 200,
+                    "nombre"=> "Arvejas",
+                    "codigo"=> "A304",
+                    "unidad_valor"=> "300",
+                    "unidad_medidaid"=> 2,
+                    "marcaid"=> 60,
+                    "categoriaid"=> 1,
+                    "marca"=> "Noel",
+                    "unidad_medida"=> "gr",
+                    "producto"=> "Arvejas, 300gr (Noel)"
+                ]
+            ]
+        ]);
     }
 }
