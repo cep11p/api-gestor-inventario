@@ -119,7 +119,7 @@ class inventarioCest
         $I->seeResponseContainsJson([
             "id"=> 10,
             "nro_remito"=> "0001-00010",
-            "fecha_inicial"=> "2020-07-03",
+            "fecha_inicial"=> date('Y-m-d'),
             "fecha_emision"=> "2020-03-15",
             "total"=> 2920.99,
             "proveedorid"=> "",
@@ -221,8 +221,6 @@ class inventarioCest
                 ]
             ]
         ]);  
-        die();
-
     }
     
     public function verStock(ApiTester $I) {
