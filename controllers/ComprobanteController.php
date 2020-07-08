@@ -80,6 +80,14 @@ class ComprobanteController extends ActiveController{
         return $resultado;
     }
     
+    /**
+     * Se realiaza una actualizacion en el listado de productos de un comprobante. 
+     * En este case se registran los productos ausentes modificando los productos que ingresaron
+     * @param int $id
+     * @return array
+     * @throws Exception
+     * @throws \yii\web\HttpException
+     */
     public function actionProductoFalta($id) {
         $param = \Yii::$app->request->post();
         $model = Comprobante::findOne(['id'=>$id]);

@@ -53,7 +53,13 @@ class Comprobante extends BaseComprobante
         parent::setAttributes($values, $safeOnly);
         $this->fecha_inicial = date('Y-m-d');
     }
-        
+    
+    /**
+     * Se registran los productos que faltaron, realizando una modificacion sobre los productos que ingresaron. 
+     * Se modifican los productos falta=0 a falta=1
+     * @param array $param
+     * @throws Exception
+     */    
     public function updateToProductoFalta($param) {
         
         $condicion = [
