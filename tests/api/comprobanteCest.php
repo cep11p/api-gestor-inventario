@@ -560,4 +560,65 @@ class comprobanteCest
             ]
         ]);
     }
+    public function registrarProductoFaltanteConCantidadExcesiva(ApiTester $I)
+    {
+        
+        $I->wantTo('registrar productos faltante con cantidad excesiva');
+        $param = [
+            "cantidad"=>20,
+            "productoid"=>3,
+            "fecha_vencimiento"=>"2019-03-20"
+        ];
+        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
+        $I->seeResponseContainsJson([
+            "name"=> "Bad Request",
+            "message"=> "La cantidad a modificar es mayor a la cantidad del producto que existe en el inventario (3)",
+            "code"=> 0,
+            "status"=> 400,
+            "type"=> "yii\\web\\HttpException"
+        ]);
+        
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function registrarProductoFaltanteSinCantidad(ApiTester $I)
+    {
+        
+        $I->wantTo('registrar productos faltante sin cantidad');
+        $param = [
+            "productoid"=>3,
+            "fecha_vencimiento"=>"2019-03-20"
+        ];
+        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
+        $I->seeResponseContainsJson([
+            "name"=> "Bad Request",
+            "message"=> "La cantidad es obligatoria y debe ser un numero y mayor a 0",
+            "code"=> 0,
+            "status"=> 400,
+            "type"=> "yii\\web\\HttpException"
+        ]);
+        
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function registrarProductoFaltanteConFechaErronea(ApiTester $I)
+    {
+        
+        $I->wantTo('registrar productos faltante con fecha erronea');
+        $param = [
+            "cantidad"=>20,
+            "productoid"=>3,
+            "fecha_vencimiento"=>"2asd"
+        ];
+        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
+        $I->seeResponseContainsJson([
+            "name"=> "Bad Request",
+            "message"=> "La fecha es obligatoria y debe tener el formato aaaa-mm-dd",
+            "code"=> 0,
+            "status"=> 400,
+            "type"=> "yii\\web\\HttpException"
+        ]);
+        
+        $I->seeResponseCodeIs(400);
+    }
 }

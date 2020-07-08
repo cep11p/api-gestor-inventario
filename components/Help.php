@@ -8,9 +8,21 @@
 
 namespace app\components;
 use yii\helpers\ArrayHelper;
-
+use DateTime;
 class Help extends \yii\base\Component{
     
+    /**
+     * Se valida la fechas
+     * @param type $date
+     * @param type $format
+     * @return type
+     */
+    public static function validateDate($date, $format = 'Y-m-d H:i:s')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+
     /**
      * Vamos a extrar un array de una array por las keys seteadas
      * @param array $arrays_colection es la coleccion de arrays que se obtiene para filtrar
