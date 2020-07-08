@@ -73,8 +73,8 @@ $config = [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'comprobante',
                     'extraPatterns' => [
-                        'PUT producto-falta/{id}' => 'producto-falta',
-                        'OPTIONS producto-falta/{id}' => 'producto-falta',
+                        'PUT registrar-producto-faltante/{id}' => 'registrar-producto-faltante',
+                        'OPTIONS registrar-producto-faltante/{id}' => 'registrar-producto-faltante',
                     ], 
                 ],
                 [   

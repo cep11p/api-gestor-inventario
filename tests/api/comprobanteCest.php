@@ -342,16 +342,16 @@ class comprobanteCest
     }
     
     // tests
-    public function modificarProductosAFaltantes(ApiTester $I)
+    public function registrarProductoFaltante(ApiTester $I)
     {
         
-        $I->wantTo('modificar productos a productos faltantes');
+        $I->wantTo('registrar productos faltante');
         $param = [
             "cantidad"=>2,
             "productoid"=>3,
             "fecha_vencimiento"=>"2019-03-20"
         ];
-        $I->sendPUT('/comprobantes/producto-falta/1',$param);
+        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
         $I->seeResponseContainsJson([
             "message"=> "Se modifica el comprobante",
             "comprobanteid"=> 1

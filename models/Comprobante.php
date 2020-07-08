@@ -60,7 +60,7 @@ class Comprobante extends BaseComprobante
      * @param array $param
      * @throws Exception
      */    
-    public function updateToProductoFalta($param) {
+    public function registrarPoductoFaltante($param) {
         
         $condicion = [
             'comprobanteid'=> $this->id,

@@ -71,7 +71,7 @@
 **/
 
 /**** Para modificar*****
-* @url http://api.gestor-inventario.local/comprobantes/producto-falta/{$id} 
+* @url http://api.gestor-inventario.local/comprobantes/registrar-producto-faltante/{$id} 
 * @method PUT
 * @param arrayJson
     {
@@ -79,6 +79,11 @@
 	"productoid":3,
 	"fecha_vencimiento":"2019-03-20",
 	"falta":true
+    }
+ * @return 
+    {
+        "message": "Se modifica el comprobante",
+        "comprobanteid": 1
     }
 **/
 

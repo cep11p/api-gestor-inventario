@@ -88,7 +88,7 @@ class ComprobanteController extends ActiveController{
      * @throws Exception
      * @throws \yii\web\HttpException
      */
-    public function actionProductoFalta($id) {
+    public function actionRegistrarProductoFaltante($id) {
         $param = \Yii::$app->request->post();
         $model = Comprobante::findOne(['id'=>$id]);
 
@@ -98,7 +98,7 @@ class ComprobanteController extends ActiveController{
         
         $transaction = Yii::$app->db->beginTransaction();
         try {            
-            $model->updateToProductoFalta($param);
+            $model->registrarPoductoFaltante($param);
 
             $transaction->commit();
             
@@ -114,7 +114,6 @@ class ComprobanteController extends ActiveController{
         }
         
         return $resultado;
-    }
-    
+    }    
         
 }
