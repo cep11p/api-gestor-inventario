@@ -60,7 +60,7 @@ class Comprobante extends BaseComprobante
      * @param array $param
      * @throws Exception
      */    
-    public function registrarPoductoFaltante($param) {
+    public function registrarProductoFaltante($param) {
         
         if(!isset($param['fecha_vencimiento']) || !\app\components\Help::validateDate($param['fecha_vencimiento'], 'Y-m-d')){
             throw new Exception('La fecha es obligatoria y debe tener el formato aaaa-mm-dd');
@@ -89,6 +89,36 @@ class Comprobante extends BaseComprobante
         }                    
         
         $resultado = Inventario::updateAll(['falta'=>1,'fecha_vencimiento'=>null], ['id'=>$condition]);        
+    }
+    
+    public function registrarProductoPendiente($param) {
+        
+        if(!isset($param['fecha_vencimiento']) || !\app\components\Help::validateDate($param['fecha_vencimiento'], 'Y-m-d')){
+            throw new Exception('La fecha es obligatoria y debe tener el formato aaaa-mm-dd');
+        }
+
+        if(!isset($param['cantidad']) || !is_numeric($param['cantidad']) || intval($param['cantidad'])<=0){
+            throw new Exception('La cantidad es obligatoria y debe ser un numero y mayor a 0');
+        }        
+        
+        $condicion = [
+            'comprobanteid'=> $this->id,
+            'productoid'=>$param['productoid'],
+            'falta'=>1
+        ];
+        $producto_encontroado_lista = Inventario::find()->where($condicion)->asArray()->all();
+        
+        //Verificamos la cantidad de productos disponibles a modificar
+        if(isset($param['cantidad']) && count($producto_encontroado_lista)<$param['cantidad']){
+            throw new Exception('La cantidad a modificar es mayor a la cantidad de productos existentes en el inventario ('. count($producto_encontroado_lista).')');
+        }  
+        
+
+        for($i = 0; $i < $param['cantidad']; $i++ ){
+            $condition[] = $producto_encontroado_lista[$i]['id'];
+        }                    
+        
+        $resultado = Inventario::updateAll(['falta'=>0,'fecha_vencimiento'=>$param['fecha_vencimiento']], ['id'=>$condition]);        
     }
     
     public function fields()

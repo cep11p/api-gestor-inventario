@@ -98,11 +98,46 @@ class ComprobanteController extends ActiveController{
         
         $transaction = Yii::$app->db->beginTransaction();
         try {            
-            $model->registrarPoductoFaltante($param);
+            $model->registrarProductoFaltante($param);
 
             $transaction->commit();
             
             $resultado['message']='Se modifica el comprobante';
+            $resultado['comprobanteid']=$model->id;
+            
+            return  $resultado;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
+        
+        return $resultado;
+    }    
+    
+    /**
+     * Se registran productos pendientes de entrega. Se modifican los productos en falta = 1 a falta = 0
+     * @param int $id
+     * @return array
+     * @throws Exception
+     * @throws \yii\web\HttpException
+     */
+    public function actionRegistrarProductoPendiente($id) {
+        $param = \Yii::$app->request->post();
+        $model = Comprobante::findOne(['id'=>$id]);
+
+        if($model==null){
+            throw new Exception(json_encode('El comprobante no existe'));
+        }        
+        
+        $transaction = Yii::$app->db->beginTransaction();
+        try {            
+            $model->registrarProductoPendiente($param);
+
+            $transaction->commit();
+            
+            $resultado['message']='Se registran los productos pendientes de entregas';
             $resultado['comprobanteid']=$model->id;
             
             return  $resultado;

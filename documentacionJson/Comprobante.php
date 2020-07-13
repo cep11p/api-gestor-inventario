@@ -70,7 +70,7 @@
 * @param arrayJson
 **/
 
-/**** Para modificar*****
+/**** Para registrar los productos faltantantes de un comprobante*****
 * @url http://api.gestor-inventario.local/comprobantes/registrar-producto-faltante/{$id} 
 * @method PUT
 * @param arrayJson
@@ -83,6 +83,22 @@
  * @return 
     {
         "message": "Se modifica el comprobante",
+        "comprobanteid": 1
+    }
+**/
+
+/**** Para registrar los productos pendientes de entrega*****
+* @url http://api.gestor-inventario.local/comprobantes/registrar-producto-pendiente/{$id} 
+* @method PUT
+* @param arrayJson
+    {
+	"cantidad":3,
+	"productoid":3,
+	"fecha_vencimiento":"2022-03-20"
+    }
+ * @return 
+    {
+        "message": "Se registran los productos pendientes de entregas",
         "comprobanteid": 1
     }
 **/
@@ -241,10 +257,4 @@
         }
     ]
 }
-*/
-
-/****** Para borrar una localidad *****
-* @url http://api.gestor-inventario.local/comprobantes/{$id} 
-* @method Delete
-* @return arrayJson
 */
