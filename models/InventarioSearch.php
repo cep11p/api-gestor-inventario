@@ -256,6 +256,7 @@ class InventarioSearch extends Inventario
             
             unset($producto['id']);
             unset($item['id']);
+            unset($item['egresoid']);
             
             $item = \yii\helpers\ArrayHelper::merge($item, $producto);
             $coleccion[] = $item;
