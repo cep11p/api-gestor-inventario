@@ -27,4 +27,7 @@ return [
     'inventario24'=>['id'=>24,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>3,'depositoid'=>NULL],
     'inventario25'=>['id'=>25,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>3,'depositoid'=>NULL],
     'inventario26'=>['id'=>26,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-21','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>3,'depositoid'=>NULL],
+    'inventario27'=>['id'=>27,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>null,'depositoid'=>NULL],
+    'inventario28'=>['id'=>28,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>null,'depositoid'=>NULL],
+    'inventario29'=>['id'=>29,'comprobanteid'=>'1','productoid'=>'3','fecha_vencimiento'=>'2019-03-20','precio_unitario'=>300,'defectuoso'=>0,'falta'=>0,'egresoid'=>null,'depositoid'=>NULL],
 ];

@@ -74,7 +74,8 @@ class Comprobante extends BaseComprobante
             'comprobanteid'=> $this->id,
             'productoid'=>$param['productoid'],
             'fecha_vencimiento'=>$param['fecha_vencimiento'],
-            'falta'=>0
+            'falta'=>0,
+            'egresoid'=>null
         ];
         $producto_encontroado_lista = Inventario::find()->where($condicion)->asArray()->all();
         
