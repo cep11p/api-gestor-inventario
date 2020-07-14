@@ -105,7 +105,8 @@ class Comprobante extends BaseComprobante
         $condicion = [
             'comprobanteid'=> $this->id,
             'productoid'=>$param['productoid'],
-            'falta'=>1
+            'falta'=>1,
+            'egresoid'=>null
         ];
         $producto_encontroado_lista = Inventario::find()->where($condicion)->asArray()->all();
         
