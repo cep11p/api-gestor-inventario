@@ -110,4 +110,15 @@ class Help extends \yii\base\Component{
 
         return $resultado;
     }
+    
+    public static function setBoolean($bool) {
+        
+        $resultado = false;
+        
+        if($bool==='true' || $bool===1 || $bool===true){
+            $resultado = true;
+        }
+
+        return $resultado;
+    }
 }

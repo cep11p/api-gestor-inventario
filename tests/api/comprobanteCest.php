@@ -40,7 +40,34 @@ class comprobanteCest
             "proveedorid"=> 1,
             "descripcion"=> "Esto es una descripcion hecha por fixture 1",
             "producto_cant_total"=> "15",
+            "proveedor"=> [
+                "id"=> 1,
+                "nombre"=> "proveedor1",
+                "cuit"=> "10326547418"
+            ],
             "lista_producto"=> [
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "depositoid"=> "",
+                    "falta"=> true,
+                    "stock"=> false,
+                    "vencido"=> false,
+                    "cantidad"=> "3",
+                    "precio_total"=> 900,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                ],
                 [
                     "comprobanteid"=> 1,
                     "productoid"=> 1,
@@ -95,8 +122,8 @@ class comprobanteCest
                     "falta"=> false,
                     "stock"=> false,
                     "vencido"=> true,
-                    "cantidad"=> "6",
-                    "precio_total"=> 1800,
+                    "cantidad"=> "4",
+                    "precio_total"=> 1200,
                     "nombre"=> "Arroz blanco",
                     "codigo"=> "A302",
                     "unidad_valor"=> "1",
@@ -128,28 +155,6 @@ class comprobanteCest
                     "marca"=> "Oddis nuts",
                     "unidad_medida"=> "lt",
                     "producto"=> "Lavandina, 1lt (Oddis nuts)"
-                ],
-                [
-                    "comprobanteid"=> 1,
-                    "productoid"=> 3,
-                    "fecha_vencimiento"=> "2019-03-21",
-                    "precio_unitario"=> 300,
-                    "defectuoso"=> false,
-                    "depositoid"=> "",
-                    "falta"=> false,
-                    "stock"=> false,
-                    "vencido"=> true,
-                    "cantidad"=> "1",
-                    "precio_total"=> 300,
-                    "nombre"=> "Arroz blanco",
-                    "codigo"=> "A302",
-                    "unidad_valor"=> "1",
-                    "unidad_medidaid"=> 1,
-                    "marcaid"=> 168,
-                    "categoriaid"=> 1,
-                    "marca"=> "Dos hermanos",
-                    "unidad_medida"=> "kg",
-                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
                 ],
                 [
                     "comprobanteid"=> 1,
@@ -335,18 +340,18 @@ class comprobanteCest
     }
     
     // tests
-    public function registrarProductoFaltante(ApiTester $I)
+    public function registrarProductoFaltaTrue(ApiTester $I)
     {
-        
-        $I->wantTo('registrar productos faltante');
+        $I->wantTo('registrar productos pendiente');
         $param = [
             "cantidad"=>2,
             "productoid"=>3,
-            "fecha_vencimiento"=>"2019-03-20"
+            "fecha_vencimiento"=>"2019-03-20",
+            "falta"=>'true'
         ];
-        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
+        $I->sendPUT('/comprobantes/registrar-producto-pendiente/1',$param);
         $I->seeResponseContainsJson([
-            "message"=> "Se modifica el comprobante",
+            "message"=> 'Se registran los productos pendientes de entregas',
             "comprobanteid"=> 1
         ]);
         
@@ -376,8 +381,8 @@ class comprobanteCest
                     "falta"=> true,
                     "stock"=> false,
                     "vencido"=> false,
-                    "cantidad"=> "2",
-                    "precio_total"=> 600,
+                    "cantidad"=> "5",
+                    "precio_total"=> 1500,
                     "nombre"=> "Arroz blanco",
                     "codigo"=> "A302",
                     "unidad_valor"=> "1",
@@ -442,8 +447,8 @@ class comprobanteCest
                     "falta"=> false,
                     "stock"=> false,
                     "vencido"=> true,
-                    "cantidad"=> "4",
-                    "precio_total"=> 1200,
+                    "cantidad"=> "2",
+                    "precio_total"=> 600,
                     "nombre"=> "Arroz blanco",
                     "codigo"=> "A302",
                     "unidad_valor"=> "1",
@@ -475,28 +480,6 @@ class comprobanteCest
                     "marca"=> "Oddis nuts",
                     "unidad_medida"=> "lt",
                     "producto"=> "Lavandina, 1lt (Oddis nuts)"
-                ],
-                [
-                    "comprobanteid"=> 1,
-                    "productoid"=> 3,
-                    "fecha_vencimiento"=> "2019-03-21",
-                    "precio_unitario"=> 300,
-                    "defectuoso"=> false,
-                    "depositoid"=> "",
-                    "falta"=> false,
-                    "stock"=> false,
-                    "vencido"=> true,
-                    "cantidad"=> "1",
-                    "precio_total"=> 300,
-                    "nombre"=> "Arroz blanco",
-                    "codigo"=> "A302",
-                    "unidad_valor"=> "1",
-                    "unidad_medidaid"=> 1,
-                    "marcaid"=> 168,
-                    "categoriaid"=> 1,
-                    "marca"=> "Dos hermanos",
-                    "unidad_medida"=> "kg",
-                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
                 ],
                 [
                     "comprobanteid"=> 1,
@@ -545,19 +528,209 @@ class comprobanteCest
             ]
         ]);
     }
-    public function registrarProductoFaltanteConCantidadExcesiva(ApiTester $I)
+    
+    public function registrarProductoFaltaFalse(ApiTester $I)
+    {
+        $I->wantTo('registrar productos que faltaba (productos pendiente de entrega)');
+        $param = [
+            "cantidad"=>2,
+            "productoid"=>3,
+            "fecha_vencimiento"=>"2019-03-20",
+            "falta"=>'false'
+        ];
+        $I->sendPUT('/comprobantes/registrar-producto-pendiente/1',$param);
+        $I->seeResponseContainsJson([
+            "message"=> 'Se registran los productos pendientes de entregas',
+            "comprobanteid"=> 1
+        ]);
+        
+        $I->sendGET('/comprobantes/1');
+        $I->seeResponseContainsJson([
+            "id"=> 1,
+            "nro_remito"=> "0001-00001",
+            "fecha_inicial"=> "2019-03-03",
+            "fecha_emision"=> "2019-03-03",
+            "total"=> 7500,
+            "proveedorid"=> 1,
+            "descripcion"=> "Esto es una descripcion hecha por fixture 1",
+            "producto_cant_total"=> "15",
+            "proveedor"=> [
+                "id"=> 1,
+                "nombre"=> "proveedor1",
+                "cuit"=> "10326547418"
+            ],
+            "lista_producto"=> [
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "depositoid"=> "",
+                    "falta"=> true,
+                    "stock"=> false,
+                    "vencido"=> false,
+                    "cantidad"=> "5",
+                    "precio_total"=> 1500,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 1,
+                    "fecha_vencimiento"=> "2019-03-03",
+                    "precio_unitario"=> 100,
+                    "defectuoso"=> true,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "1",
+                    "precio_total"=> 100,
+                    "nombre"=> "Aceite de girasol",
+                    "codigo"=> "A300",
+                    "unidad_valor"=> "1,5",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 1,
+                    "categoriaid"=> 1,
+                    "marca"=> "Arcor",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 2,
+                    "fecha_vencimiento"=> "2019-03-20",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "2",
+                    "precio_total"=> 600,
+                    "nombre"=> "Aceite de girasol",
+                    "codigo"=> "A301",
+                    "unidad_valor"=> "900",
+                    "unidad_medidaid"=> 4,
+                    "marcaid"=> 1,
+                    "categoriaid"=> 1,
+                    "marca"=> "Arcor",
+                    "unidad_medida"=> "ml",
+                    "producto"=> "Aceite de girasol, 900ml (Arcor)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 3,
+                    "fecha_vencimiento"=> "2019-03-20",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "2",
+                    "precio_total"=> 600,
+                    "nombre"=> "Arroz blanco",
+                    "codigo"=> "A302",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 1,
+                    "marcaid"=> 168,
+                    "categoriaid"=> 1,
+                    "marca"=> "Dos hermanos",
+                    "unidad_medida"=> "kg",
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 9,
+                    "fecha_vencimiento"=> "2019-03-20",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> true,
+                    "cantidad"=> "3",
+                    "precio_total"=> 900,
+                    "nombre"=> "Lavandina",
+                    "codigo"=> "A308",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 102,
+                    "categoriaid"=> 2,
+                    "marca"=> "Oddis nuts",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Lavandina, 1lt (Oddis nuts)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 9,
+                    "fecha_vencimiento"=> "2119-04-03",
+                    "precio_unitario"=> 300,
+                    "defectuoso"=> false,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> true,
+                    "vencido"=> false,
+                    "cantidad"=> "1",
+                    "precio_total"=> 300,
+                    "nombre"=> "Lavandina",
+                    "codigo"=> "A308",
+                    "unidad_valor"=> "1",
+                    "unidad_medidaid"=> 3,
+                    "marcaid"=> 102,
+                    "categoriaid"=> 2,
+                    "marca"=> "Oddis nuts",
+                    "unidad_medida"=> "lt",
+                    "producto"=> "Lavandina, 1lt (Oddis nuts)"
+                ],
+                [
+                    "comprobanteid"=> 1,
+                    "productoid"=> 5,
+                    "fecha_vencimiento"=> "2120-03-04",
+                    "precio_unitario"=> 200,
+                    "defectuoso"=> true,
+                    "depositoid"=> "",
+                    "falta"=> false,
+                    "stock"=> false,
+                    "vencido"=> false,
+                    "cantidad"=> "1",
+                    "precio_total"=> 200,
+                    "nombre"=> "Arvejas",
+                    "codigo"=> "A304",
+                    "unidad_valor"=> "300",
+                    "unidad_medidaid"=> 2,
+                    "marcaid"=> 60,
+                    "categoriaid"=> 1,
+                    "marca"=> "Noel",
+                    "unidad_medida"=> "gr",
+                    "producto"=> "Arvejas, 300gr (Noel)"
+                ]
+            ]
+        ]);
+    }
+    
+    public function registrarProductoPendienteSinAtributoFalta(ApiTester $I)
     {
         
-        $I->wantTo('registrar productos faltante con cantidad excesiva');
+        $I->wantTo('registrar productos pendiente sin el atributo falta');
         $param = [
             "cantidad"=>20,
             "productoid"=>3,
-            "fecha_vencimiento"=>"2019-03-20"
+            "fecha_vencimiento"=>"2019-03-20",
         ];
-        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
+        $I->sendPUT('/comprobantes/registrar-producto-pendiente/1',$param);
         $I->seeResponseContainsJson([
             "name"=> "Bad Request",
-            "message"=> "La cantidad a modificar es mayor a la cantidad del producto que existe en el inventario (3)",
+            "message"=> 'El atributo falta es obligatorio',
             "code"=> 0,
             "status"=> 400,
             "type"=> "yii\\web\\HttpException"
@@ -566,15 +739,38 @@ class comprobanteCest
         $I->seeResponseCodeIs(400);
     }
     
-    public function registrarProductoFaltanteSinCantidad(ApiTester $I)
+    public function registrarProductoPendienteConCantidadExcesiva(ApiTester $I)
     {
         
-        $I->wantTo('registrar productos faltante sin cantidad');
+        $I->wantTo('registrar productos pendiente con cantidad excesiva');
+        $param = [
+            "cantidad"=>20,
+            "productoid"=>3,
+            "fecha_vencimiento"=>"2019-03-20",
+            "falta"=>"true"
+        ];
+        $I->sendPUT('/comprobantes/registrar-producto-pendiente/1',$param);
+        $I->seeResponseContainsJson([
+            "name"=> "Bad Request",
+            "message"=> 'La cantidad a modificar es mayor a la cantidad de productos existentes en el inventario (3)',
+            "code"=> 0,
+            "status"=> 400,
+            "type"=> "yii\\web\\HttpException"
+        ]);
+        
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function registrarProductoPendienteSinCantidad(ApiTester $I)
+    {
+        
+        $I->wantTo('registrar productos pendiente sin cantidad');
         $param = [
             "productoid"=>3,
-            "fecha_vencimiento"=>"2019-03-20"
+            "fecha_vencimiento"=>"2019-03-20",
+            "falta"=>"true"
         ];
-        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
+        $I->sendPUT('/comprobantes/registrar-producto-pendiente/1',$param);
         $I->seeResponseContainsJson([
             "name"=> "Bad Request",
             "message"=> "La cantidad es obligatoria y debe ser un numero y mayor a 0",
@@ -586,16 +782,17 @@ class comprobanteCest
         $I->seeResponseCodeIs(400);
     }
     
-    public function registrarProductoFaltanteConFechaErronea(ApiTester $I)
+    public function registrarProductoPendienteConFechaErronea(ApiTester $I)
     {
         
-        $I->wantTo('registrar productos faltante con fecha erronea');
+        $I->wantTo('registrar productos pendiente con fecha erronea');
         $param = [
             "cantidad"=>20,
             "productoid"=>3,
-            "fecha_vencimiento"=>"2asd"
+            "fecha_vencimiento"=>"2asd",
+            "falta"=>"true"
         ];
-        $I->sendPUT('/comprobantes/registrar-producto-faltante/1',$param);
+        $I->sendPUT('/comprobantes/registrar-producto-pendiente/1',$param);
         $I->seeResponseContainsJson([
             "name"=> "Bad Request",
             "message"=> "La fecha es obligatoria y debe tener el formato aaaa-mm-dd",

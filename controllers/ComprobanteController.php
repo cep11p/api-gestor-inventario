@@ -81,42 +81,6 @@ class ComprobanteController extends ActiveController{
     }
     
     /**
-     * Se realiaza una actualizacion en el listado de productos de un comprobante. 
-     * En este case se registran los productos ausentes modificando los productos que ingresaron
-     * @param int $id
-     * @return array
-     * @throws Exception
-     * @throws \yii\web\HttpException
-     */
-    public function actionRegistrarProductoFaltante($id) {
-        $param = \Yii::$app->request->post();
-        $model = Comprobante::findOne(['id'=>$id]);
-
-        if($model==null){
-            throw new Exception(json_encode('El comprobante no existe'));
-        }        
-        
-        $transaction = Yii::$app->db->beginTransaction();
-        try {            
-            $model->registrarProductoFaltante($param);
-
-            $transaction->commit();
-            
-            $resultado['message']='Se modifica el comprobante';
-            $resultado['comprobanteid']=$model->id;
-            
-            return  $resultado;
-           
-        }catch (Exception $exc) {
-            $transaction->rollBack();
-            $mensaje =$exc->getMessage();
-            throw new \yii\web\HttpException(400, $mensaje);
-        }
-        
-        return $resultado;
-    }    
-    
-    /**
      * Se registran productos pendientes de entrega. Se modifican los productos en falta = 1 a falta = 0
      * @param int $id
      * @return array

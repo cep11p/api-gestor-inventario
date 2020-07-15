@@ -55,50 +55,16 @@ class Comprobante extends BaseComprobante
     }
     
     /**
-     * Se registran los productos que faltaron, realizando una modificacion sobre los productos que ingresaron. 
-     * Se modifican los productos falta=0 a falta=1
-     * @param array $param
-     * @throws Exception
-     */    
-    public function registrarProductoFaltante($param) {
-        
-        if(!isset($param['fecha_vencimiento']) || !\app\components\Help::validateDate($param['fecha_vencimiento'], 'Y-m-d')){
-            throw new Exception('La fecha es obligatoria y debe tener el formato aaaa-mm-dd');
-        }
-
-        if(!isset($param['cantidad']) || !is_numeric($param['cantidad']) || intval($param['cantidad'])<=0){
-            throw new Exception('La cantidad es obligatoria y debe ser un numero y mayor a 0');
-        }        
-        
-        $condicion = [
-            'comprobanteid'=> $this->id,
-            'productoid'=>$param['productoid'],
-            'fecha_vencimiento'=>$param['fecha_vencimiento'],
-            'falta'=>0,
-            'egresoid'=>null
-        ];
-        $producto_encontroado_lista = Inventario::find()->where($condicion)->asArray()->all();
-        
-        //Verificamos la cantidad de productos disponibles a modificar
-        if(isset($param['cantidad']) && count($producto_encontroado_lista)<$param['cantidad']){
-            throw new Exception('La cantidad a modificar es mayor a la cantidad del producto que existe en el inventario ('. count($producto_encontroado_lista).')');
-        }  
-        
-
-        for($i = 0; $i < $param['cantidad']; $i++ ){
-            $condition[] = $producto_encontroado_lista[$i]['id'];
-        }                    
-        
-        $resultado = Inventario::updateAll(['falta'=>1,'fecha_vencimiento'=>null], ['id'=>$condition]);        
-    }
-    
-    /**
      * Se hace una modificacion sobre los productos que faltaban entregar. La modificacion se basa en cambiar falta = 1 (true) a falta = 0 (falso)
      * @param array $param
      * @throws Exception
      */
     public function registrarProductoPendiente($param) {
         
+        if(!isset($param['falta'])){
+            throw new Exception('El atributo falta es obligatorio');
+        }
+        
         if(!isset($param['fecha_vencimiento']) || !\app\components\Help::validateDate($param['fecha_vencimiento'], 'Y-m-d')){
             throw new Exception('La fecha es obligatoria y debe tener el formato aaaa-mm-dd');
         }
@@ -107,25 +73,45 @@ class Comprobante extends BaseComprobante
             throw new Exception('La cantidad es obligatoria y debe ser un numero y mayor a 0');
         }        
         
-        $condicion = [
+        $falta = \app\components\Help::setBoolean($param['falta']);
+        $encontrarListaCondicion = array(
             'comprobanteid'=> $this->id,
             'productoid'=>$param['productoid'],
             'falta'=>1,
             'egresoid'=>null
-        ];
-        $producto_encontroado_lista = Inventario::find()->where($condicion)->asArray()->all();
+        );
+        $modificarListaCondicion = ['falta'=>0,'fecha_vencimiento'=>$param['fecha_vencimiento']];
         
+        //chequeamos si la falta es verdadero, entonces modificaremos los productos con falta en falso
+        if($falta){
+            $encontrarListaCondicion['falta']=0;
+            $encontrarListaCondicion['fecha_vencimiento']=$param['fecha_vencimiento'];
+            $modificarListaCondicion = ['falta'=>1,'fecha_vencimiento'=>null];
+        }
+        $producto_encontroado_lista = Inventario::find()->where($encontrarListaCondicion)->asArray()->all();
+        $ids = $this->getProductoEncontradoIds($producto_encontroado_lista, $param['cantidad']);
+                           
+        $resultado = Inventario::updateAll($modificarListaCondicion, ['id'=>$ids]);        
+    }
+    
+    /**
+     * Obtenemos los ids de los productos a modificar
+     * @param array $producto_encontroado_lista
+     * @param int $cantidad este atributo nos ayuda a validar la cantidad disponible a modificar
+     * @return array
+     * @throws Exception
+     */
+    private function getProductoEncontradoIds($producto_encontroado_lista, $cantidad) {
         //Verificamos la cantidad de productos disponibles a modificar
-        if(isset($param['cantidad']) && count($producto_encontroado_lista)<$param['cantidad']){
+        if(isset($cantidad) && count($producto_encontroado_lista)<$cantidad){
             throw new Exception('La cantidad a modificar es mayor a la cantidad de productos existentes en el inventario ('. count($producto_encontroado_lista).')');
         }  
-        
 
-        for($i = 0; $i < $param['cantidad']; $i++ ){
-            $condition[] = $producto_encontroado_lista[$i]['id'];
-        }                    
+        for($i = 0; $i < $cantidad; $i++ ){
+            $ids[] = $producto_encontroado_lista[$i]['id'];
+        } 
         
-        $resultado = Inventario::updateAll(['falta'=>0,'fecha_vencimiento'=>$param['fecha_vencimiento']], ['id'=>$condition]);        
+        return $ids;
     }
     
     public function fields()
