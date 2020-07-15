@@ -16,7 +16,9 @@ use Yii;
  * @property integer $destino_localidadid
  * @property string $descripcion
  * @property string $nro_acta
+ * @property integer $tipo_egresoid
  *
+ * @property \app\models\TipoEgreso $tipoEgreso
  * @property \app\models\Inventario[] $inventarios
  * @property string $aliasModel
  */
@@ -40,12 +42,13 @@ abstract class Egreso extends \yii\db\ActiveRecord
     {
         return [
             [['id', 'fecha', 'destino_nombre', 'destino_localidadid'], 'required'],
-            [['id', 'destino_localidadid'], 'integer'],
+            [['id', 'destino_localidadid', 'tipo_egresoid'], 'integer'],
             [['fecha'], 'safe'],
             [['descripcion'], 'string'],
             [['origen', 'destino_nombre'], 'string', 'max' => 100],
             [['nro_acta'], 'string', 'max' => 20],
-            [['id'], 'unique']
+            [['id'], 'unique'],
+            [['tipo_egresoid'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TipoEgreso::className(), 'targetAttribute' => ['tipo_egresoid' => 'id']]
         ];
     }
 
@@ -62,7 +65,16 @@ abstract class Egreso extends \yii\db\ActiveRecord
             'destino_localidadid' => 'Destino Localidadid',
             'descripcion' => 'Descripcion',
             'nro_acta' => 'Nro Acta',
+            'tipo_egresoid' => 'Tipo Egresoid',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTipoEgreso()
+    {
+        return $this->hasOne(\app\models\TipoEgreso::className(), ['id' => 'tipo_egresoid']);
     }
 
     /**
