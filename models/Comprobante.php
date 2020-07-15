@@ -92,6 +92,11 @@ class Comprobante extends BaseComprobante
         $resultado = Inventario::updateAll(['falta'=>1,'fecha_vencimiento'=>null], ['id'=>$condition]);        
     }
     
+    /**
+     * Se hace una modificacion sobre los productos que faltaban entregar. La modificacion se basa en cambiar falta = 1 (true) a falta = 0 (falso)
+     * @param array $param
+     * @throws Exception
+     */
     public function registrarProductoPendiente($param) {
         
         if(!isset($param['fecha_vencimiento']) || !\app\components\Help::validateDate($param['fecha_vencimiento'], 'Y-m-d')){
