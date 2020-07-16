@@ -70,22 +70,6 @@
 * @param arrayJson
 **/
 
-/**** Para registrar los productos faltantantes de un comprobante*****
-* @url http://api.gestor-inventario.local/comprobantes/registrar-producto-faltante/{$id} 
-* @method PUT
-* @param arrayJson
-    {
-	"cantidad":26,
-	"productoid":3,
-	"fecha_vencimiento":"2019-03-20",
-	"falta":true
-    }
- * @return 
-    {
-        "message": "Se modifica el comprobante",
-        "comprobanteid": 1
-    }
-**/
 
 /**** Para registrar las modificaciones que hay sobre un producto en un comprobante*****
 * Hay aveces que le proveedor no entrega todos los productos que dice en el comprobantes..
