@@ -265,7 +265,11 @@ class InventarioSearch extends Inventario
         return $coleccion;
     }
     
-    
+    /**
+     * Se arma un listado de los productos que egresaron, agrupando por productoid
+     * @param array $params
+     * @return ActiveDataProvider
+     */
     public function getListaProductoPorEgresoId($params)
     {
         $query = Inventario::find();
@@ -293,7 +297,7 @@ class InventarioSearch extends Inventario
             'egresoid' => $this->egresoid
         ]);
         
-        $query->groupBy(['fecha_vencimiento','productoid']);
+        $query->groupBy(['productoid']);
         
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {

@@ -22,6 +22,10 @@ class Egreso extends BaseEgreso
         );
     }
     
+    /**
+     * Se obtienen lista de producto de un egreso
+     * @return array
+     */
     public function getListaProducto() {
         $inventarioSearch = new InventarioSearch();
         $lista_producto = $inventarioSearch->getListaProductoPorEgresoId(['egresoid'=>$this->id]);
@@ -36,5 +40,18 @@ class Egreso extends BaseEgreso
                 # custom validation rules
             ]
         );
+    }
+    
+    public function fields()
+    {
+        return ArrayHelper::merge(parent::fields(), [
+            'tipo_egreso'=> function($model){
+                return $model->tipoEgreso->nombre;
+            },
+            'producto_cant_total'=> function($model){
+                return count($model->listaProducto);
+            }
+        ]);
+        
     }
 }
