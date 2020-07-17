@@ -17,6 +17,7 @@ use Yii;
  * @property string $descripcion
  * @property string $nro_acta
  * @property integer $tipo_egresoid
+ * @property string $fecha_inicial
  *
  * @property \app\models\TipoEgreso $tipoEgreso
  * @property \app\models\Inventario[] $inventarios
@@ -41,9 +42,9 @@ abstract class Egreso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'fecha', 'destino_nombre', 'destino_localidadid'], 'required'],
+            [['id', 'fecha', 'destino_nombre', 'destino_localidadid', 'fecha_inicial'], 'required'],
             [['id', 'destino_localidadid', 'tipo_egresoid'], 'integer'],
-            [['fecha'], 'safe'],
+            [['fecha', 'fecha_inicial'], 'safe'],
             [['descripcion'], 'string'],
             [['origen', 'destino_nombre'], 'string', 'max' => 100],
             [['nro_acta'], 'string', 'max' => 20],
@@ -66,6 +67,7 @@ abstract class Egreso extends \yii\db\ActiveRecord
             'descripcion' => 'Descripcion',
             'nro_acta' => 'Nro Acta',
             'tipo_egresoid' => 'Tipo Egresoid',
+            'fecha_inicial' => 'Fecha Inicial',
         ];
     }
 
