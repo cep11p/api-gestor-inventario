@@ -50,7 +50,7 @@ class EgresoController extends ActiveController{
     public function actions()
     {
         $actions = parent::actions();
-//        unset($actions['create']);
+        unset($actions['create']);
 //        unset($actions['update']);
         unset($actions['view']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
@@ -78,5 +78,33 @@ class EgresoController extends ActiveController{
         $resultado['lista_producto'] = $model->getListaProducto();
         
         return $resultado;
+    }
+    
+    public function actionCreate() {
+        $param = Yii::$app->request->post();
+        $model = new Egreso();
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            
+            $model->setAttributesCustom($param);
+            
+            if(!$model->save()){
+                throw new Exception(json_encode($model->errors));
+            }
+            
+            $model->setListaProducto($param);
+
+            $transaction->commit();
+            
+            $resultado['message']='Se registra el egreso';
+            $resultado['id']=$model->id;
+            
+            return  $resultado;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
     }
 }

@@ -9,7 +9,6 @@ use Yii;
 /**
  * This is the base-model class for table "egreso".
  *
- * @property integer $id
  * @property string $fecha
  * @property string $origen
  * @property string $destino_nombre
@@ -18,6 +17,7 @@ use Yii;
  * @property string $nro_acta
  * @property integer $tipo_egresoid
  * @property string $fecha_inicial
+ * @property integer $id
  *
  * @property \app\models\TipoEgreso $tipoEgreso
  * @property \app\models\Inventario[] $inventarios
@@ -42,13 +42,12 @@ abstract class Egreso extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'fecha', 'destino_nombre', 'destino_localidadid', 'fecha_inicial'], 'required'],
-            [['id', 'destino_localidadid', 'tipo_egresoid'], 'integer'],
+            [['fecha', 'destino_nombre', 'destino_localidadid', 'fecha_inicial'], 'required'],
             [['fecha', 'fecha_inicial'], 'safe'],
+            [['destino_localidadid', 'tipo_egresoid'], 'integer'],
             [['descripcion'], 'string'],
             [['origen', 'destino_nombre'], 'string', 'max' => 100],
             [['nro_acta'], 'string', 'max' => 20],
-            [['id'], 'unique'],
             [['tipo_egresoid'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TipoEgreso::className(), 'targetAttribute' => ['tipo_egresoid' => 'id']]
         ];
     }
@@ -59,7 +58,6 @@ abstract class Egreso extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
             'fecha' => 'Fecha',
             'origen' => 'Origen',
             'destino_nombre' => 'Destino Nombre',
@@ -68,6 +66,7 @@ abstract class Egreso extends \yii\db\ActiveRecord
             'nro_acta' => 'Nro Acta',
             'tipo_egresoid' => 'Tipo Egresoid',
             'fecha_inicial' => 'Fecha Inicial',
+            'id' => 'ID',
         ];
     }
 

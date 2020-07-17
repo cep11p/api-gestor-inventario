@@ -42,9 +42,30 @@
 */
 
 /*****Para crear****
-* @url http://api.gestor-inventario.local/egresos 
-* @method POST
-* @param arrayJson
+ * Creamos un egreso con su lista de productos a egresar
+ * @url http://api.gestor-inventario.local/egresos 
+ * @method POST
+ * @param arrayJson
+{
+    "fecha":"2020-03-03",
+    "origen":"Origen 1",
+    "destino_nombre":"Destino 1",
+    "destino_localidadid":2626,
+    "nro_acta":"456-123",
+    "tipo_egresoid":1,
+    "descripcion":"Esto es una descripcion de egreso",
+    "lista_producto":[
+            {
+                    "id":27
+            },
+            {
+                    "id":28
+            },
+            {
+                    "id":24
+            }	
+    ]
+}
 **/
 
 /**** Para modificar*****

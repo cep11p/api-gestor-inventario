@@ -317,6 +317,53 @@ class InventarioSearch extends Inventario
         return $coleccion;
     }
     
+    public function setEgresoid($params)
+    {
+        $query = Inventario::find();
+        
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query
+        ]);
+
+        $this->load($params,'');
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to any records when validation fails
+             $query->where('0=1');
+            return $dataProvider;
+        }
+    
+        $query->select([
+            'inventario.*',
+            'cantidad'=>'count(productoid)']);
+        
+        $query->andFilterWhere([
+            'id' => $this->id,
+            'comprobanteid' => $this->comprobanteid,
+            'depositoid' => $this->depositoid,
+            'egresoid' => $this->egresoid
+        ]);
+        
+        $query->groupBy(['productoid']);
+        
+        $coleccion = array();
+        foreach ($dataProvider->getModels() as $value) {
+            $item = $value->toArray();
+            $item['cantidad'] = $value->cantidad;
+            $item['precio_total'] = $value->cantidad * $value->precio_unitario;
+            
+            $producto = (isset($value->producto)?$value->producto->toArray():['producto'=>[]]);
+            
+            unset($producto['id']);
+            unset($item['id']);
+            
+            $item = \yii\helpers\ArrayHelper::merge($item, $producto);
+            $coleccion[] = $item;
+        }
+                
+        return $coleccion;
+    }
+    
     /**
      * 
      * @param type $params
