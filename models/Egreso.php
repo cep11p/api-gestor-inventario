@@ -44,8 +44,8 @@ class Egreso extends BaseEgreso
      * @throws Exception
      */
     public function setListaProducto($param) {        
-        if(count($param['lista_producto'])<1){
-            throw new Exception('Lista de producto está vacia.');
+        if(!isset($param['lista_producto']) || count($param['lista_producto'])<1){
+            throw new Exception('Lista de producto vacia.');
         }
         
         $ids = array();
@@ -56,13 +56,19 @@ class Egreso extends BaseEgreso
             $ids[] = $value['id']; 
         }
         
-        $cant_producto = Inventario::find()->where(['in', 'id', $ids])->andWhere(['not',['egresoid'=>null]])->count();
-        
-        if($cant_producto!=0){
-            throw new Exception('Los productos ya fueron egresados');
+        //Chequeamos si algunos de los productos a egresar estan en falta(falta de entrega por parte del proveedor)
+        $cant_producto = Inventario::find()->where(['in', 'id', $ids])->andWhere(['egresoid'=>null,'falta'=>1])->count();
+        if($cant_producto>0){
+            throw new Exception('Unos de los productos falta ser entregado por el proveedor');
         }
         
-        $resultado = Inventario::updateAll(['egresoid' => $this->id], ['id'=>$ids]);   
+        //Chequeamos si es posible egresar todos los productos de la lista
+        $cant_egresados = Inventario::find()->where(['in', 'id', $ids])->andWhere(['egresoid'=>null])->count();
+        if($cant_egresados <> count($param['lista_producto'])){
+            throw new Exception('Algunos de los productos ya fueron egresados');
+        }
+        
+        $resultado = Inventario::updateAll(['egresoid' => $this->id], ['id'=>$ids]);
 
         return $resultado;
     }
