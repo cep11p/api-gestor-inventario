@@ -6,36 +6,51 @@
 * @method GET
 * @arrayReturn
     {
-        "pagesize": 20,
-        "pages": 1,
-        "total_filtrado": 3,
+    "pagesize": 20,
+    "pages": 1,
+    "total_filtrado": 3,
         "resultado": [
             {
-                "id": 1,
                 "fecha": "2019-03-03",
-                "origen": "un origen",
-                "destino_nombre": "Un destino",
+                "origen": "origen1",
+                "destino_nombre": "destino1",
                 "destino_localidadid": 2626,
-                "descripcion": "Esto es un egreso1 creado con fixture",
-                "nro_acta": "0001"
+                "destino_localidad": Localidad1,
+                "descripcion": "Esto es un egreso1 creado con fixture1",
+                "nro_acta": "0001",
+                "tipo_egresoid": 1,
+                "fecha_inicial": "2019-02-10",
+                "id": 1,
+                "tipo_egreso": "Modulo",
+                "producto_cant_total": 3
             },
             {
-                "id": 2,
                 "fecha": "2019-04-04",
-                "origen": "un origen",
-                "destino_nombre": "Un destino",
+                "origen": "origen2",
+                "destino_nombre": "destino2",
                 "destino_localidadid": 2626,
-                "descripcion": "Esto es un egreso2 creado con fixture",
-                "nro_acta": "0002"
+                "destino_localidad": Localidad1,
+                "descripcion": "Esto es un egreso2 creado con fixture2",
+                "nro_acta": "0002",
+                "tipo_egresoid": 1,
+                "fecha_inicial": "2019-03-11",
+                "id": 2,
+                "tipo_egreso": "Modulo",
+                "producto_cant_total": 2
             },
             {
-                "id": 3,
                 "fecha": "2019-05-05",
-                "origen": "un origen",
-                "destino_nombre": "Un destino",
+                "origen": "origen3",
+                "destino_nombre": "destino3",
                 "destino_localidadid": 2626,
-                "descripcion": "Esto es un egreso3 creado con fixture",
-                "nro_acta": "0003"
+                "destino_localidad": Localidad1,
+                "descripcion": "Esto es un egreso3 creado con fixture3",
+                "nro_acta": "0003",
+                "tipo_egresoid": 2,
+                "fecha_inicial": "2020-04-12",
+                "id": 3,
+                "tipo_egreso": "Bulto",
+                "producto_cant_total": 1
             }
         ]
     }
