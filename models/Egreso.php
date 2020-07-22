@@ -27,6 +27,19 @@ class Egreso extends BaseEgreso
         $this->fecha_inicial = date('Y-m-d');
     }
     
+    public function getLocalidad() {
+        
+        $resultado = null;
+
+        $response = \Yii::$app->lugar->buscarLocalidadPorId($this->destino_localidadid);   
+        /** Chequeamos si existe el nombre de la localidad **/
+        if(isset($response['nombre']) && !empty($response['nombre'])){
+            $resultado = $response['nombre'];
+        }
+        
+        return $resultado;
+    }
+    
     /**
      * Se obtienen lista de producto de un egreso
      * @return array

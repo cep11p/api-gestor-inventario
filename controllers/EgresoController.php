@@ -75,6 +75,7 @@ class EgresoController extends ActiveController{
         }
         
         $resultado = $model->toArray();
+        $resultado['destino_localidad'] = $model->getLocalidad();
         $resultado['lista_producto'] = $model->getListaProducto();
         
         return $resultado;
