@@ -33,6 +33,13 @@ $config = [
             ],
             
         ],
+        
+        /************** Componente interoperable *************/
+        'lugar'=> [
+            'class' => $params['servicioLugar'],//'app\components\ServicioLugar'
+        ],
+        /************* Fin Componente interoperable *************/
+        
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -116,6 +123,11 @@ $config = [
                         'OPTIONS login' => 'options'
                         //'GET mostrar/{id}' => 'mostrar',
                     ],          
+                ],
+                ##### Interoperabilidad con Lugar#####
+                [   #Localidad
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'localidad', 
                 ],
             ]
         ],

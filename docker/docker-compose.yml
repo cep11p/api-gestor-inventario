@@ -24,6 +24,30 @@ services:
      MYSQL_ROOT_PASSWORD: root
     ports:
      - 3306:3306
+
+##### LUGAR
+
+  lugar:
+    image: php_yii_ds
+    volumes:
+      - /app/desarrollo-social/lugar/backend-lugar:/var/www/html
+    environment:
+      DB_HOST: 'lugar_db'
+      DB_NAME: 'lugar'
+    labels:
+     - "traefik.backend=lugar"
+     - "traefik.frontend.rule=Host:lugar.local"
+     - "traefik.port=80"
+
+  lugar_db:
+    image: mariadb:10.4
+    ports:
+     - 3309:3306
+    environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_ROOT_HOST: '%'
+    volumes:
+     - /app/desarrollo-social/lugar/dbdata:/var/lib/mysql
     
 
 ##### PROXY
