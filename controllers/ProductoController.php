@@ -66,5 +66,38 @@ class ProductoController extends ActiveController{
         return $resultado;
     }
     
+    /**
+     * Seteamos el atributo "activo"
+     * @param int $id
+     * @return int $id
+     * @throws Exception
+     * @throws \yii\web\HttpException
+     */
+    public function actionSetActivo($id) {
+        $param = \Yii::$app->request->post();
+        $model = Producto::findOne(['id'=>$id]);
+
+        if($model==null){
+            throw new Exception(json_encode('El producto no existe'));
+        }        
         
+        $transaction = Yii::$app->db->beginTransaction();
+        try {            
+            $model->setActivo($param);
+
+            $transaction->commit();
+            
+            $resultado['message']='Se modifica el producto';
+            $resultado['id']=$model->id;
+            
+            return  $resultado;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
+        
+        return $resultado;
+    }
 }

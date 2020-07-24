@@ -16,9 +16,9 @@ use Yii;
  * @property integer $unidad_medidaid
  * @property integer $marcaid
  * @property integer $categoriaid
+ * @property integer $activo
  *
  * @property \app\models\Inventario[] $inventarios
- * @property \app\models\Comprobante[] $comprobantes
  * @property \app\models\Categoria $categoria
  * @property \app\models\Marca $marca
  * @property \app\models\UnidadMedida $unidadMedida
@@ -44,7 +44,7 @@ abstract class Producto extends \yii\db\ActiveRecord
     {
         return [
             [['nombre', 'unidad_medidaid', 'marcaid', 'categoriaid'], 'required'],
-            [['unidad_medidaid', 'marcaid', 'categoriaid'], 'integer'],
+            [['unidad_medidaid', 'marcaid', 'categoriaid', 'activo'], 'integer'],
             [['nombre'], 'string', 'max' => 200],
             [['codigo'], 'string', 'max' => 45],
             [['unidad_valor'], 'string', 'max' => 4],
@@ -68,6 +68,7 @@ abstract class Producto extends \yii\db\ActiveRecord
             'unidad_medidaid' => 'Unidad Medidaid',
             'marcaid' => 'Marcaid',
             'categoriaid' => 'Categoriaid',
+            'activo' => 'Activo',
         ];
     }
 
@@ -77,14 +78,6 @@ abstract class Producto extends \yii\db\ActiveRecord
     public function getInventarios()
     {
         return $this->hasMany(\app\models\Inventario::className(), ['productoid' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getComprobantes()
-    {
-        return $this->hasMany(\app\models\Comprobante::className(), ['id' => 'comprobanteid'])->viaTable('inventario', ['productoid' => 'id']);
     }
 
     /**

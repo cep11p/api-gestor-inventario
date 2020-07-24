@@ -87,8 +87,11 @@
     }
 */
 
-/****** Para borrar una localidad *****
-* @url http://api.gestor-inventario.local/productos/{$id} 
-* @method Delete
+/****** Para borrar producto logicamente *****
+* @url http://api.gestor-inventario.local/productos/set-activo/{$id} 
+* @method PUT
 * @return arrayJson
+ * {
+	"activo": false
+    }
 */

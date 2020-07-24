@@ -5,6 +5,7 @@ namespace app\models;
 use Yii;
 use \app\models\base\Producto as BaseProducto;
 use yii\helpers\ArrayHelper;
+use yii\base\Exception;
 
 /**
  * This is the model class for table "producto".
@@ -30,6 +31,27 @@ class Producto extends BaseProducto
                 # custom validation rules
             ]
         );
+    }
+    
+    /**
+     * Seteamos el atributo activo de un producto
+     * @param array $param
+     * @return boolean
+     * @throws Exception
+     */
+    public function setActivo($param) {
+        $activo = false;
+        if(isset($param['activo'])){
+            $activo = \app\components\Help::setBoolean($param['activo']);        
+        }
+        
+        $this->activo = \app\components\Help::booleanToInt($activo);
+        
+        if(!$this->save()){
+            throw new Exception(json_encode($this->getErrors()));
+        }
+        
+        return true;
     }
     
     public function fields()

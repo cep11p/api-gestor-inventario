@@ -104,7 +104,11 @@ $config = [
                 ],
                 [   
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'producto'
+                    'controller' => 'producto',
+                    'extraPatterns' => [
+                        'PUT set-activo/{id}' => 'set-activo',
+                        'OPTIONS set-activo/{id}' => 'set-activo',
+                    ],
                 ],
                 [   
                     'class' => 'yii\rest\UrlRule',
