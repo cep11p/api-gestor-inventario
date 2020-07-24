@@ -47,13 +47,24 @@ class MarcaController extends ActiveController{
         return $behaviors;
     }
     
+    
     public function actions()
     {
         $actions = parent::actions();
 //        unset($actions['create']);
 //        unset($actions['update']);
 //        unset($actions['delete']);
+        $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
         return $actions;
+    }
+    
+    public function prepareDataProvider() 
+    {
+        $searchModel = new \app\models\MarcaSearch();
+        $params = \Yii::$app->request->queryParams;
+        $resultado = $searchModel->search($params);
+
+        return $resultado;
     }
     
         

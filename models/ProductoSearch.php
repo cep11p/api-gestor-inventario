@@ -42,14 +42,10 @@ class ProductoSearch extends Producto
     public function search($params)
     {
         $query = Producto::find();
-        $pagesize = (!isset($params['pagesize']) || !is_numeric($params['pagesize']) || $params['pagesize']==0)?20:intval($params['pagesize']);
         
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSize' => $pagesize,
-                'page' => (isset($params['page']) && is_numeric($params['page']))?$params['page']:0
-            ],
+            'pagination' => false,
             'sort' => [
                 'defaultOrder' => [
                     'nombre' => SORT_ASC,
@@ -81,11 +77,7 @@ class ProductoSearch extends Producto
             $coleccion[] = $value->toArray();
         }
         
-        $paginas = ceil($dataProvider->totalCount/$pagesize);           
-        $data['pagesize']=$pagesize;            
-        $data['pages']=$paginas;            
-        $data['total_filtrado']=$dataProvider->totalCount;
-        $data['resultado']=$coleccion;
+        $data=$coleccion;
         
         return $data;
     }
