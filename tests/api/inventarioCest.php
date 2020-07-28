@@ -768,18 +768,18 @@ class inventarioCest
             'inventario' => app\tests\fixtures\InventarioFixture::className(),
             'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
         ]);
-        $I->wantTo('Se registrar defectuoso');
+        $I->wantTo('Se revierte un defectuoso');
         
         $param = [
-            "fecha_vencimiento"=>"2119-04-03",
-            "productoid"=>8,
+            "fecha_vencimiento"=>"2120-03-30",
+            "productoid"=>6,
             "cantidad" => 2,
-            'defectuoso' => 1
+            'defectuoso' => 0
         ];
         
         $I->sendPOST('/inventarios/set-defectuoso', $param);
         $I->seeResponseContainsJson([
-            'message' => 'Se registra el/lasdasdos'
+            'message' => 'Se registra el/los productos defectuosos'
         ]);   
         $I->seeResponseCodeIs(200);
     }
