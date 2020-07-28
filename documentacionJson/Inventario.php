@@ -98,8 +98,15 @@
 * @return arrayJson
 */
 
-/****** Para borrar una localidad *****
-* @url http://api.gestor-inventario.local/inventarios/{$id} 
-* @method Delete
-* @return arrayJson
+/****** Para setear un producto defectuoso o viceversa*****
+ * Se necesita el productoid y la fecha exacta para agrupar y cuantificar la cantidad exacta a setear como defectuoso o viceversa. Es funcion asigna y desasigna defectuosos
+* @url http://api.gestor-inventario.local/inventarios/set-defectuoso 
+* @method POST
+* @return arrayJsonç
+{
+    "fecha_vencimiento":"2119-04-03",
+    "productoid":8,
+    "cantidad":3,
+    "defectuoso":0
+}
 */

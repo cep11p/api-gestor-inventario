@@ -88,4 +88,26 @@ class InventarioController extends ActiveController{
             throw new \yii\web\HttpException(400, $mensaje);
         }
     }
+    
+     public function actionSetDefectuoso() {
+        $param = \Yii::$app->request->post();
+        $model = new Inventario();
+        $transaction = Yii::$app->db->beginTransaction();
+        try {            
+            $model->setItemDefectuoso($param);
+
+            $transaction->commit();
+            
+            $resultado['message']='Se registra el/los productos defectuosos';
+            
+            return  $resultado;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
+        
+        return $resultado;
+    }  
 }

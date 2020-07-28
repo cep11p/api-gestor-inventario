@@ -65,6 +65,75 @@ class Inventario extends BaseInventario
         return $comprobante->id;
     }
     
+    /**
+     * Vamos a setear los item que resultaron defectuosos
+     * @param array $param
+     * @return type
+     * @throws Exception
+     */
+    public function setItemDefectuoso($param) {
+        
+        if(!isset($param['productoid']) || empty($param['productoid'])){
+            throw new Exception('Se requiere el atributo productoid');
+        }
+        
+        if(!isset($param['fecha_vencimiento']) || !\app\components\Help::validateDate($param['fecha_vencimiento'], 'Y-m-d')){
+            throw new Exception('La fecha es obligatoria y debe tener el formato aaaa-mm-dd');
+        }
+
+        if(!isset($param['cantidad']) || !is_numeric($param['cantidad']) || intval($param['cantidad'])<=0){
+            throw new Exception('La cantidad debe ser un numero mayor a 0');
+        }
+        
+        if(!isset($param['defectuoso'])){
+            throw new Exception('El atributo defectuoso es obligatorio');
+        }
+        
+        $defectuoso = \app\components\Help::setBoolean($param['defectuoso']);
+
+        $condicion['egresoid'] = null;
+        $condicion['defectuoso'] = 0;
+        $condicion['falta'] = 0;
+        $condicion['productoid'] = $param['productoid'];
+        $condicion['fecha_vencimiento'] = $param['fecha_vencimiento'];
+        
+        $newValues = ['defectuoso'=>1,'fecha_vencimiento'=>$param['fecha_vencimiento']];
+        
+        // Cambiamos las condiciones y los valores si defectuoso es falso
+        if($param['defectuoso'] == false){
+            $condicion['defectuoso'] = 1;
+            $newValues['defectuoso'] = 0;
+        }
+        
+        $ids = $this->buscarItem($condicion);
+
+        if(count($ids)<1){
+            throw new Exception('No se encontraron productos para modificar');
+        } 
+        if(isset($cantidad) && count($ids)<$cantidad){
+            throw new Exception('La cantidad a modificar es mayor a la cantidad de productos existentes en el inventario ('. count($producto_encontroado_lista).')');
+        } 
+        
+        $resultado = Inventario::updateAll($newValues, ['id'=>$ids]);
+        return $resultado;
+    }
+    
+    /**
+     * Obtenemos los ids de los productos
+     * @param array $producto_encontroado_lista
+     * @return array
+     */
+    private function buscarItem($condicion) {
+        $ids = array();
+        $itemsEncontrados = Inventario::find()->where($condicion)->asArray()->all();         
+
+        foreach ($itemsEncontrados as $value) {
+            $ids[] = $value['id'];
+        }
+        
+        return $ids;
+    }
+    
     private function agregarProductoAlStock($comprobanteid, $param) {
         
         if(!isset($param['lista_producto']) || count($param['lista_producto'])<=0){

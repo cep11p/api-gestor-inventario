@@ -96,7 +96,11 @@ $config = [
                 ],
                 [   
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'inventario'
+                    'controller' => 'inventario',
+                    'extraPatterns' => [
+                        'POST set-defectuoso' => 'set-defectuoso',
+                        'OPTIONS set-defectuoso' => 'set-defectuoso'
+                    ], 
                 ],
                 [   
                     'class' => 'yii\rest\UrlRule',

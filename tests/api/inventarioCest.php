@@ -640,4 +640,147 @@ class inventarioCest
         ]);   
         $I->seeResponseCodeIs(200);
     }
+    
+    public function setearDefectuosoSinProductoid(ApiTester $I) {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+        ]);
+        $I->wantTo('Se registrar defectuoso sin productoid');
+        
+        $param = [
+            "fecha_vencimiento"=>"2119-04-03",
+            "cantidad"=>3,
+            "defectuoso"=>1
+        ];
+        
+        $I->sendPOST('/inventarios/set-defectuoso', $param);
+        $I->seeResponseContainsJson([
+            'message' => 'Se requiere el atributo productoid'
+        ]);   
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function setearDefectuosoSinFechaVencimiento(ApiTester $I) {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+        ]);
+        $I->wantTo('Se registrar defectuoso sin fecha vencimiento');
+        
+        $param = [
+            "productoid"=>8,
+            "cantidad"=>3,
+            "defectuoso"=>1
+        ];
+        
+        $I->sendPOST('/inventarios/set-defectuoso', $param);
+        $I->seeResponseContainsJson([
+            'message' => 'La fecha es obligatoria y debe tener el formato aaaa-mm-dd'
+        ]);   
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function setearDefectuosoSinCantidad(ApiTester $I) {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+        ]);
+        $I->wantTo('Se registrar defectuoso sin cantidad');
+        
+        $param = [
+            "fecha_vencimiento"=>"2119-04-03",
+            "productoid"=>8,
+            "defectuoso"=>1
+        ];
+        
+        $I->sendPOST('/inventarios/set-defectuoso', $param);
+        $I->seeResponseContainsJson([
+            'message' => 'La cantidad debe ser un numero mayor a 0'
+        ]);   
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function setearDefectuosoConCantidadErronea(ApiTester $I) {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+        ]);
+        $I->wantTo('Se registrar defectuoso con cantidad erronea');
+        
+        $param = [
+            "fecha_vencimiento"=>"2119-04-03",
+            "productoid"=>8,
+            "defectuoso"=>1,
+            "cantidad" => 'cero',
+        ];
+        
+        $I->sendPOST('/inventarios/set-defectuoso', $param);
+        $I->seeResponseContainsJson([
+            'message' => 'La cantidad debe ser un numero mayor a 0'
+        ]);   
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function setearDefectuosoSinValorDefectuoso(ApiTester $I) {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+        ]);
+        $I->wantTo('Se registrar defectuoso sin valor defectuoso');
+        
+        $param = [
+            "fecha_vencimiento"=>"2119-04-03",
+            "productoid"=>8,
+            "cantidad" => 2,
+        ];
+        
+        $I->sendPOST('/inventarios/set-defectuoso', $param);
+        $I->seeResponseContainsJson([
+            'message' => 'El atributo defectuoso es obligatorio'
+        ]);   
+        $I->seeResponseCodeIs(400);
+    }
+    
+    public function setearDefectuoso(ApiTester $I) {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+        ]);
+        $I->wantTo('Se registrar defectuoso');
+        
+        $param = [
+            "fecha_vencimiento"=>"2119-04-03",
+            "productoid"=>8,
+            "cantidad" => 2,
+            'defectuoso' => 1
+        ];
+        
+        $I->sendPOST('/inventarios/set-defectuoso', $param);
+        $I->seeResponseContainsJson([
+            'message' => 'Se registra el/los productos defectuosos'
+        ]);   
+        $I->seeResponseCodeIs(200);
+    }
+    
+    public function revertirItemDefectuoso(ApiTester $I) {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+            'comprobante' => app\tests\fixtures\ComprobanteFixture::className(),
+        ]);
+        $I->wantTo('Se registrar defectuoso');
+        
+        $param = [
+            "fecha_vencimiento"=>"2119-04-03",
+            "productoid"=>8,
+            "cantidad" => 2,
+            'defectuoso' => 1
+        ];
+        
+        $I->sendPOST('/inventarios/set-defectuoso', $param);
+        $I->seeResponseContainsJson([
+            'message' => 'Se registra el/lasdasdos'
+        ]);   
+        $I->seeResponseCodeIs(200);
+    }
 }
