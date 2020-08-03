@@ -56,33 +56,77 @@ class Egreso extends BaseEgreso
      * @return int cantidad egresados
      * @throws Exception
      */
-    public function setListaProducto($param) {        
+    public function setListaProducto($param) {
+        $resultado=0;        
         if(!isset($param['lista_producto']) || count($param['lista_producto'])<1){
             throw new Exception('Lista de producto vacia.');
-        }
+        }        
         
         $ids = array();
         foreach ($param['lista_producto'] as $value) {
-            if(!isset($value['id'])){
-                throw new Exception('Falta id de la lista de productos');
+            
+            /*** Rules ***/
+            if(!isset($value['productoid']) || empty($value['productoid'])){
+                throw new Exception('En la lista de productos, algunos de ellos no tienen vinculado su id');
             }
-            $ids[] = $value['id']; 
+            
+            if(isset($value['fecha_vencimiento']) && !empty($value['fecha_vencimiento']) && !\app\components\Help::validateDate($value['fecha_vencimiento'], 'Y-m-d')){
+                throw new Exception('La fecha debe tener el formato aaaa-mm-dd');
+            }
+            
+            if(!isset($value['fecha_vencimiento']) || empty($value['fecha_vencimiento'])){
+                $value['fecha_vencimiento'] = null;
+            }
+            
+            //cantidad
+            if(!isset($value['cantidad']) || !is_numeric($value['cantidad']) || intval($value['cantidad'])<=0){
+                throw new Exception('La cantidad es obligatoria y debe ser un numero mayor a 0');
+            }
+            /*** Fin Rules ***/
+            
+            $condicion['productoid'] = $value['productoid'];
+            $condicion['fecha_vencimiento'] = $value['fecha_vencimiento'];
+            $cantidad = $value['cantidad']; 
+            
+            $resultado += $this->setEgreso($condicion, $cantidad);
+
         }
         
-        //Chequeamos si algunos de los productos a egresar estan en falta(falta de entrega por parte del proveedor)
-        $cant_producto = Inventario::find()->where(['in', 'id', $ids])->andWhere(['egresoid'=>null,'falta'=>1])->count();
-        if($cant_producto>0){
-            throw new Exception('Unos de los productos falta ser entregado por el proveedor');
-        }
+        return $resultado;
+    }
+    
+    /**
+     * Se busca coleccion de item(productos) por fecha_vencimiento y productoid y seteamos la cantidad que egresa
+     * @param array $item
+     * @param int $cantidad
+     * @return type
+     */
+    private function setEgreso($condicion, $cantidad) {
+        // preparamos las pre-condiciones de stock //
+        $condicion['falta']=0;
+        $condicion['defectuoso']=0;
+        $condicion['egresoid']=null;
         
-        //Chequeamos si es posible egresar todos los productos de la lista
-        $cant_egresados = Inventario::find()->where(['in', 'id', $ids])->andWhere(['egresoid'=>null])->count();
-        if($cant_egresados <> count($param['lista_producto'])){
-            throw new Exception('Algunos de los productos ya fueron egresados');
+        
+        $ids = array();
+        $itemsEncontrados = Inventario::find()->where($condicion)->asArray()->all();    
+
+        //chequeamos si hay stock
+        if(count($itemsEncontrados)<1){
+            throw new Exception('Hay productos que superan el stock disponible');
+        } 
+        
+        //chequeamos la cantidad de productos a egresar
+        if(isset($cantidad) && count($itemsEncontrados)<$cantidad){
+            throw new Exception('La cantidad a egresar es mayor a la cantidad de productos en stock');
+        } 
+        
+        for ($i=0;$i<$cantidad;$i++){
+            $ids[] = $itemsEncontrados[$i]['id'];
         }
         
         $resultado = Inventario::updateAll(['egresoid' => $this->id], ['id'=>$ids]);
-
+        
         return $resultado;
     }
 

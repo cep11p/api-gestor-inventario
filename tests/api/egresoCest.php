@@ -38,6 +38,7 @@ class egresoCest
             "tipo_egresoid"=> 1,
             "fecha_inicial"=> "2019-02-10",
             "id"=> 1,
+            "suscrito"=>"suscrito1",
             "tipo_egreso"=> "Modulo",
             "producto_cant_total"=> 3,
             "lista_producto"=> [
@@ -133,6 +134,7 @@ class egresoCest
                     "tipo_egresoid"=> 1,
                     "fecha_inicial"=> "2019-02-10",
                     "id"=> 1,
+                    "suscrito"=> "suscrito1",
                     "tipo_egreso"=> "Modulo",
                     "producto_cant_total"=> 3
                 ],
@@ -146,6 +148,7 @@ class egresoCest
                     "tipo_egresoid"=> 1,
                     "fecha_inicial"=> "2019-03-11",
                     "id"=> 2,
+                    "suscrito"=> "suscrito2",
                     "tipo_egreso"=> "Modulo",
                     "producto_cant_total"=> 2
                 ],
@@ -159,6 +162,7 @@ class egresoCest
                     "tipo_egresoid"=> 2,
                     "fecha_inicial"=> "2020-04-12",
                     "id"=> 3,
+                    "suscrito"=> "suscrito3",
                     "tipo_egreso"=> "Bulto",
                     "producto_cant_total"=> 1
                 ]
@@ -210,7 +214,7 @@ class egresoCest
         ];
         $I->sendPOST('/egresos',$param);
         $I->seeResponseContainsJson([
-            'message' => 'Falta id de la lista de productos'
+            'message' => 'En la lista de productos, algunos de ellos no tienen vinculado su id'
         ]);
         $I->seeResponseCodeIs(400);
     }
@@ -228,26 +232,28 @@ class egresoCest
             "descripcion"=>"Esto es una descripcion de egreso",
             "lista_producto"=>[
                 [
-			"id"=>27
+                    "productoid"=>8,
+                    "fecha_vencimiento"=>"",
+                    "cantidad"=>3
 		],
 		[
-			"id"=>28
-		],
-		[
-			"id"=>29
+                    "productoid"=>3,
+                    "fecha_vencimiento"=>"2019-03-20",
+                    "cantidad"=>3
 		]
             ]
         ];
         $I->sendPOST('/egresos',$param);
         $I->seeResponseContainsJson([
-            'message' => 'Se registra el egreso'
+            'message' => 'Se registra un egreso',
+            'id' => 4
         ]);
         $I->seeResponseCodeIs(200);
     }
     
-    public function CrearEgresoConProductoEgresado(ApiTester $I)
+    public function CrearEgresoConfechaInvalida(ApiTester $I)
     {        
-        $I->wantTo('crear egreso con producto egresado');
+        $I->wantTo('crear egreso con fecha invalida');
         $param = [            
             "fecha"=>"2020-03-03",
             "origen"=>"Origen 1",
@@ -258,26 +264,27 @@ class egresoCest
             "descripcion"=>"Esto es una descripcion de egreso",
             "lista_producto"=>[
                 [
-			"id"=>27
+                    "productoid"=>8,
+                    "fecha_vencimiento"=>"",
+                    "cantidad"=>3
 		],
 		[
-			"id"=>28
-		],
-		[
-			"id"=>23
+                    "productoid"=>3,
+                    "fecha_vencimiento"=>"asd",
+                    "cantidad"=>3
 		]
             ]
         ];
         $I->sendPOST('/egresos',$param);
         $I->seeResponseContainsJson([
-            'message' => 'Algunos de los productos ya fueron egresados'
+            'message' => 'La fecha debe tener el formato aaaa-mm-dd'
         ]);
         $I->seeResponseCodeIs(400);
     }
     
-    public function CrearEgresoConProductoFaltante(ApiTester $I)
+    public function CrearEgresoSinCantidad(ApiTester $I)
     {        
-        $I->wantTo('crear egreso con producto faltante');
+        $I->wantTo('crear egreso sin cantidad');
         $param = [            
             "fecha"=>"2020-03-03",
             "origen"=>"Origen 1",
@@ -288,22 +295,54 @@ class egresoCest
             "descripcion"=>"Esto es una descripcion de egreso",
             "lista_producto"=>[
                 [
-			"id"=>27
+                    "productoid"=>8,
+                    "fecha_vencimiento"=>"",
+                    "cantidad"=>3
 		],
 		[
-			"id"=>28
-		],
-		[
-			"id"=>24
+                    "productoid"=>3,
+                    "fecha_vencimiento"=>"",
 		]
             ]
         ];
         $I->sendPOST('/egresos',$param);
         $I->seeResponseContainsJson([
-            'message' => 'Unos de los productos falta ser entregado por el proveedor'
+            'message' => 'La cantidad es obligatoria y debe ser un numero mayor a 0'
         ]);
         $I->seeResponseCodeIs(400);
     }
+    
+    public function CrearEgresoConCantidadExcesiva(ApiTester $I)
+    {        
+        $I->wantTo('crear egreso con cantidad excesiva');
+        $param = [            
+            "fecha"=>"2020-03-03",
+            "origen"=>"Origen 1",
+            "destino_nombre"=>"Destino 1",
+            "destino_localidadid"=>2626,
+            "nro_acta"=>"456-123",
+            "tipo_egresoid"=>1,
+            "descripcion"=>"Esto es una descripcion de egreso",
+            "lista_producto"=>[
+                [
+                    "productoid"=>8,
+                    "fecha_vencimiento"=>"",
+                    "cantidad"=>30
+		],
+		[
+                    "productoid"=>3,
+                    "fecha_vencimiento"=>"",
+                    "cantidad"=>3
+		]
+            ]
+        ];
+        $I->sendPOST('/egresos',$param);
+        $I->seeResponseContainsJson([
+            'message' => 'La cantidad a egresar es mayor a la cantidad de productos en stock'
+        ]);
+        $I->seeResponseCodeIs(400);
+    }
+    
     
 //    public function FiltrarEgresoPorNroActa(ApiTester $I)
 //    {

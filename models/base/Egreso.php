@@ -18,6 +18,7 @@ use Yii;
  * @property integer $tipo_egresoid
  * @property string $fecha_inicial
  * @property integer $id
+ * @property string $suscrito
  *
  * @property \app\models\TipoEgreso $tipoEgreso
  * @property \app\models\Inventario[] $inventarios
@@ -48,6 +49,7 @@ abstract class Egreso extends \yii\db\ActiveRecord
             [['descripcion'], 'string'],
             [['origen', 'destino_nombre'], 'string', 'max' => 100],
             [['nro_acta'], 'string', 'max' => 20],
+            [['suscrito'], 'string', 'max' => 70],
             [['tipo_egresoid'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TipoEgreso::className(), 'targetAttribute' => ['tipo_egresoid' => 'id']]
         ];
     }
@@ -67,6 +69,7 @@ abstract class Egreso extends \yii\db\ActiveRecord
             'tipo_egresoid' => 'Tipo Egresoid',
             'fecha_inicial' => 'Fecha Inicial',
             'id' => 'ID',
+            'suscrito' => 'Suscrito',
         ];
     }
 

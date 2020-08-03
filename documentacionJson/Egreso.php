@@ -21,6 +21,7 @@
                 "tipo_egresoid": 1,
                 "fecha_inicial": "2019-02-10",
                 "id": 1,
+                "suscrito": "algun suscrito",
                 "tipo_egreso": "Modulo",
                 "producto_cant_total": 3
             },
@@ -35,6 +36,7 @@
                 "tipo_egresoid": 1,
                 "fecha_inicial": "2019-03-11",
                 "id": 2,
+                "suscrito": "algun suscrito",
                 "tipo_egreso": "Modulo",
                 "producto_cant_total": 2
             },
@@ -49,6 +51,7 @@
                 "tipo_egresoid": 2,
                 "fecha_inicial": "2020-04-12",
                 "id": 3,
+                "suscrito": "algun suscrito",
                 "tipo_egreso": "Bulto",
                 "producto_cant_total": 1
             }
@@ -69,16 +72,18 @@
     "nro_acta":"456-123",
     "tipo_egresoid":1,
     "descripcion":"Esto es una descripcion de egreso",
+    "suscrito": "algun suscrito",
     "lista_producto":[
             {
-                    "id":27
+                    "productoid":8,
+                    "fecha_vencimiento":"",
+                    "cantidad":3
             },
             {
-                    "id":28
-            },
-            {
-                    "id":24
-            }	
+                    "productoid":3,
+                    "fecha_vencimiento":"2019-03-20",
+                    "cantidad":3
+            }
     ]
 }
 **/
@@ -94,85 +99,67 @@
 * @method GET
 * @return arrayJson
 {
-    "id": 1,
-    "fecha": "2019-03-03",
-    "origen": "origen1",
-    "destino_nombre": "destino1",
+    "fecha": "2020-03-03",
+    "origen": "Origen 1",
+    "destino_nombre": "Destino 1",
     "destino_localidadid": 2626,
-    "descripcion": "Esto es un egreso1 creado con fixture1",
-    "nro_acta": "0001",
+    "descripcion": "Esto es una descripcion de egreso",
+    "nro_acta": "456-123",
     "tipo_egresoid": 1,
+    "fecha_inicial": "2020-08-03",
+    "id": 4,
+    "suscrito": "algun suscrito",
     "tipo_egreso": "Modulo",
-    "producto_cant_total": 3,
+    "producto_cant_total": 2,
+    "destino_localidad": "Rio Colorado",
     "lista_producto": [
         {
-            "comprobanteid": 3,
-            "productoid": 7,
-            "fecha_vencimiento": "2120-06-06",
-            "precio_unitario": 100,
+            "comprobanteid": 1,
+            "productoid": 3,
+            "fecha_vencimiento": "2019-03-20",
+            "precio_unitario": 300,
             "defectuoso": false,
-            "egresoid": 1,
+            "egresoid": 4,
             "depositoid": "",
             "falta": false,
-            "stock": true,
-            "vencido": false,
-            "cantidad": "1",
-            "precio_total": 100,
-            "nombre": "Detergente para vajillas",
-            "codigo": "A306",
-            "unidad_valor": "750",
-            "unidad_medidaid": 4,
-            "marcaid": 100,
-            "categoriaid": 2,
-            "marca": "Trever",
-            "unidad_medida": "ml",
-            "producto": "Detergente para vajillas, 750ml (Trever)"
+            "stock": false,
+            "vencido": true,
+            "cantidad": "3",
+            "precio_total": 900,
+            "nombre": "Arroz blanco",
+            "codigo": "A302",
+            "unidad_valor": "1",
+            "unidad_medidaid": 1,
+            "marcaid": 168,
+            "categoriaid": 1,
+            "activo": 1,
+            "marca": "Dos hermanos",
+            "unidad_medida": "kg",
+            "producto": "Arroz blanco, 1kg (Dos hermanos)"
         },
         {
-            "comprobanteid": 4,
+            "comprobanteid": 5,
             "productoid": 8,
-            "fecha_vencimiento": "2119-03-03",
-            "precio_unitario": 200,
+            "fecha_vencimiento": "",
+            "precio_unitario": 30,
             "defectuoso": false,
-            "egresoid": 1,
+            "egresoid": 4,
             "depositoid": "",
             "falta": false,
             "stock": true,
             "vencido": false,
-            "cantidad": "1",
-            "precio_total": 200,
+            "cantidad": "3",
+            "precio_total": 90,
             "nombre": "Jabón blanco en pan",
             "codigo": "A307",
             "unidad_valor": "200",
             "unidad_medidaid": 2,
             "marcaid": 101,
             "categoriaid": 2,
+            "activo": 1,
             "marca": "Canuelas",
             "unidad_medida": "gr",
             "producto": "Jabón blanco en pan, 200gr (Canuelas)"
-        },
-        {
-            "comprobanteid": 1,
-            "productoid": 9,
-            "fecha_vencimiento": "2119-04-03",
-            "precio_unitario": 300,
-            "defectuoso": false,
-            "egresoid": 1,
-            "depositoid": "",
-            "falta": false,
-            "stock": true,
-            "vencido": false,
-            "cantidad": "1",
-            "precio_total": 300,
-            "nombre": "Lavandina",
-            "codigo": "A308",
-            "unidad_valor": "1",
-            "unidad_medidaid": 3,
-            "marcaid": 102,
-            "categoriaid": 2,
-            "marca": "Oddis nuts",
-            "unidad_medida": "lt",
-            "producto": "Lavandina, 1lt (Oddis nuts)"
         }
     ]
 }

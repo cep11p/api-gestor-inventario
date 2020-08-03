@@ -97,7 +97,7 @@ class EgresoController extends ActiveController{
 
             $transaction->commit();
             
-            $resultado['message']='Se registra el egreso';
+            $resultado['message']='Se registra un egreso';
             $resultado['id']=$model->id;
             
             return  $resultado;

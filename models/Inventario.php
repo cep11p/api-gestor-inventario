@@ -123,16 +123,18 @@ class Inventario extends BaseInventario
      * @param array $producto_encontroado_lista
      * @return array
      */
-    private function buscarItem($condicion) {
+    static function buscarItem($condicion) {
         $ids = array();
         $itemsEncontrados = Inventario::find()->where($condicion)->asArray()->all();         
-
+        
         foreach ($itemsEncontrados as $value) {
             $ids[] = $value['id'];
         }
         
         return $ids;
     }
+    
+    
     
     private function agregarProductoAlStock($comprobanteid, $param) {
         
