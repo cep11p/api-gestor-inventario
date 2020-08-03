@@ -133,7 +133,7 @@ class inventarioCest
                     "fecha_vencimiento"=> "",
                     "precio_unitario"=> 120,
                     "defectuoso"=> false,
-                    "egresoid"=> "",
+   
                     "depositoid"=> "",
                     "falta"=> true,
                     "stock"=> false,
@@ -148,7 +148,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "lt",
-                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)",
+                    'activo' => 1
                 ],
                 [
                     "comprobanteid"=> 10,
@@ -156,7 +157,7 @@ class inventarioCest
                     "fecha_vencimiento"=> "",
                     "precio_unitario"=> 100,
                     "defectuoso"=> false,
-                    "egresoid"=> "",
+   
                     "depositoid"=> "",
                     "falta"=> true,
                     "stock"=> false,
@@ -171,7 +172,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Dos hermanos",
                     "unidad_medida"=> "kg",
-                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)",
+                    'activo' => 1
                 ],
                 [
                     "comprobanteid"=> 10,
@@ -179,7 +181,7 @@ class inventarioCest
                     "fecha_vencimiento"=> "2020-10-10",
                     "precio_unitario"=> 120,
                     "defectuoso"=> false,
-                    "egresoid"=> "",
+   
                     "depositoid"=> "",
                     "falta"=> false,
                     "stock"=> true,
@@ -194,15 +196,15 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "lt",
-                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)",
+                    'activo' => 1
                 ],
                 [
                     "comprobanteid"=> 10,
                     "productoid"=> 2,
                     "fecha_vencimiento"=> "2020-10-10",
                     "precio_unitario"=> 120,
-                    "defectuoso"=> false,
-                    "egresoid"=> "",
+                    "defectuoso"=> false,    
                     "depositoid"=> "",
                     "falta"=> false,
                     "stock"=> true,
@@ -217,7 +219,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "ml",
-                    "producto"=> "Aceite de girasol, 900ml (Arcor)"
+                    "producto"=> "Aceite de girasol, 900ml (Arcor)",
+                    'activo' => 1
                 ]
             ]
         ]);  
@@ -235,8 +238,8 @@ class inventarioCest
             "pagesize"=> 20,
             "pages"=> 1,
             "total_filtrado"=> 2,
-            "cantidad_vencidos"=> 4,
-            "cantidad_faltantes"=> 3,
+            "cantidad_vencidos"=> 7,
+            "cantidad_faltantes"=> 6,
             "cantidad_defectuosos"=> 3,
             "cantidad_stock"=> 5,
             "resultado"=> [
@@ -260,7 +263,8 @@ class inventarioCest
                     "categoriaid"=> 2,
                     "marca"=> "Canuelas",
                     "unidad_medida"=> "gr",
-                    "producto"=> "Jabón blanco en pan, 200gr (Canuelas)"
+                    "producto"=> "Jabón blanco en pan, 200gr (Canuelas)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 5,
@@ -282,7 +286,8 @@ class inventarioCest
                     "categoriaid"=> 2,
                     "marca"=> "Canuelas",
                     "unidad_medida"=> "gr",
-                    "producto"=> "Jabón blanco en pan, 200gr (Canuelas)"
+                    "producto"=> "Jabón blanco en pan, 200gr (Canuelas)",
+                    "activo"=> 1
                 ]
             ]
         ]);   
@@ -300,9 +305,9 @@ class inventarioCest
         $I->seeResponseContainsJson([
             "pagesize"=> 20,
             "pages"=> 1,
-            "total_filtrado"=> 4,
-            "cantidad_vencidos"=> 4,
-            "cantidad_faltantes"=> 3,
+            "total_filtrado"=> 5,
+            "cantidad_vencidos"=> 7,
+            "cantidad_faltantes"=> 6,
             "cantidad_defectuosos"=> 3,
             "cantidad_stock"=> 5,
             "resultado"=> [
@@ -326,7 +331,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "lt",
-                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 2,
@@ -348,7 +354,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "ml",
-                    "producto"=> "Aceite de girasol, 900ml (Arcor)"
+                    "producto"=> "Aceite de girasol, 900ml (Arcor)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 3,
@@ -370,7 +377,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Dos hermanos",
                     "unidad_medida"=> "kg",
-                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 4,
@@ -392,7 +400,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "La serenisima",
                     "unidad_medida"=> "gr",
-                    "producto"=> "Arroz blanco, 500gr (La serenisima)"
+                    "producto"=> "Arroz blanco, 500gr (La serenisima)",
+                    "activo"=> 1
                 ]
             ]
         ]);   
@@ -411,8 +420,8 @@ class inventarioCest
             "pagesize"=> 20,
             "pages"=> 1,
             "total_filtrado"=> 3,
-            "cantidad_vencidos"=> 4,
-            "cantidad_faltantes"=> 3,
+            "cantidad_vencidos"=> 7,
+            "cantidad_faltantes"=> 6,
             "cantidad_defectuosos"=> 3,
             "cantidad_stock"=> 5,
             "resultado"=> [
@@ -436,7 +445,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "lt",
-                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 1,
@@ -458,7 +468,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Noel",
                     "unidad_medida"=> "gr",
-                    "producto"=> "Arvejas, 300gr (Noel)"
+                    "producto"=> "Arvejas, 300gr (Noel)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 2,
@@ -480,7 +491,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Knorr",
                     "unidad_medida"=> "kg",
-                    "producto"=> "Azucar blanca, 1kg (Knorr)"
+                    "producto"=> "Azucar blanca, 1kg (Knorr)",
+                    "activo"=> 1
                 ]
             ]
         ]);   
@@ -498,9 +510,9 @@ class inventarioCest
         $I->seeResponseContainsJson([
             "pagesize"=> 20,
             "pages"=> 1,
-            "total_filtrado"=> 6,
-            "cantidad_vencidos"=> 4,
-            "cantidad_faltantes"=> 3,
+            "total_filtrado"=> 7,
+            "cantidad_vencidos"=> 7,
+            "cantidad_faltantes"=> 6,
             "cantidad_defectuosos"=> 3,
             "cantidad_stock"=> 5,
             "resultado"=> [
@@ -524,7 +536,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "lt",
-                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)"
+                    "producto"=> "Aceite de girasol, 1,5lt (Arcor)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 2,
@@ -546,7 +559,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Arcor",
                     "unidad_medida"=> "ml",
-                    "producto"=> "Aceite de girasol, 900ml (Arcor)"
+                    "producto"=> "Aceite de girasol, 900ml (Arcor)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 3,
@@ -568,7 +582,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Dos hermanos",
                     "unidad_medida"=> "kg",
-                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)"
+                    "producto"=> "Arroz blanco, 1kg (Dos hermanos)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 4,
@@ -590,7 +605,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "La serenisima",
                     "unidad_medida"=> "gr",
-                    "producto"=> "Arroz blanco, 500gr (La serenisima)"
+                    "producto"=> "Arroz blanco, 500gr (La serenisima)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 1,
@@ -612,7 +628,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Noel",
                     "unidad_medida"=> "gr",
-                    "producto"=> "Arvejas, 300gr (Noel)"
+                    "producto"=> "Arvejas, 300gr (Noel)",
+                    "activo"=> 1
                 ],
                 [
                     "comprobanteid"=> 2,
@@ -634,7 +651,8 @@ class inventarioCest
                     "categoriaid"=> 1,
                     "marca"=> "Knorr",
                     "unidad_medida"=> "kg",
-                    "producto"=> "Azucar blanca, 1kg (Knorr)"
+                    "producto"=> "Azucar blanca, 1kg (Knorr)",
+                    "activo"=> 1
                 ]
             ]
         ]);   
