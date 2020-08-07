@@ -12,6 +12,8 @@ use app\models\Comprobante;
 */
 class ComprobanteSearch extends Comprobante
 {
+    public $global_param;
+
     /**
     * @inheritdoc
     */
@@ -19,7 +21,7 @@ class ComprobanteSearch extends Comprobante
     {
     return [
             [['id', 'proveedorid'], 'integer'],
-            [['nro_remito', 'fecha_inicial', 'fecha_emision', 'descripcion'], 'safe'],
+            [['nro_remito', 'fecha_inicial', 'fecha_emision', 'descripcion','global_param'], 'safe'],
             [['total'], 'number'],
         ];
     }
@@ -69,7 +71,7 @@ class ComprobanteSearch extends Comprobante
             'proveedorid' => $this->proveedorid,
         ]);
 
-        $query->andFilterWhere(['like', 'nro_remito', $this->nro_remito])
+        $query->andFilterWhere(['like', 'nro_remito', $this->global_param])
             ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
 
         $coleccion = array();
