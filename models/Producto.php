@@ -54,6 +54,22 @@ class Producto extends BaseProducto
         return true;
     }
     
+    public function setAttributes($values, $safeOnly = true) {
+        parent::setAttributes($values, $safeOnly);
+        
+        $this->codigo = $this->generarCodigo(4); 
+    }
+    
+    
+    
+    public function generarCodigo($longitud) {
+        $key = '';
+        $pattern = '1234567890';
+        $max = strlen($pattern)-1;
+        for($i=0;$i < $longitud;$i++) $key .= $pattern{mt_rand(0,$max)};
+        return $key;
+    }  
+    
     public function fields()
     {
         return ArrayHelper::merge(parent::fields(), [
