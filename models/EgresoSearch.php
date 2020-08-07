@@ -70,12 +70,16 @@ class EgresoSearch extends Egreso
             ->andFilterWhere(['like', 'descripcion', $this->descripcion])
             ->andFilterWhere(['like', 'nro_acta', $this->nro_acta]);
         
+   
+        
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {
             $item = $value->toArray();
             $coleccion[] = $item;
         }
-
+        /********Vinculamos datos remotos********/
+        $coleccion = Egreso::vincularLocalidad($coleccion,$this->obtenerLocalidadIdDeColeccion());
+        
         $paginas = ceil($dataProvider->totalCount/$pagesize);           
         $data['pagesize']=$pagesize;            
         $data['pages']=$paginas;            
@@ -83,5 +87,31 @@ class EgresoSearch extends Egreso
         $data['resultado']=$coleccion;
         
         return $data;
+    }
+    
+    /**
+     * Se obtienen los id de localidades que están vinculadas a la coleccion
+     * @param array $coleccion
+     * @return array
+     */
+    private function obtenerLocalidadIdDeColeccion($coleccion = array()) {
+        $ids='';
+        $pagesize = count($coleccion); 
+        $resultado = array();
+        foreach ($coleccion as $valor) {
+            #si esta seteada la localidad
+            if(isset($valor['localidadid'])){
+                $ids .= (empty($ids))?$valor['localidadid']:','.$valor['localidadid'];
+            }
+            
+        }
+        
+        $response = \Yii::$app->lugar->buscarLocalidad(array("ids"=>$ids,"pagesize"=>$pagesize));
+        
+        if(isset($response['success']) && $response['success']==true){
+            $resultado = $response['resultado'];
+        }
+        
+        return $resultado;
     }
 }

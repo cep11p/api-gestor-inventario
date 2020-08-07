@@ -27,6 +27,27 @@ class Egreso extends BaseEgreso
         $this->fecha_inicial = date('Y-m-d');
     }
     
+    /**
+     * Se vinculan los nombres de la localidades a el listado
+     * @param array $coleccion
+     * @param array $coleccion_localidad
+     * @return array
+     */
+    static function vincularLocalidad($coleccion = array(), $coleccion_localidad = array()) {
+        $i=0;
+        foreach ($coleccion as $valor) {
+            foreach ($coleccion_localidad as $localidad) {
+                if(isset($valor['destino_localidadid']) && isset($localidad['id']) && $valor['destino_localidadid']==$localidad['id']){                    
+                    $valor['destino_localidad'] = $localidad['nombre'];
+                    $coleccion[$i] = $valor;
+                }
+            }
+            $i++;
+        }
+        
+        return $coleccion;
+    }
+    
     public function getLocalidad() {
         
         $resultado = null;
