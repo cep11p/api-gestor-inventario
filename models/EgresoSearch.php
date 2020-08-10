@@ -66,10 +66,10 @@ class EgresoSearch extends Egreso
             'destino_localidadid' => $this->destino_localidadid,
         ]);
 
-        $query->andFilterWhere(['like', 'origen', $this->origen])
-            ->andFilterWhere(['like', 'destino_nombre', $this->destino_nombre])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion])
-            ->andFilterWhere(['like', 'nro_acta', $this->global_param]);
+        $query->andFilterWhere(['like', 'origen', $this->global_param])
+            ->orFilterWhere(['like', 'destino_nombre', $this->global_param])
+            ->orFilterWhere(['like', 'descripcion', $this->global_param])
+            ->orFilterWhere(['like', 'nro_acta', $this->global_param]);
         
    
         
