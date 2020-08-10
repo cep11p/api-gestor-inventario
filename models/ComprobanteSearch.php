@@ -73,6 +73,15 @@ class ComprobanteSearch extends Comprobante
 
         $query->andFilterWhere(['like', 'nro_remito', $this->global_param])
             ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
+        
+        #### Filtro por rango de fecha ####
+        if(isset($params['fecha_desde']) && isset($params['fecha_hasta'])){
+            $query->andWhere(['between', 'fecha_emision', $params['fecha_desde'], $params['fecha_hasta']]);
+        }else if(isset($params['fecha_desde'])){
+            $query->andWhere(['between', 'fecha_emision', $params['fecha_desde'], date('Y-m-d')]);
+        }else if(isset($params['fecha_hasta'])){
+            $query->andWhere(['between', 'fecha_emision', '1970-01-01', $params['fecha_hasta']]);
+        }
 
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {
