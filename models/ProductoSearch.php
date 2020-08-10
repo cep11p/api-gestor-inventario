@@ -79,7 +79,7 @@ class ProductoSearch extends Producto
         }
         
         $data=$coleccion;
-        
+
         return $data;
     }
 }

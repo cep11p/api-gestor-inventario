@@ -50,7 +50,7 @@ class ProductoController extends ActiveController{
     public function actions()
     {
         $actions = parent::actions();
-//        unset($actions['create']);
+        unset($actions['create']);
 //        unset($actions['update']);
 //        unset($actions['delete']);
         $actions['index']['prepareDataProvider'] = [$this, 'prepareDataProvider'];
@@ -64,6 +64,35 @@ class ProductoController extends ActiveController{
         $resultado = $searchModel->search($params);
 
         return $resultado;
+    }
+    
+    public function actionCreate() 
+    {
+        $param = Yii::$app->request->post();
+        
+        $model = new Producto();
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            
+            $model->setAttributes($param);
+            $model->codigo = $model->generarCodigo(4);
+            
+            if(!$model->save()){
+                throw new Exception(json_encode($model->getErrors()));
+            }
+
+            $transaction->commit();
+            
+            $resultado['message']='Se guarda un nuevo stock';
+            $resultado['id']=$model->id;
+            
+            return  $resultado;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
     }
     
     /**

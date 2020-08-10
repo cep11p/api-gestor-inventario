@@ -54,14 +54,6 @@ class Producto extends BaseProducto
         return true;
     }
     
-    public function setAttributes($values, $safeOnly = true) {
-        parent::setAttributes($values, $safeOnly);
-        
-        $this->codigo = $this->generarCodigo(4); 
-    }
-    
-    
-    
     public function generarCodigo($longitud) {
         $key = '';
         $pattern = '1234567890';
