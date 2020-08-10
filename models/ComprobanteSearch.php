@@ -63,16 +63,8 @@ class ComprobanteSearch extends Comprobante
             return $dataProvider;
         }
 
-        $query->andFilterWhere([
-            'id' => $this->id,
-            'fecha_inicial' => $this->fecha_inicial,
-            'fecha_emision' => $this->fecha_emision,
-            'total' => $this->total,
-            'proveedorid' => $this->proveedorid,
-        ]);
-
         $query->andFilterWhere(['like', 'nro_remito', $this->global_param])
-            ->andFilterWhere(['like', 'descripcion', $this->descripcion]);
+            ->orFilterWhere(['like', 'descripcion', $this->global_param]);
         
         #### Filtro por rango de fecha ####
         if(isset($params['fecha_desde']) && isset($params['fecha_hasta'])){
