@@ -12,6 +12,7 @@ use app\models\Egreso;
 */
 class EgresoSearch extends Egreso
 {
+    public $global_param;
     /**
     * @inheritdoc
     */
@@ -19,7 +20,7 @@ class EgresoSearch extends Egreso
     {
         return [
             [['id', 'destino_localidadid'], 'integer'],
-            [['fecha', 'origen', 'destino_nombre', 'descripcion', 'nro_acta'], 'safe'],
+            [['fecha', 'origen', 'destino_nombre', 'descripcion', 'nro_acta','global_param'], 'safe'],
         ];
     }
 
@@ -68,7 +69,7 @@ class EgresoSearch extends Egreso
         $query->andFilterWhere(['like', 'origen', $this->origen])
             ->andFilterWhere(['like', 'destino_nombre', $this->destino_nombre])
             ->andFilterWhere(['like', 'descripcion', $this->descripcion])
-            ->andFilterWhere(['like', 'nro_acta', $this->nro_acta]);
+            ->andFilterWhere(['like', 'nro_acta', $this->global_param]);
         
    
         
