@@ -3,7 +3,14 @@
 /**** Para mostrar listado ****/
 /**
 * @url http://api.gestor-inventario.local/comprobantes
+* @url con parametros http://api.gestor-inventario.local/comprobantes?global_param=00001&fecha_desde=2015-03-03
 * @method GET
+* @parametros estos parametros sirven como criterio de busqueda
+* global_param = (acta o destino)
+* fecha_desde = (fecha de emision)
+* fecha_hasta = (fecha de emision)
+* defectuoso=true //verdadero
+* vencido=true //verdadero
 * @arrayReturn
 {
     "pagesize": 20,
