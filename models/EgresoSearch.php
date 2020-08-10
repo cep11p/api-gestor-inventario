@@ -71,6 +71,15 @@ class EgresoSearch extends Egreso
             ->orFilterWhere(['like', 'descripcion', $this->global_param])
             ->orFilterWhere(['like', 'nro_acta', $this->global_param]);
         
+        #### Filtro por rango de fecha ####
+        if(isset($params['fecha_desde']) && isset($params['fecha_hasta'])){
+            $query->andWhere(['between', 'fecha', $params['fecha_desde'], $params['fecha_hasta']]);
+        }else if(isset($params['fecha_desde'])){
+            $query->andWhere(['between', 'fecha', $params['fecha_desde'], date('Y-m-d')]);
+        }else if(isset($params['fecha_hasta'])){
+            $query->andWhere(['between', 'fecha', '1970-01-01', $params['fecha_hasta']]);
+        }
+        
    
         
         $coleccion = array();
