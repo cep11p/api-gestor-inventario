@@ -3,7 +3,12 @@
 /**** Para mostrar listado ****/
 /**
 * @url http://api.gestor-inventario.local/egresos
+* @url con parametros http://api.gestor-inventario.local/egresos?global_param=destino1&fecha_desde=2015-03-03
 * @method GET
+* @parametros estos parametros sirven como criterio de busqueda
+* global_param = (acta o destino)
+* fecha_desde = (fecha de emision)
+* fecha_hasta = (fecha de emision)
 * @arrayReturn
     {
     "pagesize": 20,

@@ -6,7 +6,7 @@
 * @url con parametros http://api.gestor-inventario.local/comprobantes?global_param=00001&fecha_desde=2015-03-03
 * @method GET
 * @parametros estos parametros sirven como criterio de busqueda
-* global_param = (acta o destino)
+* global_param = (nro de remito)
 * fecha_desde = (fecha de emision)
 * fecha_hasta = (fecha de emision)
 * defectuoso=true //verdadero

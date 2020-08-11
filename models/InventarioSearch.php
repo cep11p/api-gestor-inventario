@@ -266,7 +266,7 @@ class InventarioSearch extends Inventario
     }
     
     /**
-     * Se arma un listado de los productos que egresaron, agrupando por productoid
+     * Se arma un listado de los productos que egresaron, agrupando por productoid sin flags (stock, vencido, falta, defectuoso)
      * @param array $params
      * @return ActiveDataProvider
      */
@@ -309,6 +309,10 @@ class InventarioSearch extends Inventario
             
             unset($producto['id']);
             unset($item['id']);
+            unset($item['falta']);
+            unset($item['stock']);
+            unset($item['vencido']);
+            unset($item['defectuoso']);
             
             $item = \yii\helpers\ArrayHelper::merge($item, $producto);
             $coleccion[] = $item;
