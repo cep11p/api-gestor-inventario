@@ -39,16 +39,12 @@
 * @method POST
 * @param arrayJson
  * {
-        "id": 1,
         "nombre": "Aceite de girasol",
-        "codigo": "A300",
         "unidad_valor": "1,5",
         "unidad_medidaid": 3,
         "marcaid": 1,
         "categoriaid": 1,
-        "marca": "Arcor",
         "unidad_medida": "lt",
-        "producto": "Aceite de girasol, 1,5lt (Arcor)"
     }
 **/
 
