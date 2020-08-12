@@ -73,6 +73,9 @@ class Producto extends BaseProducto
             },
             'producto'=> function($model){
                 return $model->nombre.', '.$model->unidad_valor.$model->unidadMedida->simbolo.' ('.$model->marca->nombre.')';
+            },
+            'categoria'=> function($model){
+                return $model->categoria->nombre;
             }
         ]);
         
