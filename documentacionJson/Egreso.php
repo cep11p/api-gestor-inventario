@@ -9,6 +9,9 @@
 * global_param = (acta o destino)
 * fecha_desde = (fecha de emision)
 * fecha_hasta = (fecha de emision)
+* sort=-fecha (ordenamiento desc)
+* sort=-destino_nombre (ordenamiento desc)
+* sort=-nro_acta (ordenamiento desc)
 * @arrayReturn
     {
     "pagesize": 20,

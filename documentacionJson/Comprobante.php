@@ -11,6 +11,8 @@
 * fecha_hasta = (fecha de emision)
 * defectuoso=true //verdadero
 * vencido=true //verdadero
+* sort=-fecha_emision (ordenamiento desc)
+* sort=-nro_remito (ordenamiento desc)
 * @arrayReturn
 {
     "pagesize": 20,
