@@ -12,13 +12,18 @@ use app\models\Inventario;
 */
 class InventarioSearch extends Inventario
 {
+    public $categoriaid;
+    public $unidad_medidaid;
+    public $unidad;
+    public $marcaid;
+    
     /**
     * @inheritdoc
     */
     public function rules()
     {
         return [
-            [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta'], 'integer'],
+            [['comprobanteid', 'productoid', 'defectuoso', 'egresoid', 'depositoid', 'id', 'falta','categoriaid','unidad_medidaid','unidad','marcaid'], 'integer'],
             [['fecha_vencimiento','cantidad','vencido'], 'safe'],
             [['precio_unitario'], 'number'],
         ];
@@ -146,7 +151,7 @@ class InventarioSearch extends Inventario
         ]);
 
         $this->load($params,'');
-
+        
         if (!$this->validate()) {
             // uncomment the following line if you do not want to any records when validation fails
              $query->where('0=1');
@@ -156,7 +161,7 @@ class InventarioSearch extends Inventario
         $query->select([
             'inventario.*',
             'cantidad'=>'count(productoid)']);
-        
+    
         $query->where(['egresoid' => null]);
         $query->andFilterWhere([
             'id' => $this->id,
@@ -165,6 +170,35 @@ class InventarioSearch extends Inventario
             'depositoid' => $this->depositoid,
             'falta' => 0
         ]);
+        
+        //Join con Producto
+        $query->leftJoin("producto as p", "productoid=p.id");        
+        $query->andFilterWhere(['p.categoriaid' => $this->categoriaid]);
+        $query->andFilterWhere(['p.unidad_medidaid' => $this->unidad_medidaid]);
+        $query->andFilterWhere(['p.unidad_valor' => $this->unidad]);
+        $query->andFilterWhere(['p.marcaid' => $this->marcaid]);
+        
+        //*******Custom Sort **********//
+
+        if(isset($params['sort'])){
+            //producto.categoria
+            if($params['sort']=='-categoriaid'){
+                $query->orderBy('p.categoriaid DESC');
+            }
+            //producto.nombre
+            if($params['sort']=='-producto'){
+                $query->orderBy('p.nombre DESC');
+            }
+            //producto.nombre
+            if($params['sort']=='producto'){
+                $query->orderBy('p.nombre ASC');
+            }
+            //cantidad
+            if($params['sort']=='cantidad'){
+                $query->orderBy('cantidad ASC');
+            }
+        }
+        
         
         if($this->defectuoso == 1 && $this->vencido == 'true'){
             $query->andWhere(['or',
@@ -185,8 +219,17 @@ class InventarioSearch extends Inventario
             $query->andWhere(['egresoid' => null]);
         }
         
-        $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
+        #### Filtro por rango de fecha ####
+        if(isset($params['fecha_vencimiento_desde']) && isset($params['fecha_vencimiento_hasta'])){
+            $query->andWhere(['between', 'fecha_vencimiento', $params['fecha_vencimiento_desde'], $params['fecha_vencimiento_hasta']]);
+        }else if(isset($params['fecha_vencimiento_desde'])){
+            $query->andWhere(['between', 'fecha_vencimiento', $params['fecha_vencimiento_desde'], date('Y-m-d')]);
+        }else if(isset($params['fecha_vencimiento_hasta'])){
+            $query->andWhere(['between', 'fecha_vencimiento', '1970-01-01', $params['fecha_vencimiento_hasta']]);
+        }
         
+        $query->groupBy(['fecha_vencimiento','productoid','defectuoso','falta']);
+
         $coleccion = array();
         foreach ($dataProvider->getModels() as $value) {
             $item = $value->toArray();

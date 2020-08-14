@@ -9,6 +9,19 @@
  * nro_remito=0001-00001
  * defectuoso=true //verdadero
  * vencido=true //verdadero
+ * unidad_medidaid=2
+ * unidad=900
+ * marcaid=1
+ * categoriaid=1
+ * fecha_vencimiento_desde=2019-04-03&fecha_vencimiento_hasta=2020-08-01 (filtrado de fecha por rango)
+ * sort=-cantidad (ordenamiento desc)
+ * sort=cantida (ordenamiento asc)
+ * sort=-producto (ordenamiento desc)
+ * sort=producto (ordenamiento asc)
+ * sort=-categoriaid (ordenamiento desc)
+ * sort=categoriaid (ordenamiento asc)
+ * sort=-fecha_vencimiento (ordenamiento desc)
+ * sort=fecha_vencimiento (ordenamiento asc)
 * @method GET
 * @arrayReturn
 {
