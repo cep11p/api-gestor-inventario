@@ -232,6 +232,14 @@ class Inventario extends BaseInventario
             },
             'defectuoso'=> function($model){
                 return \app\components\Help::intToBoolean($this->defectuoso);
+            },
+            'por_vencer'=> function($model){
+                $fecha_por_vencer = date('Y-m-d',strtotime(date("Y-m-d", strtotime("+10 day"))));
+                if(($fecha_por_vencer >= $this->fecha_vencimiento) && ($this->fecha_vencimiento > date('Y-m-d'))){
+                    return true;
+                }else{
+                    return false;
+                }
             }
         ]);
         

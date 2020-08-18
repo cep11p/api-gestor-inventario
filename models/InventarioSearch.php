@@ -237,7 +237,7 @@ class InventarioSearch extends Inventario
         foreach ($dataProvider->getModels() as $value) {
             $item = $value->toArray();
             $item['cantidad'] = $value->cantidad;
-            
+                        
             $producto = (isset($value->producto)?$value->producto->toArray():['producto'=>[]]);
             
             unset($producto['id']);
