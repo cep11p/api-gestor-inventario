@@ -182,6 +182,9 @@ class InventarioSearch extends Inventario
 
         if(isset($params['sort'])){
             //producto.categoria
+            if($params['sort']=='categoriaid'){
+                $query->orderBy('p.categoriaid ASC');
+            }
             if($params['sort']=='-categoriaid'){
                 $query->orderBy('p.categoriaid DESC');
             }
