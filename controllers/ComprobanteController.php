@@ -80,6 +80,32 @@ class ComprobanteController extends ActiveController{
         return $resultado;
     }
     
+    public function actionUpdate($id) {
+        $model = Comprobante::findOne(['id'=>$id]);
+        
+        if($model==null){
+            throw new Exception(json_encode('El comprobante no existe'));
+        }
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            
+            if(!$model->save()){
+                throw new Exception(json_encode($model->getErrors()));
+            }
+
+            /** Agregamos al stock una nueva lista de productos **/
+            $model->borrarListarProducto();
+            $model->setListaProducto($param);
+        
+            return  $model->id;
+           
+        }catch (Exception $exc) {
+            $transaction->rollBack();
+            $mensaje =$exc->getMessage();
+            throw new \yii\web\HttpException(400, $mensaje);
+        }
+    }
+    
     /**
      * Se registran productos pendientes de entrega. Se modifican los productos en falta = 1 a falta = 0
      * @param int $id
