@@ -801,4 +801,147 @@ class inventarioCest
         ]);   
         $I->seeResponseCodeIs(200);
     }
+    
+    public function FiltrarPorFechaVencimientoConRangoDeFecha(ApiTester $I)
+    {
+        $I->haveFixtures([
+            'inventario' => app\tests\fixtures\InventarioFixture::className(),
+        ]);
+        
+        //desde
+        $I->wantTo('filtrar por fecha vencimiento con rango de fecha');
+        $I->sendGET('/inventarios?fecha_vencimiento_desde=2019-04-04');
+        $I->seeResponseContainsJson([
+            "pagesize"=> 20,
+            "pages"=> 1,
+            "total_filtrado"=> 2,
+            "resultado"=> [
+                [
+                    "fecha"=> "2019-04-04",
+                    "origen"=> "origen2",
+                    "destino_nombre"=> "destino2",
+                    "destino_localidadid"=> 2626,
+                    "descripcion"=> "Esto es un egreso2 creado con fixture2",
+                    "nro_acta"=> "0002",
+                    "tipo_egresoid"=> 1,
+                    "fecha_inicial"=> "2019-03-11",
+                    "id"=> 2,
+                    "suscrito"=> "suscrito2",
+                    "tipo_egreso"=> "Modulo",
+                    "producto_cant_total"=> 2,
+                    "destino_localidad"=> "Rio Colorado"
+                ],
+                [
+                    "fecha"=> "2019-05-05",
+                    "origen"=> "origen3",
+                    "destino_nombre"=> "destino3",
+                    "destino_localidadid"=> 2626,
+                    "descripcion"=> "Esto es un egreso3 creado con fixture3",
+                    "nro_acta"=> "0003",
+                    "tipo_egresoid"=> 2,
+                    "fecha_inicial"=> "2020-04-12",
+                    "id"=> 3,
+                    "suscrito"=> "suscrito3",
+                    "tipo_egreso"=> "Bulto",
+                    "producto_cant_total"=> 1,
+                    "destino_localidad"=> "Rio Colorado"
+                ]
+            ]
+        ]);
+        
+        //hasta
+        $I->sendGET('/egresos?fecha_vencimiento_hasta=2019-04-04');
+        $I->seeResponseContainsJson([
+            "pagesize"=> 20,
+            "pages"=> 1,
+            "total_filtrado"=> 2,
+            "resultado"=> [
+                [
+                    "fecha"=> "2019-03-03",
+                    "origen"=> "origen1",
+                    "destino_nombre"=> "destino1",
+                    "destino_localidadid"=> 2626,
+                    "descripcion"=> "Esto es un egreso1 creado con fixture1",
+                    "nro_acta"=> "0001",
+                    "tipo_egresoid"=> 1,
+                    "fecha_inicial"=> "2019-02-10",
+                    "id"=> 1,
+                    "suscrito"=> "suscrito1",
+                    "tipo_egreso"=> "Modulo",
+                    "producto_cant_total"=> 3,
+                    "destino_localidad"=> "Rio Colorado"
+                ],
+                [
+                    "fecha"=> "2019-04-04",
+                    "origen"=> "origen2",
+                    "destino_nombre"=> "destino2",
+                    "destino_localidadid"=> 2626,
+                    "descripcion"=> "Esto es un egreso2 creado con fixture2",
+                    "nro_acta"=> "0002",
+                    "tipo_egresoid"=> 1,
+                    "fecha_inicial"=> "2019-03-11",
+                    "id"=> 2,
+                    "suscrito"=> "suscrito2",
+                    "tipo_egreso"=> "Modulo",
+                    "producto_cant_total"=> 2,
+                    "destino_localidad"=> "Rio Colorado"
+                ]
+            ]
+        ]);
+        
+        //desde y hasta
+        $I->sendGET('/egresos?fecha_vencimiento_desde=2019-03-03&fecha_vencimiento_hasta=2019-05-05');
+        $I->seeResponseContainsJson([
+            "pagesize"=> 20,
+            "pages"=> 1,
+            "total_filtrado"=> 3,
+            "resultado"=> [
+                [
+                    "fecha"=> "2019-03-03",
+                    "origen"=> "origen1",
+                    "destino_nombre"=> "destino1",
+                    "destino_localidadid"=> 2626,
+                    "descripcion"=> "Esto es un egreso1 creado con fixture1",
+                    "nro_acta"=> "0001",
+                    "tipo_egresoid"=> 1,
+                    "fecha_inicial"=> "2019-02-10",
+                    "id"=> 1,
+                    "suscrito"=> "suscrito1",
+                    "tipo_egreso"=> "Modulo",
+                    "producto_cant_total"=> 3,
+                    "destino_localidad"=> "Rio Colorado"
+                ],
+                [
+                    "fecha"=> "2019-04-04",
+                    "origen"=> "origen2",
+                    "destino_nombre"=> "destino2",
+                    "destino_localidadid"=> 2626,
+                    "descripcion"=> "Esto es un egreso2 creado con fixture2",
+                    "nro_acta"=> "0002",
+                    "tipo_egresoid"=> 1,
+                    "fecha_inicial"=> "2019-03-11",
+                    "id"=> 2,
+                    "suscrito"=> "suscrito2",
+                    "tipo_egreso"=> "Modulo",
+                    "producto_cant_total"=> 2,
+                    "destino_localidad"=> "Rio Colorado"
+                ],
+                [
+                    "fecha"=> "2019-05-05",
+                    "origen"=> "origen3",
+                    "destino_nombre"=> "destino3",
+                    "destino_localidadid"=> 2626,
+                    "descripcion"=> "Esto es un egreso3 creado con fixture3",
+                    "nro_acta"=> "0003",
+                    "tipo_egresoid"=> 2,
+                    "fecha_inicial"=> "2020-04-12",
+                    "id"=> 3,
+                    "suscrito"=> "suscrito3",
+                    "tipo_egreso"=> "Bulto",
+                    "producto_cant_total"=> 1,
+                    "destino_localidad"=> "Rio Colorado"
+                ]
+            ]
+        ]);
+    }
 }
