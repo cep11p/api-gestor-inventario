@@ -1,7 +1,7 @@
 version: '2'
 
 services:
-  gestor_inventario: 
+  inventario: 
    environment:
        RUNMODE: prod
        SERVICIO_LUGAR: app\components\ServicioLugar

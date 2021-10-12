@@ -1,8 +1,8 @@
 version: '2'
 
 services:
-  gestor_inventario:
-    image: local/yiisoftware/yii2-php:7.3-apache
+  inventario:
+    image: yiisoftware/yii2-php:7.3-apache
     volumes:
       - ../:/app
     ports:
@@ -10,14 +10,14 @@ services:
     networks:
       - backend
     environment:
-      DB_HOST: 'gestor_inventario_db'
-      DB_NAME: 'gestorinventario'
+      DB_HOST: 'inventario_db'
+      DB_NAME: 'inventario'
     labels:
-     - "traefik.backend=gestor-inventario"
-     - "traefik.frontend.rule=Host:api.gestor-inventario.local"
+     - "traefik.backend=inventario"
+     - "traefik.frontend.rule=Host:api.inventario.local"
      - "traefik.port=80"
 
-  gestor_inventario_db:
+  inventario_db:
     image: mariadb:10.4
     restart: always
     volumes:
@@ -25,34 +25,9 @@ services:
     environment:
      MYSQL_ROOT_PASSWORD: root
     ports:
-     - 3306:3306
+     - 3308:3306
     networks:
       - backend
-
-##### LUGAR
-
-#  lugar:
-#    image: php_yii_ds
-#    volumes:
-#      - /app/desarrollo-social/lugar/backend-lugar:/var/www/html
-#    environment:
-#      DB_HOST: 'lugar_db'
-#      DB_NAME: 'lugar'
-#    labels:
-#     - "traefik.backend=lugar"
-#     - "traefik.frontend.rule=Host:lugar.local"
-#     - "traefik.port=80"
-#
-#  lugar_db:
-#    image: mariadb:10.4
-#    ports:
-#     - 3309:3306
-#    environment:
-#     MYSQL_ROOT_PASSWORD: root
-#     MYSQL_ROOT_HOST: '%'
-#    volumes:
-#     - /app/desarrollo-social/lugar/dbdata:/var/lib/mysql
-    
 
 ##### PROXY
 
