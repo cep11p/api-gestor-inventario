@@ -42,67 +42,32 @@ The minimum requirement by this project template that your Web server supports P
 
 INSTALLATION
 ------------
+Para el despliegue de la aplicacion vamos a la carpeta docker/ y corremos el sieguiente comando
+		
+		-ambiente prod
+		docker-compose -p app -f docker-compose.yml -f docker-compose-prod.yml up -d 
+		
+		-ambiente dev
+		docker-compose -p app -f docker-compose.yml -f docker-compose-dev.yml up -d 
 
-### Install via Composer
+	*Borramos los contenedores (borra los contenedores)
 
-If you do not have [Composer](http://getcomposer.org/), you may install it by following the instructions
-at [getcomposer.org](http://getcomposer.org/doc/00-intro.md#installation-nix).
+		docker-compose -p app down
 
-You can then install this project template using the following command:
+******************Para importar la bd manualmente******************
+Creamos el esquema de la bd desde docker
+        docker exec -i app_gestor_inventario_db_1 mysql -u root -proot --execute 'create database gestorinventario DEFAULT CHARACTER SET utf8'
 
-~~~
-composer create-project --prefer-dist yiisoft/yii2-app-basic basic
-~~~
+Importamos el sql inicial que se encuentra en bd_inicial/
+	    docker exec -i app_gestor_inventario_db_1 mysql -u root -proot gestorinventario < bd_inicial.sql
 
-Now you should be able to access the application through the following URL, assuming `basic` is the directory
-directly under the Web root.
+Realizar los pasos en el siguiente orden:
 
-~~~
-http://localhost/basic/web/
-~~~
-
-### Install from an Archive File
-
-Extract the archive file downloaded from [yiiframework.com](http://www.yiiframework.com/download/) to
-a directory named `basic` that is directly under the Web root.
-
-Set cookie validation key in `config/web.php` file to some random secret string:
-
-```php
-'request' => [
-    // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-    'cookieValidationKey' => '<secret random string goes here>',
-],
-```
-
-You can then access the application through the following URL:
-
-~~~
-http://localhost/basic/web/
-~~~
-
-
-### Install with Docker
-
-Update your vendor packages
-
-    docker-compose run --rm php composer update --prefer-dist
-    
-Run the installation triggers (creating cookie validation code)
-
-    docker-compose run --rm php composer install    
-    
-Start the container
-
-    docker-compose up -d
-    
-You can then access the application through the following URL:
-
-    http://127.0.0.1:8000
-
-**NOTES:** 
-- Minimum required Docker engine version `17.04` for development (see [Performance tuning for volume mounts](https://docs.docker.com/docker-for-mac/osxfs-caching/))
-- The default configuration uses a host-volume in your home directory `.docker-composer` for composer caches
+    1- Ahora debemos ejecutar el comando composer install. Como tenemos php en un contenedor debemos ejecutar el mismo comando dentro del contenedor. Para ello debemos 
+    entrar al contenedor con el siguiente comando: 
+        docker exec -ti app_gestor_inventario_1 bash. 
+    y corremos el siguiente comando
+        composer install
 
 
 CONFIGURATION
