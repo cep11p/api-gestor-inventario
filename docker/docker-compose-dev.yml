@@ -1,6 +1,6 @@
 version: '2'
 
 services:
-  inventario: 
+  gestor_inventario: 
    environment:
        RUNMODE: dev

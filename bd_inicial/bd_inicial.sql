@@ -8,23 +8,23 @@ SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
 -- -----------------------------------------------------
--- Schema inventario
+-- Schema gestorinventario
 -- -----------------------------------------------------
 -- Este sistema esta preparado para manejar la entrada y salida de productos
-DROP SCHEMA IF EXISTS `inventario` ;
+DROP SCHEMA IF EXISTS `gestorinventario` ;
 
 -- -----------------------------------------------------
--- Schema inventario
+-- Schema gestorinventario
 --
 -- Este sistema esta preparado para manejar la entrada y salida de productos
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `inventario` DEFAULT CHARACTER SET utf8 ;
-USE `inventario` ;
+CREATE SCHEMA IF NOT EXISTS `gestorinventario` DEFAULT CHARACTER SET utf8 ;
+USE `gestorinventario` ;
 
 -- -----------------------------------------------------
--- Table `inventario`.`unidad_medida`
+-- Table `gestorinventario`.`unidad_medida`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`unidad_medida` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`unidad_medida` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NOT NULL,
   `simbolo` VARCHAR(45) NULL,
@@ -33,9 +33,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`marca`
+-- Table `gestorinventario`.`marca`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`marca` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`marca` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -43,9 +43,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`categoria`
+-- Table `gestorinventario`.`categoria`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`categoria` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`categoria` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
@@ -53,9 +53,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`producto`
+-- Table `gestorinventario`.`producto`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`producto` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`producto` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(200) NOT NULL,
   `codigo` VARCHAR(45) NULL,
@@ -70,26 +70,26 @@ CREATE TABLE IF NOT EXISTS `inventario`.`producto` (
   INDEX `fk_producto_categoria1_idx` (`categoriaid` ASC),
   CONSTRAINT `fk_producto_unidad_medida`
     FOREIGN KEY (`unidad_medidaid`)
-    REFERENCES `inventario`.`unidad_medida` (`id`)
+    REFERENCES `gestorinventario`.`unidad_medida` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_producto_marca1`
     FOREIGN KEY (`marcaid`)
-    REFERENCES `inventario`.`marca` (`id`)
+    REFERENCES `gestorinventario`.`marca` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_producto_categoria1`
     FOREIGN KEY (`categoriaid`)
-    REFERENCES `inventario`.`categoria` (`id`)
+    REFERENCES `gestorinventario`.`categoria` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`proveedor`
+-- Table `gestorinventario`.`proveedor`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`proveedor` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`proveedor` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `cuit` VARCHAR(45) NULL,
@@ -98,9 +98,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`comprobante`
+-- Table `gestorinventario`.`comprobante`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`comprobante` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`comprobante` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nro_remito` VARCHAR(45) NOT NULL,
   `fecha_incial` DATE NOT NULL COMMENT 'Fecha de registro en el servidor\n',
@@ -113,16 +113,16 @@ CREATE TABLE IF NOT EXISTS `inventario`.`comprobante` (
   INDEX `fk_comprobante_proveedor1_idx` (`proveedorid` ASC),
   CONSTRAINT `fk_comprobante_proveedor1`
     FOREIGN KEY (`proveedorid`)
-    REFERENCES `inventario`.`proveedor` (`id`)
+    REFERENCES `gestorinventario`.`proveedor` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`egreso`
+-- Table `gestorinventario`.`egreso`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`egreso` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`egreso` (
   `id` INT NOT NULL,
   `fecha` DATE NOT NULL,
   `origen` VARCHAR(100) NULL,
@@ -134,9 +134,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`deposito`
+-- Table `gestorinventario`.`deposito`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`deposito` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`deposito` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
   `lugarid` INT NULL,
@@ -145,9 +145,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `inventario`.`inventario`
+-- Table `gestorinventario`.`inventario`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `inventario`.`inventario` (
+CREATE TABLE IF NOT EXISTS `gestorinventario`.`inventario` (
   `comprobanteid` INT NOT NULL,
   `productoid` INT NOT NULL,
   `fecha_vencimiento` DATE NULL,
@@ -163,22 +163,22 @@ CREATE TABLE IF NOT EXISTS `inventario`.`inventario` (
   INDEX `fk_stock_deposito1_idx` (`depositoid` ASC),
   CONSTRAINT `fk_comprobante_has_producto_comprobante1`
     FOREIGN KEY (`comprobanteid`)
-    REFERENCES `inventario`.`comprobante` (`id`)
+    REFERENCES `gestorinventario`.`comprobante` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_comprobante_has_producto_producto1`
     FOREIGN KEY (`productoid`)
-    REFERENCES `inventario`.`producto` (`id`)
+    REFERENCES `gestorinventario`.`producto` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_stock_egreso1`
     FOREIGN KEY (`egresoid`)
-    REFERENCES `inventario`.`egreso` (`id`)
+    REFERENCES `gestorinventario`.`egreso` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_stock_deposito1`
     FOREIGN KEY (`depositoid`)
-    REFERENCES `inventario`.`deposito` (`id`)
+    REFERENCES `gestorinventario`.`deposito` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

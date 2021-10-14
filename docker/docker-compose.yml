@@ -1,23 +1,21 @@
 version: '2'
 
 services:
-  inventario:
+  gestor_inventario:
     image: yiisoftware/yii2-php:7.3-apache
     volumes:
       - ../:/app
-    ports:
-      - '8000:80'
     networks:
       - backend
     environment:
-      DB_HOST: 'inventario_db'
-      DB_NAME: 'inventario'
+      DB_HOST: 'gestor_inventario_db'
+      DB_NAME: 'gestorinventario'
     labels:
-     - "traefik.backend=inventario"
-     - "traefik.frontend.rule=Host:api.inventario.local"
+     - "traefik.backend=gestor-inventario"
+     - "traefik.frontend.rule=Host:api.gestor-inventario.local"
      - "traefik.port=80"
 
-  inventario_db:
+  gestor_inventario_db:
     image: mariadb:10.4
     restart: always
     volumes:
@@ -26,8 +24,6 @@ services:
      MYSQL_ROOT_PASSWORD: root
     ports:
      - 3308:3306
-    networks:
-      - backend
 
 ##### PROXY
 
